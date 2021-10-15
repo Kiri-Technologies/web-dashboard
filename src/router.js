@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
+import store from './store/store.js';
 import LoginPage from './pages/LoginPage.vue';
 import Parent from './pages/Parent.vue';
 import Dashboard from './pages/inside/Dashboard.vue';
@@ -10,7 +11,10 @@ const router = createRouter({
     {
       path: '/login',
       name: 'loginPage',
-      component: LoginPage
+      component: LoginPage,
+      meta: {
+        noAuth: true
+      }
     },
     {
       path: '/',
@@ -20,16 +24,33 @@ const router = createRouter({
         {
           path: '/',
           name: 'dashboard',
-          component: Dashboard
+          component: Dashboard,
+          meta: {
+            auth: true
+          }
         },
         {
           path: 'account',
           name: 'account',
-          component: AkunIndex
+          component: AkunIndex,
+          meta: {
+            auth: true
+          }
         }
       ]
     }
   ]
+});
+
+router.beforeEach(function(to, _, next){
+  if (to.meta.auth && !store.getters['auth/isAuthenticated']) { 
+    next('/login');
+  }else if(to.meta.noAuth && store.getters['auth/isAuthenticated']){
+    console.log()
+    next('/');
+  }else {
+    next()
+  }
 });
 
 export default router;

@@ -13,5 +13,8 @@ export default {
     Sidebar,
     Navbar,
   },
+  created(){
+    this.$store.dispatch('auth/autoLogin');
+  }
 };
 </script>
