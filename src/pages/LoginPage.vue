@@ -71,7 +71,7 @@
               </div>
               <div class="form-control my-1">
                 <label class="cursor-pointer label justify-start">
-                  <input type="checkbox" checked="checked" class="checkbox" />
+                  <input type="checkbox" checked="checked" class="checkbox" v-model="rememberMe"/>
                   <span class="label-text ml-2">Remember me</span>
                 </label>
               </div>
@@ -99,6 +99,7 @@ export default {
       formIsInvalid: false,
       errorMessage: "",
       isLoading: false,
+      rememberMe: false
     };
   },
   computed: {
@@ -130,6 +131,7 @@ export default {
         await this.$store.dispatch("auth/login", {
           email: this.email,
           password: this.password,
+          rememberMe: this.rememberMe
         });
         this.$router.replace("/");
       } catch (error) {

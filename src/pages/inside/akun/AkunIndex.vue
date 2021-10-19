@@ -51,6 +51,42 @@
                 readonly
               />
             </div>
+
+            <!-- Password -->
+            <div class="form-control mb-2" v-if="isUpdate">
+              <label class="label">
+                <span class="label-text">Password lama</span>
+              </label>
+              <input
+                type="password"
+                placeholder="Password lama"
+                class="input input-bordered"
+                v-model="oldPassword"
+              />
+            </div>
+            <div class="form-control mb-2" v-if="isUpdate">
+              <label class="label">
+                <span class="label-text">Password baru</span>
+              </label>
+              <input
+                type="password"
+                placeholder="Password baru"
+                class="input input-bordered"
+                v-model="password"
+              />
+            </div>
+            <div class="form-control mb-2" v-if="isUpdate">
+              <label class="label">
+                <span class="label-text">Ulangi password baru</span>
+              </label>
+              <input
+                type="password"
+                placeholder="Ulangi password baru"
+                class="input input-bordered"
+                v-model="password_confirmation"
+              />
+            </div>
+
             <div class="flex justify-end mt-7">
               <button
                 class="btn btn-sm btn-primary"
@@ -99,7 +135,10 @@ export default {
       },
       formIsInvalid: false,
       errorMessage: true,
-      isLoading: false
+      isLoading: false,
+      oldPassword: '',
+      password: '',
+      password_confirmation: '',
     };
   },
   computed: {
@@ -153,12 +192,12 @@ export default {
       this.isLoading = true;
       if (this.email == "" && this.name == "" && this.birthday == "") {
         this.formIsInvalid = true;
-        this.errorMessage = 'Form salah';
+        this.errorMessage = "Form salah";
         return;
       }
 
-      try{
-        await this.$store.dispatch('auth/updateProfile', {
+      try {
+        await this.$store.dispatch("auth/updateProfile", {
           name: this.name,
           email: this.email,
           birthday: this.birthday,
@@ -168,8 +207,7 @@ export default {
         this.$refs.name.setAttribute("readonly", "");
         this.$refs.birthday.setAttribute("readonly", "");
         this.isUpdate = false;
-
-      }catch(error){
+      } catch (error) {
         this.formIsInvalid = true;
         this.errorMessage = error.message;
       }

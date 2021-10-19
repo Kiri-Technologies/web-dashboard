@@ -39,7 +39,18 @@ const router = createRouter({
         }
       ]
     }
-  ]
+  ],
+  linkExactActiveClass: 'active',
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        }
+
+        return {
+            top: 0,
+            left: 0
+        }
+    }
 });
 
 router.beforeEach(function(to, _, next){

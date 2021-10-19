@@ -1,8 +1,10 @@
 <template>
-  <navbar></navbar>
-  <Sidebar>
+  <div class="h-screen overflow-y-hidden">
+    <navbar></navbar>
+    <Sidebar>
       <router-view></router-view>
-  </Sidebar>
+    </Sidebar>
+  </div>
 </template>
 
 <script>
@@ -13,8 +15,8 @@ export default {
     Sidebar,
     Navbar,
   },
-  created(){
-    this.$store.dispatch('auth/autoLogin');
-  }
+  created() {
+    this.$store.dispatch("auth/autoLogin");
+  },
 };
 </script>

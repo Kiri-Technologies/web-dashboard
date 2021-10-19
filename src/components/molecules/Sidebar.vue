@@ -1,7 +1,7 @@
 <template>
-  <div class="rounded-lg bg-base-200 drawer drawer-mobile">
+  <div class="rounded-lg bg-base-200 drawer drawer-mobile h-screen">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="flex flex-col drawer-content overflow-y-scroll">
+    <div class="flex flex-col drawer-content overflow-scroll pb-24">
       <label
         for="my-drawer-2"
         class="mb-4 btn btn-primary drawer-button lg:hidden"
