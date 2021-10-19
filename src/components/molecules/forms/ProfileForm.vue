@@ -1,16 +1,5 @@
 <template>
-  <section class="flex justify-center mt-4">
-    <div class="card shadow-lg w-4/5">
-      <div class="card-body">
-        <h2 class="card-title">
-          <router-link to="/"
-            ><font-awesome-icon icon="arrow-left"
-          /></router-link>
-          Akun
-          <span class="text-gray-400 text-sm">Detail Akun</span>
-        </h2>
-
-        <form @submit.prevent="updateProfile">
+    <form @submit.prevent="updateProfile">
           <div class="w-4/5 mx-auto">
             <div class="form-control mb-2">
               <label class="label">
@@ -88,36 +77,31 @@
             </div>
 
             <div class="flex justify-end mt-7">
-              <button
-                class="btn btn-sm btn-primary"
-                @click="changeFormMode('update')"
+              <button-primary
+                @click="changeFormMode('update'), changeIsUpdate()"
                 type="button"
                 v-if="!isUpdate"
               >
                 Update
-              </button>
-              <button
-                class="btn btn-sm btn-danger"
+              </button-primary>
+              <button-danger
                 v-if="isUpdate"
                 type="button"
-                @click="changeFormMode('batal')"
+                @click="changeFormMode('batal'), changeIsUpdate()"
               >
                 Batal
-              </button>
-              <button
-                class="btn btn-sm btn-primary ml-1"
+              </button-danger>
+              <button-primary
+                class="ml-1"
                 :class="loadingState"
                 v-if="isUpdate"
                 type="submit"
               >
                 Simpan
-              </button>
+              </button-primary>
             </div>
           </div>
         </form>
-      </div>
-    </div>
-  </section>
 </template>
 
 <script>
@@ -136,9 +120,9 @@ export default {
       formIsInvalid: false,
       errorMessage: true,
       isLoading: false,
-      oldPassword: '',
-      password: '',
-      password_confirmation: '',
+      oldPassword: "",
+      password: "",
+      password_confirmation: "",
     };
   },
   computed: {
@@ -207,22 +191,19 @@ export default {
         this.$refs.name.setAttribute("readonly", "");
         this.$refs.birthday.setAttribute("readonly", "");
         this.isUpdate = false;
+        this.changeIsUpdate();
       } catch (error) {
         this.formIsInvalid = true;
         this.errorMessage = error.message;
       }
       this.isLoading = false;
     },
+    changeIsUpdate(){
+      this.$emit('changeIsUpdate', this.isUpdate);
+    }
   },
   created() {
     this.loadProfile();
   },
 };
 </script>
-
-<style scoped>
-.btn-danger {
-  background-color: #dc3545;
-  border-color: #dc3545;
-}
-</style>

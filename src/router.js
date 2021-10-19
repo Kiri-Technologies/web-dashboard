@@ -3,7 +3,7 @@ import store from './store/store.js';
 import LoginPage from './pages/LoginPage.vue';
 import Parent from './pages/Parent.vue';
 import Dashboard from './pages/inside/Dashboard.vue';
-import AkunIndex from './pages/inside/akun/AkunIndex.vue';
+import ProfileIndex from './pages/inside/akun/ProfileIndex.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -32,7 +32,7 @@ const router = createRouter({
         {
           path: 'account',
           name: 'account',
-          component: AkunIndex,
+          component: ProfileIndex,
           meta: {
             auth: true
           }
