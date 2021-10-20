@@ -1,107 +1,117 @@
 <template>
-    <form @submit.prevent="updateProfile">
-          <div class="w-4/5 mx-auto">
-            <div class="form-control mb-2">
-              <label class="label">
-                <span class="label-text">Email</span>
-              </label>
-              <input
-                type="text"
-                placeholder="email"
-                class="input input-bordered"
-                ref="email"
-                v-model="email"
-                readonly
-              />
-            </div>
-            <div class="form-control mb-2">
-              <label class="label">
-                <span class="label-text">Nama Lengkap</span>
-              </label>
-              <input
-                type="text"
-                placeholder="name"
-                class="input input-bordered"
-                ref="name"
-                v-model="name"
-                readonly
-              />
-            </div>
-            <div class="form-control mb-2">
-              <label class="label">
-                <span class="label-text">Tanggal Lahir</span>
-              </label>
-              <input
-                type="date"
-                placeholder="birthday"
-                class="input input-bordered"
-                ref="birthday"
-                v-model="birthday"
-                readonly
-              />
-            </div>
+  <form @submit.prevent="updateProfile">
+    <div class="w-4/5 mx-auto">
+      <div class="form-control mb-2">
+        <label class="label">
+          <span class="label-text">Email</span>
+        </label>
+        <input
+          type="email"
+          placeholder="email"
+          class="input input-bordered"
+          :class="{ 'input-error': validation.email == 'invalid' }"
+          ref="email"
+          v-model.trim="email"
+          readonly
+          @blur="validateEmail"
+        />
+        <label class="label" v-if="validation.email == 'invalid'">
+          <span class="label-text-alt text-red-500">{{
+            formMessage.email
+          }}</span>
+        </label>
+      </div>
+      <div class="form-control mb-2">
+        <label class="label">
+          <span class="label-text">Nama Lengkap</span>
+        </label>
+        <input
+          type="text"
+          placeholder="name"
+          class="input input-bordered"
+          ref="name"
+          v-model="name"
+          readonly
+        />
+      </div>
+      <div class="form-control mb-2">
+        <label class="label">
+          <span class="label-text">Tanggal Lahir</span>
+        </label>
+        <input
+          type="date"
+          placeholder="birthday"
+          class="input input-bordered"
+          ref="birthday"
+          v-model="birthday"
+          readonly
+        />
+      </div>
 
-            <!-- Password -->
-            <div class="form-control mb-2" v-if="isUpdate">
-              <label class="label">
-                <span class="label-text">Password lama</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Password lama"
-                class="input input-bordered"
-                v-model="oldPassword"
-              />
-            </div>
-            <div class="form-control mb-2" v-if="isUpdate">
-              <label class="label">
-                <span class="label-text">Password baru</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Password baru"
-                class="input input-bordered"
-                v-model="password"
-              />
-            </div>
-            <div class="form-control mb-2" v-if="isUpdate">
-              <label class="label">
-                <span class="label-text">Ulangi password baru</span>
-              </label>
-              <input
-                type="password"
-                placeholder="Ulangi password baru"
-                class="input input-bordered"
-                v-model="password_confirmation"
-              />
-            </div>
+      <!-- Password -->
+      <div class="form-control mb-2" v-if="isUpdate">
+        <label class="label">
+          <span class="label-text">Password lama</span>
+        </label>
+        <input
+          type="password"
+          placeholder="Password lama"
+          class="input input-bordered"
+          v-model="oldPassword"
+        />
+      </div>
+      <div class="form-control mb-2" v-if="isUpdate">
+        <label class="label">
+          <span class="label-text">Password baru</span>
+        </label>
+        <input
+          type="password"
+          placeholder="Password baru"
+          class="input input-bordered"
+          v-model="password"
+        />
+      </div>
+      <div class="form-control mb-2" v-if="isUpdate">
+        <label class="label">
+          <span class="label-text">Ulangi password baru</span>
+        </label>
+        <input
+          type="password"
+          placeholder="Ulangi password baru"
+          class="input input-bordered"
+          v-model="password_confirmation"
+        />
+      </div>
 
-            <div class="flex justify-end mt-7">
-              <button-primary
-                @click="changeFormMode('update'), changeIsUpdate()"
-                type="button"
-                v-if="!isUpdate"
-              >
-                Update
-              </button-primary>
-              <button-danger
-                v-if="isUpdate"
-                type="button"
-                @click="changeFormMode('batal'), changeIsUpdate()"
-              >
-                Batal
-              </button-danger>
-              <button-primary
-                class="ml-1"
-                :class="loadingState"
-                v-if="isUpdate"
-                type="submit"
-              >
-                Simpan
-              </button-primary>
-            </div>
-          </div>
-        </form>
+      <div class="flex justify-end mt-7">
+        <button-primary
+          @click="changeFormMode('update'), changeIsUpdate()"
+          type="button"
+          v-if="!isUpdate"
+          size="sm"
+        >
+          Update
+        </button-primary>
+        <button-danger
+          v-if="isUpdate"
+          type="button"
+          @click="changeFormMode('batal'), changeIsUpdate()"
+          size="sm"
+        >
+          Batal
+        </button-danger>
+        <button-primary
+          class="ml-1"
+          :class="loadingState"
+          v-if="isUpdate"
+          type="submit"
+          size="sm"
+        >
+          Simpan
+        </button-primary>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -123,6 +133,13 @@ export default {
       oldPassword: "",
       password: "",
       password_confirmation: "",
+      validation: {
+        email: 'pending'
+      },
+      formMessage: {
+        email: ''
+      },
+      reg: /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
     };
   },
   computed: {
@@ -198,9 +215,21 @@ export default {
       }
       this.isLoading = false;
     },
-    changeIsUpdate(){
-      this.$emit('changeIsUpdate', this.isUpdate);
-    }
+    changeIsUpdate() {
+      this.$emit("changeIsUpdate", this.isUpdate);
+    },
+    validateEmail() {
+      if (this.email == "") {
+        this.validation.email = "invalid";
+        this.formMessage.email = "Please enter an email";
+      } else if (!this.reg.test(this.email)) {
+        this.validation.email = "invalid";
+        this.formMessage.email = "Please enter a valid email address";
+      } else {
+        this.formMessage.email = "";
+        this.validation.email = "valid";
+      }
+    },
   },
   created() {
     this.loadProfile();

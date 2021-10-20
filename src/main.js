@@ -11,6 +11,8 @@ import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import ButtonDanger from './components/atoms/buttons/ButtonDanger.vue';
 import ButtonPrimary from './components/atoms/buttons/ButtonPrimary.vue';
 import BreadCrumb from './components/atoms/breadcrumb/BreadCrumb.vue';
+import ErrorAlert from './components/atoms/alert/ErrorAlert.vue';
+import Card from './components/atoms/card/Card.vue';
 
 library.add(faArrowLeft);
 
@@ -20,6 +22,8 @@ app.component("font-awesome-icon", FontAwesomeIcon);
 app.component("button-danger", ButtonDanger);
 app.component("button-primary", ButtonPrimary);
 app.component("bread-crumb", BreadCrumb);
+app.component("error-alert", ErrorAlert);
+app.component("card", Card);
 
 app.use(store);
 

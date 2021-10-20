@@ -1,8 +1,8 @@
 <template>
-  <button class="btn btn-sm btn-primary" v-if="!link">
+  <button class="btn btn-primary" :class="buttonSize" v-if="!link">
     <slot />
   </button>
-  <router-link class="btn btn-sm btn-primary" :to="to" v-else>
+  <router-link class="btn btn-primary" :class="buttonSize" :to="to" v-else>
     <slot />
   </router-link>
 </template>
@@ -19,6 +19,30 @@ export default {
       type: String,
       required: false,
       default: "/",
+    },
+    size: {
+      type: String,
+      required: false,
+      default: "",
+    },
+  },
+  computed: {
+    buttonSize() {
+      if (this.size == "lg") {
+        return {
+          "btn-lg": true,
+        };
+      } else if (this.size == "sm") {
+        return {
+          "btn-sm": true,
+        };
+      } else if (this.size == "lg") {
+        return {
+          "btn-lg": true,
+        };
+      }
+
+      return "";
     },
   },
 };

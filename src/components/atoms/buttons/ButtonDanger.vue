@@ -20,6 +20,30 @@ export default {
       required: false,
       default: "/",
     },
+    size: {
+      type: String,
+      required: false,
+      default: "",
+    },
+  },
+  computed: {
+    buttonSize() {
+      if (this.size == "lg") {
+        return {
+          "btn-lg": true,
+        };
+      } else if (this.size == "sm") {
+        return {
+          "btn-sm": true,
+        };
+      } else if (this.size == "lg") {
+        return {
+          "btn-lg": true,
+        };
+      }
+
+      return "";
+    },
   },
 };
 </script>

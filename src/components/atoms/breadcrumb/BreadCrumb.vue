@@ -1,5 +1,4 @@
 <template>
-  <h2 class="card-title">
     <a @click="changeRoute" class="cursor-pointer"
       ><font-awesome-icon icon="arrow-left"
     /></a>
@@ -7,7 +6,6 @@
     <span class="text-gray-400 text-sm">
       <slot name="menuName" />
     </span>
-  </h2>
 </template>
 
 <script>
