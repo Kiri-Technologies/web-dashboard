@@ -5,7 +5,7 @@ let timer;
 export default {
     async login(context, { email, password, rememberMe }) {
 
-        const url = 'https://kiri.storeximi.com/api/login';
+        const url = 'https://kiri.mfaiztriputra.id/api/login';
 
         let response;
 
@@ -23,6 +23,8 @@ export default {
             const errorMessage = new Error('Anda tidak dapat login!');
             throw errorMessage;
         }
+
+        console.log(response);
 
         const expiresIn = (rememberMe ? 86400 : 3600) * 1000;
         const tokenExpirationDate = Date.now() + expiresIn;
@@ -50,7 +52,7 @@ export default {
         });
     },
     async getProfile(context) {
-        const url = 'https://kiri.storeximi.com/api/profile';
+        const url = 'https://kiri.mfaiztriputra.id/api/profile';
 
         let response;
 
@@ -109,7 +111,7 @@ export default {
     },
     async updateProfile(context, { name, email, birthday }) {
         console.log('updateporasdlas');
-        const url = 'https://kiri.storeximi.com/api/profile/update';
+        const url = 'https://kiri.mfaiztriputra.id/profile/update';
 
         let response;
 
