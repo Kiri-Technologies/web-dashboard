@@ -36,9 +36,9 @@
         <li class="mt-2">
           <router-link :to="{ name: 'dashboard' }">Dashboard</router-link>
         </li>
-        <!-- <li>
-          <router-link :to="{ name: 'account' }">Account</router-link>
-        </li> -->
+        <li>
+          <router-link :to="{ name: 'manage account' }">Manage Account</router-link>
+        </li>
       </ul>
     </div>
   </div>

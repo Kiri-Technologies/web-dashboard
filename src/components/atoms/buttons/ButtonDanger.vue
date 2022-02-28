@@ -2,7 +2,7 @@
   <button class="btn btn-sm btn-danger" v-if="!link">
     <slot />
   </button>
-  <router-link class="btn btn-sm btn-danger" :to="to" v-else>
+  <router-link class="btn btn-sm btn-danger" :to="{ name: to }" v-else>
     <slot />
   </router-link>
 </template>

@@ -4,6 +4,8 @@ import LoginPage from './pages/LoginPage.vue';
 import Parent from './pages/Parent.vue';
 import Dashboard from './pages/inside/Dashboard.vue';
 import ProfileIndex from './pages/inside/akun/ProfileIndex.vue';
+import ManageAccountIndex from './pages/inside/manageaccount/ManageAccountIndex.vue';
+import CreateNewAccount from './pages/inside/manageaccount/CreateNewAccount.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -36,6 +38,16 @@ const router = createRouter({
           meta: {
             auth: true
           }
+        },
+        {
+          path: '/manageaccount',
+          name: 'manage account',
+          component: ManageAccountIndex,
+        },
+        {
+          path: '/manageaccount/create',
+          name: 'create new account',
+          component: CreateNewAccount
         }
       ]
     }

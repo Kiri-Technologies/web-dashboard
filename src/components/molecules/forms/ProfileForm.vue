@@ -151,18 +151,40 @@
         >
           Update
         </button-primary>
+
         <button-danger
           v-if="isUpdate"
+          size="sm"
+          :link="true"
+          to="manage account"
+        >
+          Batal
+        </button-danger>
+
+        <button-danger
+          v-if="isUpdate && !this.mode"
           type="button"
           @click="changeFormMode('batal'), changeIsUpdate()"
           size="sm"
         >
           Batal
         </button-danger>
-        <button-primary
+
+         <button-primary
           class="ml-1"
           :class="loadingState"
           v-if="isUpdate"
+          size="sm"
+          :link="true"
+          to="manage account"
+        >
+          Simpan
+        </button-primary>
+
+        <button-primary
+          class="ml-1"
+          :class="loadingState"
+          v-if="isUpdate  && !this.mode"
           type="submit"
           size="sm"
         >
@@ -176,6 +198,12 @@
 <script>
 export default {
   emits: ["changeIsUpdate", "turnOnAlert"],
+  props: {
+    mode: {
+      type: String,
+      required: false,
+    },
+  },
   data() {
     return {
       isUpdate: false,
@@ -229,24 +257,16 @@ export default {
   },
   methods: {
     changeFormMode(mode) {
-      this.validation.email = this.validation.name = this.validation.no_hp = this.validation.birthdate = this.validation.password = this.validation.password_confirmation = "pending";
+      this.setInputValidation();
+      this.setReadonlyAttribute(mode);
 
       if (mode === "update") {
         this.isUpdate = true;
-        this.$refs.email.removeAttribute("readonly");
-        this.$refs.name.removeAttribute("readonly");
-        this.$refs.nohp.removeAttribute("readonly");
-        this.$refs.birthdate.removeAttribute("readonly");
-
         this.dataBeforeUpdate.email = this.email;
         this.dataBeforeUpdate.name = this.name;
         this.dataBeforeUpdate.no_hp = this.no_hp;
         this.dataBeforeUpdate.birthdate = this.birthdate;
       } else if (mode === "batal") {
-        this.$refs.email.setAttribute("readonly", "");
-        this.$refs.name.setAttribute("readonly", "");
-        this.$refs.nohp.setAttribute("readonly", "");
-        this.$refs.birthdate.setAttribute("readonly", "");
         this.email = this.dataBeforeUpdate.email;
         this.name = this.dataBeforeUpdate.name;
         this.birthdate = this.dataBeforeUpdate.birthdate;
@@ -316,6 +336,28 @@ export default {
     turnOnAlert(mode, message) {
       this.$emit("turnOnAlert", mode, message);
     },
+    setReadonlyAttribute(mode) {
+      if (mode == "update") {
+        this.$refs.email.removeAttribute("readonly");
+        this.$refs.name.removeAttribute("readonly");
+        this.$refs.nohp.removeAttribute("readonly");
+        this.$refs.birthdate.removeAttribute("readonly");
+      } else if (mode == "batal") {
+        this.$refs.email.setAttribute("readonly", "");
+        this.$refs.name.setAttribute("readonly", "");
+        this.$refs.nohp.setAttribute("readonly", "");
+        this.$refs.birthdate.setAttribute("readonly", "");
+      }
+    },
+    setInputValidation() {
+      this.validation.email =
+        this.validation.name =
+        this.validation.no_hp =
+        this.validation.birthdate =
+        this.validation.password =
+        this.validation.password_confirmation =
+          "pending";
+    },
     validateEmail() {
       if (this.email == "") {
         this.validation.email = "invalid";
@@ -376,7 +418,16 @@ export default {
     },
   },
   created() {
-    this.loadProfile();
+    if (!this.mode) {
+      this.loadProfile();
+    }
+    console.log(this.mode);
   },
+  mounted(){
+    if (this.mode == 'createNewAccount') {
+      this.isUpdate = true;
+      this.setReadonlyAttribute('update');
+    }
+  }
 };
 </script>

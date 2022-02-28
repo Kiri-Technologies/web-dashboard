@@ -1,11 +1,13 @@
 <template>
-    <a @click="changeRoute" class="cursor-pointer"
-      ><font-awesome-icon icon="arrow-left"
-    /></a>
+  <a @click="changeRoute" class="cursor-pointer"
+    ><font-awesome-icon icon="arrow-left"
+  /></a>
+  <span class="text-xl ml-1">
     <slot />
-    <span class="text-gray-400 text-sm">
-      <slot name="menuName" />
-    </span>
+  </span>
+  <span class="text-gray-400 text-sm ml-1">
+    <slot name="menuName" />
+  </span>
 </template>
 
 <script>

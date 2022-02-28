@@ -1,12 +1,11 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <base-bread-crumb></base-bread-crumb>
       <p>
         <menu-title>
-          <template v-slot:default> Akun </template>
+          <template v-slot:default> Tambah Akun </template>
           <template v-slot:menuName>
-            {{ menuName }}
+            Menambahkan Akun Baru
           </template>
         </menu-title>
       </p>
@@ -17,7 +16,7 @@
           :message="alert.message"
         ></base-alert>
       </div>
-      <profile-form @changeIsUpdate="changeIsUpdate" @turnOnAlert="turnOnAlert">
+      <profile-form mode="createNewAccount" @changeIsUpdate="changeIsUpdate" @turnOnAlert="turnOnAlert">
       </profile-form>
     </card>
   </section>
@@ -25,7 +24,6 @@
 
 <script>
 import ProfileForm from "../../../components/molecules/forms/ProfileForm.vue";
-import BaseBreadCrumb from "../../../components/atoms/breadcrumb/BaseBreadCrumb.vue";
 
 export default {
   data() {
@@ -40,7 +38,6 @@ export default {
   },
   components: {
     ProfileForm,
-    BaseBreadCrumb
 },
   computed: {
     menuName() {
