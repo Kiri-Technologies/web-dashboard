@@ -4,7 +4,8 @@ export default {
             email: state.email,
             access_token: state.access_token,
             name: state.name,
-            birthday: state.birthday,
+            no_hp: state.no_hp,
+            birthdate: state.birthdate,
             role: state.role,
             token_type: state.token_type
         }

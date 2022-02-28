@@ -1,17 +1,21 @@
 <template>
-  <div class="navbar shadow-lg bg-green-600 text-neutral-content">
+  <div class="navbar shadow-lg text-neutral-content">
     <div class="flex-none px-2 mx-2">
       <span class="text-lg font-bold"> Kiri Dashboard </span>
     </div>
-    <div class="flex-1 px-2 mx-2">
-    </div>
+    <div class="flex-1 px-2 mx-2"></div>
     <div class="flex-none">
       <div class="dropdown dropdown-end">
-        <div tabindex="0" class="m-1 btn btn-ghost btn-sm rounded-btn">Hello {{ name }}</div>
+        <div tabindex="0" class="m-1 btn btn-ghost btn-sm rounded-btn">
+          {{ name }}
+        </div>
         <ul
           tabindex="0"
           class="p-2 shadow menu dropdown-content bg-base-100 rounded-box w-52"
         >
+          <li class="text-black">
+            <router-link :to="{ name: 'account' }">Profile</router-link>
+          </li>
           <li class="text-black">
             <a @click="logout">Logout</a>
           </li>
@@ -29,29 +33,43 @@ export default {
     };
   },
   computed: {
-    name(){
-      return this.$store.getters['auth/profileName'];
-    }
+    name() {
+      return this.$store.getters["auth/profileName"];
+    },
   },
   methods: {
-    getProfile(){
-      try{
-        this.$store.dispatch('auth/getProfile');
-      }catch(error){
+    getProfile() {
+      try {
+        this.$store.dispatch("auth/getProfile");
+      } catch (error) {
         console.log(error);
       }
     },
-    logout(){
-      try{
-        this.$store.dispatch('auth/logout');
-        this.$router.replace('/login');
-      }catch(error){
+    logout() {
+      try {
+        this.$store.dispatch("auth/logout");
+        this.$router.replace("/login");
+      } catch (error) {
         console.log(error);
       }
-    }
+    },
   },
-  created(){
+  created() {
     this.getProfile();
-  }
+  },
 };
 </script>
+
+<style scoped>
+.navbar {
+  background-color: #39ac00;
+}
+
+a:hover,
+a:active, 
+a.active {
+  color: black !important;
+  background-color: rgb(243 244 246) !important;
+}
+
+</style>

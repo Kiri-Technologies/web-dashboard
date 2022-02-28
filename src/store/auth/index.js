@@ -9,9 +9,11 @@ export default {
             email: null,
             access_token: null,
             name: null,
-            birthday: null,
+            birthdate: null,
             role: null,
             token_type: null,
+            no_hp: null,
+            image: null,
             didAutoLogout: false
         };
     },

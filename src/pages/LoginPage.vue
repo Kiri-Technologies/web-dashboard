@@ -20,10 +20,10 @@
           </figure>
         </template>
         <template v-slot:default>
-          <error-alert
+          <base-alert
             v-if="formIsInvalid"
-            :error-message="errorMessage"
-          ></error-alert>
+            :message="errorMessage"
+          ></base-alert>
           <login-form @formError="formError"></login-form>
         </template>
       </card>

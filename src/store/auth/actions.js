@@ -15,22 +15,28 @@ export default {
                 password: password
             });
         } catch (error) {
-            const errorMessage = new Error(response.data.message || 'Failed to store data!');
+            let errorMessage;
+            if (error.response.status == 401) {
+                errorMessage = new Error('Email atau password tidak sesuai');
+            }else{
+                // errorMessage = new Error(response.data.message || 'Failed to store data!');
+                errorMessage = new Error('Failed to store data!');
+            }
             throw errorMessage;
         }
 
-        if (response.data.role !== 'admin') {
+        if (response.data.data.role !== 'admin') {
             const errorMessage = new Error('Anda tidak dapat login!');
             throw errorMessage;
         }
 
-        console.log(response);
-
-        const expiresIn = (rememberMe ? 86400 : 3600) * 1000;
+        const access_token = response.data.data.token.original.token;
+        const token_type = response.data.data.token.original.token_type;
+        const expiresIn = (rememberMe ? 86400 : response.data.data.token.original.expires_in) * 1000;
         const tokenExpirationDate = Date.now() + expiresIn;
 
-        localStorage.setItem('access_token', response.data.access_token);
-        localStorage.setItem('token_type', response.data.token_type);
+        localStorage.setItem('access_token', access_token);
+        localStorage.setItem('token_type', token_type);
         localStorage.setItem('email', email);
         localStorage.setItem('tokenExpirationDate', tokenExpirationDate);
 
@@ -40,11 +46,13 @@ export default {
 
         context.commit('setAllAuthData', {
             email: email,
-            access_token: response.data.access_token,
-            name: response.data.name,
-            birthday: response.data.birthday,
-            role: response.data.role,
-            token_type: response.data.token_type,
+            access_token: access_token,
+            name: response.data.data.name,
+            birthdate: response.data.data.birthdate,
+            role: response.data.data.role,
+            no_hp: response.data.data.noh_hp,
+            image: response.data.data.image,
+            token_type: token_type,
         });
 
         context.commit('didAutoLogout', {
@@ -59,12 +67,11 @@ export default {
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');
         const email = localStorage.getItem('email');
-        const token = access_token.split('|')[1];
-        const authHeader = `${token_type} ${token}`
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             response = await axios({
-                method: 'post',
+                method: 'get',
                 url: url,
                 headers: {
                     Authorization: authHeader
@@ -75,12 +82,16 @@ export default {
             throw errorMessage;
         }
 
+        console.log(response.data);
+
         context.commit('setAllAuthData', {
             email: email,
             access_token: access_token,
-            name: response.data.name,
-            birthday: response.data.birthday,
-            role: response.data.role,
+            name: response.data.data.name,
+            birthdate: response.data.data.birthdate,
+            role: response.data.data.role,
+            no_hp: response.data.data.no_hp,
+            image: response.data.data.image,
             token_type: token_type,
         });
     },
@@ -109,16 +120,14 @@ export default {
             context.dispatch('autoLogout');
         }
     },
-    async updateProfile(context, { name, email, birthday }) {
-        console.log('updateporasdlas');
-        const url = 'https://kiri.mfaiztriputra.id/profile/update';
+    async updateProfile(context, { name, email, birthdate, no_hp, password }) {
+        const url = 'https://kiri.mfaiztriputra.id/api/profile/update';
 
         let response;
 
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');
-        const token = access_token.split('|')[1];
-        const authHeader = `${token_type} ${token}`
+        const authHeader = `${token_type} ${access_token}`
 
         try {
             response = await axios({
@@ -127,7 +136,10 @@ export default {
                 data: {
                     name: name,
                     email: email,
-                    birthday: birthday
+                    birthdate: birthdate,
+                    no_hp: no_hp,
+                    password: password,
+                    role: 'admin'
                 },
                 headers: {
                     Authorization: authHeader
@@ -138,12 +150,11 @@ export default {
             throw errorMessage;
         }
 
-        console.log(response);
-
         context.commit('setUserData', {
             email: email,
             name: name,
-            birthday: birthday
+            birthdate: birthdate,
+            no_hp: no_hp
         });
     },
     logout(context) {

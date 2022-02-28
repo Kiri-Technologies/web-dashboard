@@ -9,8 +9,15 @@
           </template>
         </bread-crumb>
       </h2>
-
-      <profile-form @changeIsUpdate="changeIsUpdate"> </profile-form>
+      <div class="w-4/5 mx-auto">
+        <base-alert
+          v-if="alert.turn"
+          :mode="alert.mode"
+          :message="alert.message"
+        ></base-alert>
+      </div>
+      <profile-form @changeIsUpdate="changeIsUpdate" @turnOnAlert="turnOnAlert">
+      </profile-form>
     </card>
   </section>
 </template>
@@ -21,6 +28,11 @@ export default {
   data() {
     return {
       isUpdate: false,
+      alert: {
+        turn: false,
+        mode: "",
+        message: "",
+      },
     };
   },
   components: {
@@ -38,6 +50,11 @@ export default {
   methods: {
     changeIsUpdate(isUpdateState) {
       this.isUpdate = isUpdateState;
+    },
+    turnOnAlert(mode, message) {
+      this.alert.turn = true;
+      this.alert.mode = mode;
+      this.alert.message = message;
     },
   },
 };
