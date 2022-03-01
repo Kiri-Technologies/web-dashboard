@@ -117,8 +117,6 @@ export default {
         });
         this.$router.replace("/");
       } catch (error) {
-        // this.formIsInvalid = true;
-        // this.errorMessage = error.message;
         this.$emit("formError", true, error.message, "error");
       }
       this.isLoading = false;

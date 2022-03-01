@@ -31,7 +31,21 @@
             </tr>
           </thead>
           <tbody>
-            <!-- row 1 -->
+            <tr>
+              <td>Andre</td>
+              <td>andre@gmail.com</td>
+              <td>20 - Februari - 2022</td>
+              <td>
+                <font-awesome-icon
+                  icon="pen-square"
+                  class="text-lg text-blue-600"
+                />
+                <font-awesome-icon
+                  icon="trash"
+                  class="text-lg text-red-600 ml-2"
+                />
+              </td>
+            </tr>
             <tr v-for="account in allAccount" :key="account.id">
               <td>{{ account.name }}</td>
               <td>{{ account.email }}</td>

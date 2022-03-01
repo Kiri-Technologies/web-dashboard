@@ -313,19 +313,8 @@ export default {
     async updateProfile() {
       this.formIsInvalid = false;
       this.isLoading = true;
-      if (
-        this.email == "" ||
-        this.name == "" ||
-        this.birthdate == "" ||
-        this.no_hp == "" ||
-        this.password == "" ||
-        this.password_confirmation == "" ||
-        this.password !== this.password_confirmation
-      ) {
-        this.formIsInvalid = true;
-        this.errorMessage = "Pastikan input sudah sesuai";
-        this.isLoading = false;
-        this.turnOnAlert("error", this.errorMessage);
+
+      if (!this.submitFormValidation()) {
         return;
       }
 
@@ -357,19 +346,8 @@ export default {
     async createNewAccount() {
       this.formIsInvalid = false;
       this.isLoading = true;
-      if (
-        this.email == "" ||
-        this.name == "" ||
-        this.birthdate == "" ||
-        this.no_hp == "" ||
-        this.password == "" ||
-        this.password_confirmation == "" ||
-        this.password !== this.password_confirmation
-      ) {
-        this.formIsInvalid = true;
-        this.errorMessage = "Pastikan input sudah sesuai";
-        this.isLoading = false;
-        this.turnOnAlert("error", this.errorMessage);
+
+      if (!this.submitFormValidation()) {
         return;
       }
 
@@ -387,7 +365,7 @@ export default {
         this.$router.push({
           name: "manage account",
           query: {
-            success: "true",
+            c: "true",
           },
         });
       } catch (error) {
@@ -395,6 +373,7 @@ export default {
         this.errorMessage = error.message;
         this.turnOnAlert("error", this.errorMessage);
       }
+      this.isLoading = false;
     },
     changeIsUpdate() {
       this.$emit("changeIsUpdate", this.isUpdate);
@@ -434,6 +413,29 @@ export default {
         this.password =
         this.password_confirmation =
           "";
+    },
+    submitFormValidation() {
+      if (
+        this.email == "" ||
+        this.name == "" ||
+        this.birthdate == "" ||
+        this.no_hp == "" ||
+        this.password == "" ||
+        this.password_confirmation == "" ||
+        this.password !== this.password_confirmation
+      ) {
+        let message = "Pastikan input sudah sesuai";
+        if (this.password !== this.password_confirmation) {
+          message = "Password dan konfirmasi password harus sesuai";
+        }
+        this.formIsInvalid = true;
+        this.errorMessage = message;
+        this.isLoading = false;
+        this.turnOnAlert("error", this.errorMessage);
+        return false;
+      }else{
+        return true;
+      }
     },
     validateEmail() {
       if (this.email == "") {

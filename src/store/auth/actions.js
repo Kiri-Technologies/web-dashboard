@@ -18,7 +18,7 @@ export default {
             let errorMessage;
             if (error.response.status == 401) {
                 errorMessage = new Error('Email atau password tidak sesuai');
-            }else{
+            } else {
                 // errorMessage = new Error(response.data.message || 'Failed to store data!');
                 errorMessage = new Error('Failed to store data!');
             }
@@ -121,14 +121,12 @@ export default {
     async updateProfile(context, { name, email, birthdate, no_hp, password }) {
         const url = 'https://kiri.mfaiztriputra.id/api/profile/update';
 
-        let response;
-
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');
         const authHeader = `${token_type} ${access_token}`
 
         try {
-            response = await axios({
+            await axios({
                 method: 'post',
                 url: url,
                 data: {
@@ -144,7 +142,15 @@ export default {
                 }
             });
         } catch (error) {
-            const errorMessage = new Error(response.data.message || 'Failed to store data!');
+            let message;
+            if (error.response.status == 400) {
+                if (error.response.data.message.email) {
+                    message = error.response.data.message.email;
+                }
+            } else {
+                message = 'Failed to store data!';
+            }
+            const errorMessage = new Error(message);
             throw errorMessage;
         }
 
@@ -155,14 +161,10 @@ export default {
             no_hp: no_hp
         });
     },
-    async register(context, { name, email, birthdate, no_hp, password }){
+    async register(context, { name, email, birthdate, no_hp, password }) {
         const url = 'https://kiri.mfaiztriputra.id/api/register';
 
         let response;
-
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
 
         try {
             response = await axios({
@@ -178,21 +180,27 @@ export default {
                 }
             });
         } catch (error) {
-            const errorMessage = new Error(response.data.message || 'Failed to store data!');
+            let message;
+            if (error.response.status == 400) {
+                if (error.response.data.message.email) {
+                    message = error.response.data.message.email;
+                }
+            } else {
+                message = 'Failed to store data!';
+            }
+            const errorMessage = new Error(message);
             throw errorMessage;
         }
 
-        console.log(response);
-
         context.commit('addNewAccount', {
-            id: response.data.data.id, 
+            id: response.data.data.id,
             name: name,
             email: email,
             birthdate: birthdate,
             no_hp: no_hp
         });
     },
-    async getAllAccount(context){
+    async getAllAccount(context) {
         const url = 'https://kiri.mfaiztriputra.id/api/admin/users';
 
         let response;
@@ -217,17 +225,17 @@ export default {
         for (const account in response.data) {
             // if (Object.hasOwnProperty.call(response.data, account)) {
             //     const element = response.data[account];
-                
+
             // }
             context.commit('addNewAccount', {
-                id: account.data.id, 
+                id: account.data.id,
                 name: account.data.name,
                 email: account.data.email,
                 birthdate: account.data.birthdate,
                 no_hp: account.data.no_hp
             });
         }
-        
+
     },
     logout(context) {
         localStorage.removeItem('access_token');
