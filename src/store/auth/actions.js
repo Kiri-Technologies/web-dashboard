@@ -82,8 +82,6 @@ export default {
             throw errorMessage;
         }
 
-        console.log(response.data);
-
         context.commit('setAllAuthData', {
             email: email,
             access_token: access_token,
@@ -156,6 +154,80 @@ export default {
             birthdate: birthdate,
             no_hp: no_hp
         });
+    },
+    async register(context, { name, email, birthdate, no_hp, password }){
+        const url = 'https://kiri.mfaiztriputra.id/api/register';
+
+        let response;
+
+        // const access_token = localStorage.getItem('access_token');
+        // const token_type = localStorage.getItem('token_type');
+        // const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'post',
+                url: url,
+                data: {
+                    name: name,
+                    email: email,
+                    birthdate: birthdate,
+                    no_hp: no_hp,
+                    password: password,
+                    role: 'admin'
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error(response.data.message || 'Failed to store data!');
+            throw errorMessage;
+        }
+
+        console.log(response);
+
+        context.commit('addNewAccount', {
+            id: response.data.data.id, 
+            name: name,
+            email: email,
+            birthdate: birthdate,
+            no_hp: no_hp
+        });
+    },
+    async getAllAccount(context){
+        const url = 'https://kiri.mfaiztriputra.id/api/admin/users';
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error('Failed to store data!');
+            throw errorMessage;
+        }
+
+        for (const account in response.data) {
+            // if (Object.hasOwnProperty.call(response.data, account)) {
+            //     const element = response.data[account];
+                
+            // }
+            context.commit('addNewAccount', {
+                id: account.data.id, 
+                name: account.data.name,
+                email: account.data.email,
+                birthdate: account.data.birthdate,
+                no_hp: account.data.no_hp
+            });
+        }
+        
     },
     logout(context) {
         localStorage.removeItem('access_token');

@@ -14,7 +14,8 @@ export default {
             token_type: null,
             no_hp: null,
             image: null,
-            didAutoLogout: false
+            didAutoLogout: false,
+            allAccount: []
         };
     },
     mutations,

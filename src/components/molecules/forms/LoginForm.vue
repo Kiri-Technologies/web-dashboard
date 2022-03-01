@@ -93,7 +93,7 @@ export default {
   },
   methods: {
     async login() {
-      this.$emit("formError", false, "");
+      this.$emit("formError", false, "", "error");
       this.emailValidity = "pending";
       this.passwordValidity = "pending";
       this.isLoading = true;
@@ -102,7 +102,8 @@ export default {
         this.$emit(
           "formError",
           true,
-          "Username atau Password tidak boleh kosong"
+          "Username atau Password tidak boleh kosong",
+          "error"
         );
         this.isLoading = false;
         return;
@@ -118,7 +119,7 @@ export default {
       } catch (error) {
         // this.formIsInvalid = true;
         // this.errorMessage = error.message;
-        this.$emit("formError", true, error.message);
+        this.$emit("formError", true, error.message, "error");
       }
       this.isLoading = false;
     },

@@ -1,6 +1,11 @@
 <template>
-  <form @submit.prevent="updateProfile">
+  <form @submit.prevent="submitMethod">
     <div class="w-4/5 mx-auto">
+      <base-alert
+        v-if="alert.turn"
+        :mode="alert.mode"
+        :message="alert.message"
+      ></base-alert>
       <div class="form-control mb-2">
         <label class="label">
           <span class="label-text">Email</span>
@@ -32,7 +37,7 @@
           class="input input-bordered"
           :class="{ 'input-error': validation.name == 'invalid' }"
           ref="name"
-          v-model="name"
+          v-model.trim="name"
           readonly
           required
           @blur="validateName"
@@ -53,7 +58,7 @@
           class="input input-bordered"
           :class="{ 'input-error': validation.no_hp == 'invalid' }"
           ref="nohp"
-          v-model="no_hp"
+          v-model.trim="no_hp"
           readonly
           required
           @blur="validateNoHp"
@@ -74,7 +79,7 @@
           class="input input-bordered"
           :class="{ 'input-error': validation.birthdate == 'invalid' }"
           ref="birthdate"
-          v-model="birthdate"
+          v-model.trim="birthdate"
           readonly
           required
           @blur="validateBirthdate"
@@ -95,19 +100,21 @@
           type="password"
           placeholder="Password lama"
           class="input input-bordered"
-          v-model="oldPassword"
+          v-model.trim="oldPassword"
         />
       </div> -->
       <div class="form-control mb-2" v-if="isUpdate">
         <label class="label">
-          <span class="label-text">Password baru</span>
+          <span class="label-text">{{
+            this.mode == "createNewAccount" ? "Password" : "Password baru"
+          }}</span>
         </label>
         <input
           type="password"
           placeholder="Password baru"
           class="input input-bordered"
           :class="{ 'input-error': validation.password == 'invalid' }"
-          v-model="password"
+          v-model.trim="password"
           required
           @blur="validatePassword"
         />
@@ -119,7 +126,11 @@
       </div>
       <div class="form-control mb-2" v-if="isUpdate">
         <label class="label">
-          <span class="label-text">Ulangi password baru</span>
+          <span class="label-text">{{
+            this.mode == "createNewAccount"
+              ? "Ulangi password"
+              : "Ulangi password baru"
+          }}</span>
         </label>
         <input
           type="password"
@@ -128,7 +139,7 @@
           :class="{
             'input-error': validation.password_confirmation == 'invalid',
           }"
-          v-model="password_confirmation"
+          v-model.trim="password_confirmation"
           required
           @blur="validatePasswordConfirmation"
         />
@@ -153,7 +164,7 @@
         </button-primary>
 
         <button-danger
-          v-if="isUpdate"
+          v-if="isUpdate && this.mode == 'createNewAccount'"
           size="sm"
           :link="true"
           to="manage account"
@@ -170,13 +181,12 @@
           Batal
         </button-danger>
 
-         <button-primary
+        <button-primary
           class="ml-1"
           :class="loadingState"
-          v-if="isUpdate"
+          v-if="isUpdate && this.mode == 'createNewAccount'"
           size="sm"
-          :link="true"
-          to="manage account"
+          type="submit"
         >
           Simpan
         </button-primary>
@@ -184,7 +194,7 @@
         <button-primary
           class="ml-1"
           :class="loadingState"
-          v-if="isUpdate  && !this.mode"
+          v-if="isUpdate && !this.mode"
           type="submit"
           size="sm"
         >
@@ -239,6 +249,11 @@ export default {
         password: "",
         password_confirmation: "",
       },
+      alert: {
+        turn: false,
+        mode: "",
+        message: "",
+      },
       reg: /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
     };
   },
@@ -267,11 +282,19 @@ export default {
         this.dataBeforeUpdate.no_hp = this.no_hp;
         this.dataBeforeUpdate.birthdate = this.birthdate;
       } else if (mode === "batal") {
+        this.revokeAllData();
         this.email = this.dataBeforeUpdate.email;
         this.name = this.dataBeforeUpdate.name;
         this.birthdate = this.dataBeforeUpdate.birthdate;
         this.no_hp = this.dataBeforeUpdate.no_hp;
         this.isUpdate = false;
+      }
+    },
+    submitMethod() {
+      if (this.mode == "createNewAccount") {
+        this.createNewAccount();
+      } else {
+        this.updateProfile();
       }
     },
     async loadProfile() {
@@ -327,14 +350,59 @@ export default {
       } catch (error) {
         this.formIsInvalid = true;
         this.errorMessage = error.message;
+        this.turnOnAlert("error", this.errorMessage);
       }
       this.isLoading = false;
+    },
+    async createNewAccount() {
+      this.formIsInvalid = false;
+      this.isLoading = true;
+      if (
+        this.email == "" ||
+        this.name == "" ||
+        this.birthdate == "" ||
+        this.no_hp == "" ||
+        this.password == "" ||
+        this.password_confirmation == "" ||
+        this.password !== this.password_confirmation
+      ) {
+        this.formIsInvalid = true;
+        this.errorMessage = "Pastikan input sudah sesuai";
+        this.isLoading = false;
+        this.turnOnAlert("error", this.errorMessage);
+        return;
+      }
+
+      try {
+        await this.$store.dispatch("auth/register", {
+          name: this.name,
+          email: this.email,
+          birthdate: this.birthdate,
+          no_hp: this.no_hp,
+          password: this.password,
+        });
+
+        this.isLoading = false;
+
+        this.$router.push({
+          name: "manage account",
+          query: {
+            success: "true",
+          },
+        });
+      } catch (error) {
+        this.formIsInvalid = true;
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", this.errorMessage);
+      }
     },
     changeIsUpdate() {
       this.$emit("changeIsUpdate", this.isUpdate);
     },
     turnOnAlert(mode, message) {
-      this.$emit("turnOnAlert", mode, message);
+      this.alert.turn = true;
+      this.alert.mode = mode;
+      this.alert.message = message;
     },
     setReadonlyAttribute(mode) {
       if (mode == "update") {
@@ -357,6 +425,15 @@ export default {
         this.validation.password =
         this.validation.password_confirmation =
           "pending";
+    },
+    revokeAllData() {
+      this.email =
+        this.name =
+        this.no_hp =
+        this.birthdate =
+        this.password =
+        this.password_confirmation =
+          "";
     },
     validateEmail() {
       if (this.email == "") {
@@ -421,13 +498,12 @@ export default {
     if (!this.mode) {
       this.loadProfile();
     }
-    console.log(this.mode);
   },
-  mounted(){
-    if (this.mode == 'createNewAccount') {
+  mounted() {
+    if (this.mode == "createNewAccount") {
       this.isUpdate = true;
-      this.setReadonlyAttribute('update');
+      this.setReadonlyAttribute("update");
     }
-  }
+  },
 };
 </script>

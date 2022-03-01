@@ -43,11 +43,21 @@ const router = createRouter({
           path: '/manageaccount',
           name: 'manage account',
           component: ManageAccountIndex,
+          props: route => ({
+            c: route.query.c,
+            d: route.query.d
+          }),
+          meta: {
+            auth: true
+          }
         },
         {
           path: '/manageaccount/create',
           name: 'create new account',
-          component: CreateNewAccount
+          component: CreateNewAccount,
+          meta: {
+            auth: true
+          }
         }
       ]
     }

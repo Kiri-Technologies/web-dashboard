@@ -18,5 +18,8 @@ export default {
     },
     profileName(state){
         return state.name;
+    },
+    getAllAccount(state){
+        return state.allAccount;
     }
 };

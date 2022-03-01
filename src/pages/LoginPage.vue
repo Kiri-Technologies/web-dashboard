@@ -22,6 +22,7 @@
         <template v-slot:default>
           <base-alert
             v-if="formIsInvalid"
+            :mode="mode"
             :message="errorMessage"
           ></base-alert>
           <login-form @formError="formError"></login-form>
@@ -41,12 +42,14 @@ export default {
     return {
       formIsInvalid: false,
       errorMessage: "",
+      mode: "",
     };
   },
   methods: {
-    formError(formIsInvalid, errorMessage) {
+    formError(formIsInvalid, errorMessage, mode) {
       this.formIsInvalid = formIsInvalid;
       this.errorMessage = errorMessage;
+      this.mode = mode;
     },
   },
 };

@@ -33,5 +33,15 @@ export default {
     },
     didAutoLogout(state, { didAutoLogout }) {
         state.didAutoLogout = didAutoLogout;
+    },
+    addNewAccount(state, {id, name, email, birthdate, no_hp}){
+        state.allAccount.push({
+            id: id,
+            name: name,
+            email: email,
+            birthdate: birthdate,
+            no_hp: no_hp
+        });
+        console.log(state.allAccount);
     }
 }
