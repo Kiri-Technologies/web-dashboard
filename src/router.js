@@ -58,6 +58,15 @@ const router = createRouter({
           meta: {
             auth: true
           }
+        },
+        {
+          path: '/manageaccount/:id/update',
+          name: 'update admin account',
+          component: CreateNewAccount,
+          props: true,
+          meta: {
+            auth: true
+          }
         }
       ]
     }

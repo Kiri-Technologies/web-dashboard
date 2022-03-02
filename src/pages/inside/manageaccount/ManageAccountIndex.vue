@@ -32,18 +32,36 @@
           </thead>
           <tbody>
             <tr>
-              <td>Andre</td>
-              <td>andre@gmail.com</td>
-              <td>20 - Februari - 2022</td>
+              <td>{{ dummyAccount.name }}</td>
+              <td>{{ dummyAccount.email }}</td>
+              <td>{{ dummyAccount.birthdate }}</td>
               <td>
-                <font-awesome-icon
-                  icon="pen-square"
-                  class="text-lg text-blue-600"
-                />
-                <font-awesome-icon
-                  icon="trash"
-                  class="text-lg text-red-600 ml-2"
-                />
+                <router-link
+                  :to="{
+                    name: 'update admin account',
+                    params: {
+                      id: dummyAccount.id,
+                    },
+                  }"
+                  ><font-awesome-icon
+                    icon="pen-square"
+                    class="text-lg text-blue-600"
+                /></router-link>
+
+                <base-modal>
+                  <template v-slot:default>
+                    <font-awesome-icon
+                      icon="trash"
+                      class="text-lg text-red-600 ml-2"
+                    />
+                  </template>
+                  <template v-slot:title>
+                    Hapus akun?
+                  </template>
+                  <template v-slot:body>
+                    Anda yakin untuk menghapus Akun yang dipilih?
+                  </template>
+                </base-modal>
               </td>
             </tr>
             <tr v-for="account in allAccount" :key="account.id">
@@ -69,6 +87,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
@@ -79,11 +98,21 @@ export default {
         message: "",
       },
       allAccount: [],
+      dummyAccount: null,
     };
   },
   methods: {
-    getAllAccount() {
-      this.allAccount = this.$store.getters["auth/getAllAccount"];
+    async loadAllAccount(){
+      try {
+        await this.$store.dispatch("auth/getAllAccount");
+        // const user = this.$store.getters["auth/getAllAccount"];
+        // this.allAccount.push(user);
+      } catch (error) {
+        this.errorMessage = error.message;
+      }
+    },
+    changeDateFormat(date) {
+      return moment(date, "YYYY-MM-DD").format("DD MMMM YYYY");
     },
     turnOnAlert(operation, isSucceed) {
       this.alert.turn = true;
@@ -106,7 +135,7 @@ export default {
     },
   },
   created() {
-    this.getAllAccount();
+    this.loadAllAccount();
   },
   mounted() {
     if (this.$route.query.c) {

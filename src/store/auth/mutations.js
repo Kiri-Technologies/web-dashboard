@@ -24,7 +24,7 @@ export default {
         state.access_token = access_token;
         state.token_type = token_type;
     },
-    setUserData(state, { email, name, birthdate, no_hp, image }) {
+    setUserDatasetUserData(state, { email, name, birthdate, no_hp, image }) {
         state.email = email;
         state.name = name;
         state.birthdate = birthdate;
@@ -34,14 +34,14 @@ export default {
     didAutoLogout(state, { didAutoLogout }) {
         state.didAutoLogout = didAutoLogout;
     },
-    addNewAccount(state, {id, name, email, birthdate, no_hp}){
-        state.allAccount.push({
-            id: id,
-            name: name,
-            email: email,
-            birthdate: birthdate,
-            no_hp: no_hp
-        });
-        console.log(state.allAccount);
+    addNewAccount(state, data){
+        state.allAccount.push(data);
+    },
+    setDummyAccountsetUserData(state, { email, name, birthdate, no_hp, image }) {
+        state.dummyAccount.email = email;
+        state.dummyAccount.name = name;
+        state.dummyAccount.birthdate = birthdate;
+        state.dummyAccount.no_hp = no_hp;
+        state.dummyAccount.image = image;
     }
 }

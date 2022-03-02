@@ -201,7 +201,7 @@ export default {
         });
     },
     async getAllAccount(context) {
-        const url = 'https://kiri.mfaiztriputra.id/api/admin/users';
+        const url = 'https://kiri.mfaiztriputra.id/api/admin/users/find?role=admin';
 
         let response;
 
@@ -222,19 +222,9 @@ export default {
             throw errorMessage;
         }
 
-        for (const account in response.data) {
-            // if (Object.hasOwnProperty.call(response.data, account)) {
-            //     const element = response.data[account];
+        console.log(response.data.data);
 
-            // }
-            context.commit('addNewAccount', {
-                id: account.data.id,
-                name: account.data.name,
-                email: account.data.email,
-                birthdate: account.data.birthdate,
-                no_hp: account.data.no_hp
-            });
-        }
+        context.commit('addNewAccount', response.data.data);
 
     },
     logout(context) {

@@ -1,14 +1,6 @@
 <template>
   <div class="rounded-lg bg-base-200 drawer drawer-mobile h-screen">
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
-    <div class="flex flex-col drawer-content overflow-scroll pb-24" id="content">
-      <label
-        for="my-drawer-2"
-        class="mb-4 btn btn-primary drawer-button lg:hidden"
-        >open menu</label
-      >
-      <slot />
-    </div>
     <div class="drawer-side sticky">
       <label for="my-drawer-2" class="drawer-overlay"></label>
       <ul class="menu p-4 overflow-y-auto w-80">
@@ -37,9 +29,22 @@
           <router-link :to="{ name: 'dashboard' }">Dashboard</router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'manage account' }">Manage Account</router-link>
+          <router-link :to="{ name: 'manage account' }"
+            >Manage Account</router-link
+          >
         </li>
       </ul>
+    </div>
+    <div
+      class="flex flex-col drawer-content overflow-scroll pb-24"
+      id="content"
+    >
+      <label
+        for="my-drawer-2"
+        class="mb-4 btn btn-primary drawer-button lg:hidden"
+        >open menu</label
+      >
+      <slot />
     </div>
   </div>
 </template>
@@ -47,11 +52,11 @@
 <script>
 export default {
   computed: {
-    name(){
-      return this.$store.getters['auth/profileName'];
-    }
-  }
-}
+    name() {
+      return this.$store.getters["auth/profileName"];
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -60,17 +65,17 @@ export default {
 }
 
 a {
-  color: #52575C !important;
+  color: #52575c !important;
 }
 
 a:hover,
-a:active, 
+a:active,
 a.active {
   color: black !important;
   background-color: rgb(243 244 246) !important;
 }
 
 #content {
-  background-color: #DFECD8;
+  background-color: #dfecd8;
 }
 </style>
