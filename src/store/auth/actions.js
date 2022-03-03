@@ -222,10 +222,104 @@ export default {
             throw errorMessage;
         }
 
-        console.log(response.data.data);
-
         context.commit('addNewAccount', response.data.data);
 
+    },
+    async getAccountById(context, { id }) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/users/${id}`;
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error('Failed to store data!');
+            throw errorMessage;
+        }
+
+        context.commit('setAdminAccountData', {
+            id: response.data.data.id,
+            name: response.data.data.name,
+            email: response.data.data.email,
+            birthdate: response.data.data.birthdate,
+            no_hp: response.data.data.no_hp,
+        });
+    },
+    async updateAdminAccount(context, { id, name, email, birthdate, no_hp, password }) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/users/${id}/update`;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`
+
+        try {
+            await axios({
+                method: 'post',
+                url: url,
+                data: {
+                    name: name,
+                    email: email,
+                    birthdate: birthdate,
+                    no_hp: no_hp,
+                    password: password,
+                    role: 'admin'
+                },
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            let message;
+            if (error.response.status == 400) {
+                if (error.response.data.message.email) {
+                    message = error.response.data.message.email;
+                }
+            } else {
+                message = 'Failed to store data!';
+            }
+            const errorMessage = new Error(message);
+            throw errorMessage;
+        }
+
+        context.commit('setAdminAccountData', {
+            id: id,
+            email: email,
+            name: name,
+            birthdate: birthdate,
+            no_hp: no_hp
+        });
+    },
+    async deleteAdminAccount(context, { id }) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/users/${id}/delete`;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            await axios({
+                method: 'delete',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error('Gagal menghapus akun');
+            throw errorMessage;
+        }
+        context.commit('deleteAdminAccountById', {id});
+        context.dispatch('getAllAccount');
     },
     logout(context) {
         localStorage.removeItem('access_token');

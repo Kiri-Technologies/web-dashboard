@@ -15,14 +15,13 @@ export default {
             no_hp: null,
             image: null,
             didAutoLogout: false,
-            allAccount: [],
-            dummyAccount: {
+            allAccount: null,
+            adminAccount: {
                 id: "adul-as890d",
                 name: "Adul",
                 email: "Adul@gmail.com",
                 birthdate: "2000-01-25",
                 no_hp: "123412341234",
-                password: "adul"
             }
         };
     },

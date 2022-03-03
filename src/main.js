@@ -14,7 +14,7 @@ import MenuTitle from './components/atoms/menuTitle/MenuTitle.vue';
 import BaseAlert from './components/atoms/alert/BaseAlert.vue';
 import Card from './components/atoms/card/Card.vue';
 import BaseBreadCrumb from './components/atoms/breadcrumb/BaseBreadCrumb.vue';
-import BaseModal from './components/atoms/modal/BaseModal.vue';
+import DeleteModal from './components/atoms/modal/DeleteModal.vue';
 
 library.add(faArrowLeft);
 library.add(faPenSquare);
@@ -29,7 +29,7 @@ app.component("menu-title", MenuTitle);
 app.component("base-alert", BaseAlert);
 app.component("card", Card);
 app.component("base-bread-crumb", BaseBreadCrumb);
-app.component('base-modal', BaseModal);
+app.component('delete-modal', DeleteModal);
 
 app.use(store);
 

@@ -164,7 +164,10 @@
         </button-primary>
 
         <button-danger
-          v-if="isUpdate && this.mode == 'createNewAccount'"
+          v-if="
+            isUpdate &&
+            (this.mode == 'createNewAccount' || this.mode == 'updateAccount')
+          "
           size="sm"
           :link="true"
           to="manage account"
@@ -173,7 +176,7 @@
         </button-danger>
 
         <button-danger
-          v-if="isUpdate && !this.mode"
+          v-if="isUpdate && this.mode == null"
           type="button"
           @click="changeFormMode('batal'), changeIsUpdate()"
           size="sm"
@@ -184,7 +187,10 @@
         <button-primary
           class="ml-1"
           :class="loadingState"
-          v-if="isUpdate && this.mode == 'createNewAccount'"
+          v-if="
+            isUpdate &&
+            (this.mode == 'createNewAccount' || this.mode == 'updateAccount')
+          "
           size="sm"
           type="submit"
         >
@@ -194,7 +200,7 @@
         <button-primary
           class="ml-1"
           :class="loadingState"
-          v-if="isUpdate && !this.mode"
+          v-if="isUpdate && this.mode == null"
           type="submit"
           size="sm"
         >
@@ -212,11 +218,13 @@ export default {
     mode: {
       type: String,
       required: false,
+      default: null,
     },
   },
   data() {
     return {
       isUpdate: false,
+      id: "",
       email: "",
       name: "",
       no_hp: "",
@@ -293,11 +301,14 @@ export default {
     submitMethod() {
       if (this.mode == "createNewAccount") {
         this.createNewAccount();
+      } else if (this.mode == "updateAccount") {
+        this.updateAdminAccount(this.id);
       } else {
         this.updateProfile();
       }
     },
     async loadProfile() {
+      // Get profile pribadi dari vuex
       try {
         await this.$store.dispatch("auth/getProfile");
         const user = this.$store.getters["auth/profile"];
@@ -375,6 +386,55 @@ export default {
       }
       this.isLoading = false;
     },
+    async getAccountById(id) {
+      console.log(id);
+      try {
+        await this.$store.dispatch("auth/getAccountById", {
+          id: id,
+        });
+        const user = this.$store.getters["auth/getAdminAccountById"];
+        this.id = user.id;
+        this.email = user.email;
+        this.name = user.name;
+        this.no_hp = user.no_hp;
+        this.birthdate = user.birthdate;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async updateAdminAccount(id) {
+      this.formIsInvalid = false;
+      this.isLoading = true;
+
+      if (!this.submitFormValidation()) {
+        return;
+      }
+
+      try {
+        await this.$store.dispatch("auth/updateAdminAccount", {
+          id: id,
+          name: this.name,
+          email: this.email,
+          birthdate: this.birthdate,
+          no_hp: this.no_hp,
+          password: this.password,
+        });
+
+        this.isLoading = false;
+
+        this.$router.push({
+          name: "manage account",
+          query: {
+            u: "true",
+          },
+        });
+      } catch (error) {
+        this.formIsInvalid = true;
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", this.errorMessage);
+      }
+      this.isLoading = false;
+    },
     changeIsUpdate() {
       this.$emit("changeIsUpdate", this.isUpdate);
     },
@@ -433,7 +493,7 @@ export default {
         this.isLoading = false;
         this.turnOnAlert("error", this.errorMessage);
         return false;
-      }else{
+      } else {
         return true;
       }
     },
@@ -496,13 +556,16 @@ export default {
       }
     },
   },
-  created() {
-    if (!this.mode) {
-      this.loadProfile();
-    }
-  },
   mounted() {
-    if (this.mode == "createNewAccount") {
+    if (this.mode == null) {
+      this.loadProfile();
+    } else if (this.mode == "updateAccount") {
+      this.isUpdate = true;
+      this.setReadonlyAttribute("update");
+      if (this.$route.params.id) {
+        this.getAccountById(this.$route.params.id);
+      }
+    } else if (this.mode == "createNewAccount") {
       this.isUpdate = true;
       this.setReadonlyAttribute("update");
     }

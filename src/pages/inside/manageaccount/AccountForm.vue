@@ -3,11 +3,19 @@
     <card class="shadow-lg w-11/12">
       <p>
         <menu-title>
-          <template v-slot:default> Tambah Akun </template>
-          <template v-slot:menuName> Menambahkan Akun Baru </template>
+          <template v-slot:default>
+            {{ mode == "createNewAccount" ? "Tambah Akun" : "Update Akun" }}
+          </template>
+          <template v-slot:menuName>
+            {{
+              mode == "createNewAccount"
+                ? "Menambahkan Akun Baru"
+                : "Memperbarui Akun Terpilih"
+            }}
+          </template>
         </menu-title>
       </p>
-      <profile-form mode="createNewAccount"> </profile-form>
+      <profile-form :mode="mode"> </profile-form>
     </card>
   </section>
 </template>
@@ -26,9 +34,6 @@ export default {
     ProfileForm,
   },
   created() {
-    console.log(this.$route);
-  },
-  mounted() {
     if (this.$route.params.id) {
       this.mode = "updateAccount";
       console.log(this.mode);
@@ -37,6 +42,7 @@ export default {
       console.log(this.mode);
     }
   },
+  // mounted() {},
 };
 </script>
 

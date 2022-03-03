@@ -5,7 +5,7 @@ import Parent from './pages/Parent.vue';
 import Dashboard from './pages/inside/Dashboard.vue';
 import ProfileIndex from './pages/inside/akun/ProfileIndex.vue';
 import ManageAccountIndex from './pages/inside/manageaccount/ManageAccountIndex.vue';
-import CreateNewAccount from './pages/inside/manageaccount/CreateNewAccount.vue';
+import AccountForm from './pages/inside/manageaccount/AccountForm.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -45,7 +45,8 @@ const router = createRouter({
           component: ManageAccountIndex,
           props: route => ({
             c: route.query.c,
-            d: route.query.d
+            d: route.query.d,
+            u: route.query.u
           }),
           meta: {
             auth: true
@@ -54,7 +55,7 @@ const router = createRouter({
         {
           path: '/manageaccount/create',
           name: 'create new account',
-          component: CreateNewAccount,
+          component: AccountForm,
           meta: {
             auth: true
           }
@@ -62,7 +63,7 @@ const router = createRouter({
         {
           path: '/manageaccount/:id/update',
           name: 'update admin account',
-          component: CreateNewAccount,
+          component: AccountForm,
           props: true,
           meta: {
             auth: true

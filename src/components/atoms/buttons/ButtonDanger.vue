@@ -1,8 +1,8 @@
 <template>
-  <button class="btn btn-sm btn-danger" v-if="!link">
+  <button class="btn btn-danger" :class="buttonSize" v-if="!link">
     <slot />
   </button>
-  <router-link class="btn btn-sm btn-danger" :to="{ name: to }" v-else>
+  <router-link class="btn btn-danger" :class="buttonSize" :to="{ name: to }" v-else>
     <slot />
   </router-link>
 </template>
@@ -36,9 +36,9 @@ export default {
         return {
           "btn-sm": true,
         };
-      } else if (this.size == "lg") {
+      } else if (this.size == "md") {
         return {
-          "btn-lg": true,
+          "btn-md": true,
         };
       }
 

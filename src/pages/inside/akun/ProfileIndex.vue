@@ -10,9 +10,8 @@
           </template>
         </menu-title>
       </p>
-      
-      <profile-form @changeIsUpdate="changeIsUpdate">
-      </profile-form>
+
+      <profile-form @changeIsUpdate="changeIsUpdate"> </profile-form>
     </card>
   </section>
 </template>
@@ -29,8 +28,8 @@ export default {
   },
   components: {
     ProfileForm,
-    BaseBreadCrumb
-},
+    BaseBreadCrumb,
+  },
   computed: {
     menuName() {
       if (this.isUpdate) {
@@ -44,6 +43,17 @@ export default {
     changeIsUpdate(isUpdateState) {
       this.isUpdate = isUpdateState;
     },
+    async loadProfile() {
+      try {
+        await this.$store.dispatch("auth/getProfile");
+      } catch (error) {
+        this.formIsInvalid = true;
+        this.errorMessage = error.message;
+      }
+    },
+  },
+  created() {
+    this.loadProfile();
   },
 };
 </script>

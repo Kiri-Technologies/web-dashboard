@@ -35,13 +35,21 @@ export default {
         state.didAutoLogout = didAutoLogout;
     },
     addNewAccount(state, data){
-        state.allAccount.push(data);
+        state.allAccount = data;
     },
-    setDummyAccountsetUserData(state, { email, name, birthdate, no_hp, image }) {
-        state.dummyAccount.email = email;
-        state.dummyAccount.name = name;
-        state.dummyAccount.birthdate = birthdate;
-        state.dummyAccount.no_hp = no_hp;
-        state.dummyAccount.image = image;
+    setAdminAccountData(state, { id, email, name, birthdate, no_hp, image }) {
+        state.adminAccount.id = id;
+        state.adminAccount.email = email;
+        state.adminAccount.name = name;
+        state.adminAccount.birthdate = birthdate;
+        state.adminAccount.no_hp = no_hp;
+        state.adminAccount.image = image;
+    },
+    deleteAdminAccountById(state, {id}){
+        state.allAccount.forEach((element, index) => {
+            if (element.id == id) {
+                state.allAccount.splice(index, 1);
+            }
+        });
     }
 }

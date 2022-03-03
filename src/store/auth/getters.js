@@ -20,10 +20,9 @@ export default {
         return state.name;
     },
     getAllAccount(state){
-        console.log(state);
         return state.allAccount;
     },
-    getDummyAccount(state){
-        return state.dummyAccount;
+    getAdminAccountById(state){
+        return state.adminAccount;
     }
 };

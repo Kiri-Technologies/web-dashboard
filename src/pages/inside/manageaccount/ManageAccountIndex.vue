@@ -31,16 +31,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>{{ dummyAccount.name }}</td>
-              <td>{{ dummyAccount.email }}</td>
-              <td>{{ dummyAccount.birthdate }}</td>
+            <tr v-for="account in allAccount" :key="account.id">
+              <td>{{ account.name }}</td>
+              <td>{{ account.email }}</td>
+              <td>{{ account.birthdate }}</td>
               <td>
                 <router-link
                   :to="{
                     name: 'update admin account',
                     params: {
-                      id: dummyAccount.id,
+                      id: account.id,
                     },
                   }"
                   ><font-awesome-icon
@@ -48,35 +48,21 @@
                     class="text-lg text-blue-600"
                 /></router-link>
 
-                <base-modal>
+                <delete-modal
+                  :id="account.id"
+                  @deleteButtonClicked="deleteButtonClicked"
+                >
                   <template v-slot:default>
                     <font-awesome-icon
                       icon="trash"
                       class="text-lg text-red-600 ml-2"
                     />
                   </template>
-                  <template v-slot:title>
-                    Hapus akun?
-                  </template>
+                  <template v-slot:title> Hapus akun? </template>
                   <template v-slot:body>
                     Anda yakin untuk menghapus Akun yang dipilih?
                   </template>
-                </base-modal>
-              </td>
-            </tr>
-            <tr v-for="account in allAccount" :key="account.id">
-              <td>{{ account.name }}</td>
-              <td>{{ account.email }}</td>
-              <td>{{ account.birthdate }}</td>
-              <td>
-                <font-awesome-icon
-                  icon="pen-square"
-                  class="text-lg text-blue-600"
-                />
-                <font-awesome-icon
-                  icon="trash"
-                  class="text-lg text-red-600 ml-2"
-                />
+                </delete-modal>
               </td>
             </tr>
           </tbody>
@@ -97,16 +83,16 @@ export default {
         mode: "",
         message: "",
       },
-      allAccount: [],
+      allAccount: null,
       dummyAccount: null,
     };
   },
   methods: {
-    async loadAllAccount(){
+    async loadAllAccount() {
       try {
         await this.$store.dispatch("auth/getAllAccount");
-        // const user = this.$store.getters["auth/getAllAccount"];
-        // this.allAccount.push(user);
+        const user = this.$store.getters["auth/getAllAccount"];
+        this.allAccount = user;
       } catch (error) {
         this.errorMessage = error.message;
       }
@@ -123,6 +109,8 @@ export default {
           this.alert.message = "Berhasil menambahkan akun";
         } else if (operation == "delete") {
           this.alert.message = "Berhasil menghapus akun";
+        } else if (operation == "update") {
+          this.alert.message = "Berhasil mengubah akun";
         }
       } else if (isSucceed == "false") {
         this.alert.mode = "error";
@@ -130,7 +118,19 @@ export default {
           this.alert.message = "Gagal menambahkan akun";
         } else if (operation == "delete") {
           this.alert.message = "Gagal menghapus akun";
+        } else if (operation == "update") {
+          this.alert.message = "Gagal mengupdate akun";
         }
+      }
+    },
+    async deleteButtonClicked(id) {
+      try {
+        await this.$store.dispatch("auth/deleteAdminAccount", {
+          id: id,
+        });
+        this.$router.push({ name: "manage account", params: { d: "true" } });
+      } catch (error) {
+        this.$router.push({ name: "manage account", params: { d: "false" } });
       }
     },
   },
@@ -142,6 +142,8 @@ export default {
       this.turnOnAlert("create", this.$route.query.c);
     } else if (this.$route.query.d) {
       this.turnOnAlert("delete", this.$route.query.d);
+    } else if (this.$route.query.u) {
+      this.turnOnAlert("update", this.$route.query.u);
     }
   },
 };
