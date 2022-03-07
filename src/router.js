@@ -6,6 +6,9 @@ import Dashboard from './pages/inside/Dashboard.vue';
 import ProfileIndex from './pages/inside/akun/ProfileIndex.vue';
 import ManageAccountIndex from './pages/inside/manageaccount/ManageAccountIndex.vue';
 import AccountForm from './pages/inside/manageaccount/AccountForm.vue';
+import TrayekIndex from './pages/inside/trayekangkot/TrayekIndex.vue';
+import WriteTrayek from './pages/inside/trayekangkot/WriteTrayek.vue';
+import TrayekDetail from './pages/inside/trayekangkot/TrayekDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -68,30 +71,68 @@ const router = createRouter({
           meta: {
             auth: true
           }
+        },
+        {
+          path: '/trayekangkot',
+          name: 'trayek angkot',
+          component: TrayekIndex,
+          props: route => ({
+            c: route.query.c,
+            d: route.query.d,
+            u: route.query.u
+          }),
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/trayekangkot/create',
+          name: 'create new trayek',
+          component: WriteTrayek,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/trayekangkot/:id/update',
+          name: 'update trayek',
+          component: WriteTrayek,
+          props: true,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/trayekangkot/:id/detail',
+          name: 'detail trayek',
+          component: TrayekDetail,
+          meta: {
+            auth: true
+          }
         }
       ]
     }
   ],
   linkExactActiveClass: 'active',
-    scrollBehavior(to, from, savedPosition) {
-        if (savedPosition) {
-            return savedPosition
-        }
-
-        return {
-            top: 0,
-            left: 0
-        }
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
     }
+
+    return {
+      top: 0,
+      left: 0
+    }
+  }
 });
 
-router.beforeEach(function(to, _, next){
-  if (to.meta.auth && !store.getters['auth/isAuthenticated']) { 
+router.beforeEach(function (to, _, next) {
+  if (to.meta.auth && !store.getters['auth/isAuthenticated']) {
     next('/login');
-  }else if(to.meta.noAuth && store.getters['auth/isAuthenticated']){
+  } else if (to.meta.noAuth && store.getters['auth/isAuthenticated']) {
     console.log()
     next('/');
-  }else {
+  } else {
     next()
   }
 });

@@ -4,24 +4,24 @@
       <p class="mb-5">
         <menu-title>
           <template v-slot:default>
-            {{ mode == "createNewAccount" ? "Tambah Akun" : "Update Akun" }}
+            {{ mode == "createTrayek" ? "Tambah Trayek" : "Update Trayek" }}
           </template>
           <template v-slot:menuName>
             {{
-              mode == "createNewAccount"
-                ? "Menambahkan Akun Baru"
-                : "Memperbarui Akun Terpilih"
+              mode == "createTrayek"
+                ? "Menambahkan Trayek Baru"
+                : "Memperbarui Trayek Terpilih"
             }}
           </template>
         </menu-title>
       </p>
-      <profile-form :mode="mode"> </profile-form>
+      <trayek-form :mode="mode"></trayek-form>
     </card>
   </section>
 </template>
 
 <script>
-import ProfileForm from "../../../components/molecules/forms/ProfileForm.vue";
+import TrayekForm from "../../../components/molecules/forms/TrayekForm.vue";
 
 export default {
   data() {
@@ -31,18 +31,16 @@ export default {
     };
   },
   components: {
-    ProfileForm,
+    TrayekForm,
   },
   created() {
     if (this.$route.params.id) {
-      this.mode = "updateAccount";
+      this.mode = "updateTrayek";
       console.log(this.mode);
-    } else if (this.$route.name == "create new account") {
-      this.mode = "createNewAccount";
+    } else if (this.$route.name == "create new trayek") {
+      this.mode = "createTrayek";
       console.log(this.mode);
     }
   },
-  // mounted() {},
 };
 </script>
-

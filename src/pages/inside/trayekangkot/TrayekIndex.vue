@@ -3,15 +3,17 @@
     <card class="shadow-lg w-11/12">
       <p>
         <menu-title>
-          <template v-slot:default> Akun </template>
-          <template v-slot:menuName>
-            {{ menuName }}
-          </template>
+          <template v-slot:default> Trayek </template>
+          <template v-slot:menuName> List Trayek yang Tersedia </template>
         </menu-title>
       </p>
       <div class="flex flex-row justify-end">
-        <button-primary :link="true" :to="{ name: 'create new account'}" size="sm">
-          Tambah Akun
+        <button-primary
+          :link="true"
+          :to="{ name: 'create new trayek' }"
+          size="sm"
+        >
+          Tambah Trayek
         </button-primary>
       </div>
       <base-alert
@@ -24,32 +26,48 @@
           <!-- head -->
           <thead>
             <tr>
-              <th>Nama</th>
-              <th>Email</th>
-              <th>Tanggal Lahir</th>
+              <th>Kode Trayek</th>
+              <th>Titik Awal</th>
+              <th>Titik Akhir</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="account in allAccount" :key="account.id">
-              <td>{{ account.name }}</td>
-              <td>{{ account.email }}</td>
-              <td>{{ changeDateFormat(account.birthdate) }}</td>
+            <tr v-for="trayek in allTrayek" :key="trayek.id">
+              <td>{{ trayek.kode_trayek }}</td>
+              <td>{{ trayek.titik_awal }}</td>
+              <td>{{ trayek.titik_akhir }}</td>
               <td>
                 <router-link
                   :to="{
-                    name: 'update admin account',
+                    name: 'detail trayek',
                     params: {
-                      id: account.id,
+                      id: trayek.id,
                     },
                   }"
-                  ><font-awesome-icon
+                >
+                  <font-awesome-icon
+                    icon="info-circle"
+                    class="text-lg text-yellow-500"
+                  />
+                </router-link>
+
+                <router-link
+                  :to="{
+                    name: 'update trayek',
+                    params: {
+                      id: trayek.id,
+                    },
+                  }"
+                >
+                  <font-awesome-icon
                     icon="pen-square"
-                    class="text-lg text-blue-600"
-                /></router-link>
+                    class="text-lg text-blue-600 ml-2"
+                  />
+                </router-link>
 
                 <delete-modal
-                  :id="account.id"
+                  :id="trayek.id"
                   @deleteButtonClicked="deleteButtonClicked"
                 >
                   <template v-slot:default>
@@ -73,7 +91,6 @@
 </template>
 
 <script>
-import moment from "moment";
 export default {
   data() {
     return {
@@ -83,22 +100,19 @@ export default {
         mode: "",
         message: "",
       },
-      allAccount: null,
+      allTrayek: null,
       dummyAccount: null,
     };
   },
   methods: {
-    async loadAllAccount() {
+    async loadAllTrayek() {
       try {
-        await this.$store.dispatch("auth/getAllAccount");
-        const user = this.$store.getters["auth/getAllAccount"];
-        this.allAccount = user;
+        await this.$store.dispatch("trayek/getAllTrayek");
+        const trayek = this.$store.getters["trayek/getAllTrayek"];
+        this.allTrayek = trayek;
       } catch (error) {
         this.errorMessage = error.message;
       }
-    },
-    changeDateFormat(date) {
-      return moment(date, "YYYY-MM-DD").format("DD MMMM YYYY");
     },
     turnOnAlert(operation, isSucceed) {
       this.alert.turn = true;
@@ -106,20 +120,20 @@ export default {
       if (isSucceed == "true") {
         this.alert.mode = "success";
         if (operation == "create") {
-          this.alert.message = "Berhasil menambahkan akun";
+          this.alert.message = "Berhasil menambahkan trayek";
         } else if (operation == "delete") {
-          this.alert.message = "Berhasil menghapus akun";
+          this.alert.message = "Berhasil menghapus trayek";
         } else if (operation == "update") {
-          this.alert.message = "Berhasil mengubah akun";
+          this.alert.message = "Berhasil mengubah trayek";
         }
       } else if (isSucceed == "false") {
         this.alert.mode = "error";
         if (operation == "create") {
-          this.alert.message = "Gagal menambahkan akun";
+          this.alert.message = "Gagal menambahkan trayek";
         } else if (operation == "delete") {
-          this.alert.message = "Gagal menghapus akun";
+          this.alert.message = "Gagal menghapus trayek";
         } else if (operation == "update") {
-          this.alert.message = "Gagal mengupdate akun";
+          this.alert.message = "Gagal mengupdate trayek";
         }
       }
     },
@@ -128,14 +142,14 @@ export default {
         await this.$store.dispatch("auth/deleteAdminAccount", {
           id: id,
         });
-        this.$router.push({ name: "manage account", params: { d: "true" } });
+        this.$router.push({ name: "trayek angkot", params: { d: "true" } });
       } catch (error) {
-        this.$router.push({ name: "manage account", params: { d: "false" } });
+        this.$router.push({ name: "trayek angkot", params: { d: "false" } });
       }
     },
   },
   created() {
-    this.loadAllAccount();
+    this.loadAllTrayek();
   },
   mounted() {
     if (this.$route.query.c) {

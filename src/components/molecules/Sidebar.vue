@@ -33,6 +33,11 @@
             >Manage Account</router-link
           >
         </li>
+        <li>
+          <router-link :to="{ name: 'trayek angkot' }"
+            >Trayek Angkot</router-link
+          >
+        </li>
       </ul>
     </div>
     <div

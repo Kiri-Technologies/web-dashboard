@@ -45,9 +45,9 @@ export default {
         console.log(error);
       }
     },
-    logout() {
+    async logout() {
       try {
-        this.$store.dispatch("auth/logout");
+        await this.$store.dispatch("auth/logout");
         this.$router.replace("/login");
       } catch (error) {
         console.log(error);

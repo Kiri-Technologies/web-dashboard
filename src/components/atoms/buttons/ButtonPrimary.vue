@@ -2,7 +2,7 @@
   <button class="btn btn-primary" :class="buttonSize" v-if="!link">
     <slot />
   </button>
-  <router-link class="btn btn-primary" :class="buttonSize" :to="{ name: to }" v-else>
+  <router-link class="btn btn-primary" :class="buttonSize" :to="to" v-else>
     <slot />
   </router-link>
 </template>
@@ -16,9 +16,11 @@ export default {
       default: false,
     },
     to: {
-      type: String,
+      type: Object,
       required: false,
-      default: "/",
+      default() {
+        return { path: "/" };
+      },
     },
     size: {
       type: String,

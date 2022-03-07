@@ -1,5 +1,6 @@
 export default {
-    setAllAuthData(state, { email, access_token, name, birthdate, role, no_hp, image, token_type }) {
+    setAllAuthData(state, { id, email, access_token, name, birthdate, role, no_hp, image, token_type }) {
+        state.id = id;
         state.email = email;
         state.access_token = access_token;
         state.name = name;
@@ -24,7 +25,8 @@ export default {
         state.access_token = access_token;
         state.token_type = token_type;
     },
-    setUserDatasetUserData(state, { email, name, birthdate, no_hp, image }) {
+    setUserData(state, { id, email, name, birthdate, no_hp, image }) {
+        state.id = id;
         state.email = email;
         state.name = name;
         state.birthdate = birthdate;

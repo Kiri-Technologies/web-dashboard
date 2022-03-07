@@ -20,7 +20,7 @@ export default {
         return state.name;
     },
     getAllAccount(state){
-        return state.allAccount;
+        return state.allAccount.filter(am => am.id !== state.id);
     },
     getAdminAccountById(state){
         return state.adminAccount;

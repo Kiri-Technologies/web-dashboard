@@ -45,6 +45,7 @@ export default {
         }, expiresIn);
 
         context.commit('setAllAuthData', {
+            id: response.data.data.id,
             email: email,
             access_token: access_token,
             name: response.data.data.name,
@@ -83,6 +84,7 @@ export default {
         }
 
         context.commit('setAllAuthData', {
+            id: response.data.data.id,
             email: email,
             access_token: access_token,
             name: response.data.data.name,
@@ -145,7 +147,7 @@ export default {
             let message;
             if (error.response.status == 400) {
                 if (error.response.data.message.email) {
-                    message = error.response.data.message.email;
+                    message = "Email sudah diambil";
                 }
             } else {
                 message = 'Failed to store data!';
@@ -183,7 +185,7 @@ export default {
             let message;
             if (error.response.status == 400) {
                 if (error.response.data.message.email) {
-                    message = error.response.data.message.email;
+                    message = "Email sudah diambil";
                 }
             } else {
                 message = 'Failed to store data!';
@@ -282,7 +284,7 @@ export default {
             let message;
             if (error.response.status == 400) {
                 if (error.response.data.message.email) {
-                    message = error.response.data.message.email;
+                    message = "Email sudah diambil";
                 }
             } else {
                 message = 'Failed to store data!';
@@ -318,18 +320,38 @@ export default {
             const errorMessage = new Error('Gagal menghapus akun');
             throw errorMessage;
         }
-        context.commit('deleteAdminAccountById', {id});
+        context.commit('deleteAdminAccountById', { id });
         context.dispatch('getAllAccount');
     },
-    logout(context) {
-        localStorage.removeItem('access_token');
-        localStorage.removeItem('token_type');
-        localStorage.removeItem('email');
-        localStorage.removeItem('tokenExpirationDate');
+    async logout(context) {
+        const url = 'https://kiri.mfaiztriputra.id/api/logout';
 
-        clearTimeout(timer);
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
-        context.commit('revokeAllAuthData');
+        try {
+            await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('token_type');
+            localStorage.removeItem('email');
+            localStorage.removeItem('tokenExpirationDate');
+
+            clearTimeout(timer);
+
+            context.commit('revokeAllAuthData');
+
+        } catch (error) {
+            const errorMessage = new Error('Failed to store data!');
+            throw errorMessage;
+        }
     },
     autoLogout(context) {
         context.dispatch('logout');

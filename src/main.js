@@ -5,7 +5,7 @@ import router from './router.js';
 import store from './store/store.js';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faArrowLeft, faPenSquare, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faPenSquare, faTrash, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 
 // Component atoms
 import ButtonDanger from './components/atoms/buttons/ButtonDanger.vue';
@@ -19,6 +19,7 @@ import DeleteModal from './components/atoms/modal/DeleteModal.vue';
 library.add(faArrowLeft);
 library.add(faPenSquare);
 library.add(faTrash);
+library.add(faInfoCircle);
 
 const app = createApp(App);
 
@@ -32,8 +33,6 @@ app.component("base-bread-crumb", BaseBreadCrumb);
 app.component('delete-modal', DeleteModal);
 
 app.use(store);
-
 app.use(router);
-
 
 app.mount('#app')
