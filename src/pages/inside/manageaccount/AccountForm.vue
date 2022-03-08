@@ -36,10 +36,8 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.mode = "updateAccount";
-      console.log(this.mode);
     } else if (this.$route.name == "create new account") {
       this.mode = "createNewAccount";
-      console.log(this.mode);
     }
   },
   // mounted() {},

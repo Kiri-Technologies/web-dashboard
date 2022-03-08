@@ -103,7 +103,7 @@ export default {
     turnOnAlert(operation, isSucceed) {
       this.alert.turn = true;
 
-      if (isSucceed == "true") {
+      if (isSucceed) {
         this.alert.mode = "success";
         if (operation == "create") {
           this.alert.message = "Berhasil menambahkan akun";
@@ -112,7 +112,7 @@ export default {
         } else if (operation == "update") {
           this.alert.message = "Berhasil mengubah akun";
         }
-      } else if (isSucceed == "false") {
+      } else if (!isSucceed) {
         this.alert.mode = "error";
         if (operation == "create") {
           this.alert.message = "Gagal menambahkan akun";
@@ -128,14 +128,23 @@ export default {
         await this.$store.dispatch("auth/deleteAdminAccount", {
           id: id,
         });
-        this.$router.push({ name: "manage account", params: { d: "true" } });
+        this.loadAllAccount();
+        this.turnOnAlert("delete", "true");
       } catch (error) {
-        this.$router.push({ name: "manage account", params: { d: "false" } });
+        this.turnOnAlert("delete", "false");
       }
     },
+    setAlert(){
+      const alert = this.$store.getters['alert/getAlert'];
+      if (alert.isActive) {
+        this.turnOnAlert(alert.operation, alert.isSucceed);
+        this.$store.commit('alert/revokeAlert');
+      }
+    }
   },
   created() {
     this.loadAllAccount();
+    this.setAlert();
   },
   mounted() {
     if (this.$route.query.c) {

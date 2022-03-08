@@ -170,7 +170,7 @@
           "
           size="sm"
           :link="true"
-          to="manage account"
+          :to="{name: 'manage account'}"
         >
           Batal
         </button-danger>
@@ -373,11 +373,13 @@ export default {
 
         this.isLoading = false;
 
+        this.$store.commit("alert/setAlert", {
+          operation: "create",
+          isSucceed: true,
+        });
+
         this.$router.push({
-          name: "manage account",
-          query: {
-            c: "true",
-          },
+          name: "manage account"
         });
       } catch (error) {
         this.formIsInvalid = true;
@@ -422,11 +424,13 @@ export default {
 
         this.isLoading = false;
 
+        this.$store.commit("alert/setAlert", {
+          operation: "update",
+          isSucceed: true,
+        });
+
         this.$router.push({
-          name: "manage account",
-          query: {
-            u: "true",
-          },
+          name: "manage account"
         });
       } catch (error) {
         this.formIsInvalid = true;

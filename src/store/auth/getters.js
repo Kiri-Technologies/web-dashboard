@@ -20,6 +20,7 @@ export default {
         return state.name;
     },
     getAllAccount(state){
+        console.log(state.allAccount);
         return state.allAccount.filter(am => am.id !== state.id);
     },
     getAdminAccountById(state){

@@ -46,11 +46,6 @@ const router = createRouter({
           path: '/manageaccount',
           name: 'manage account',
           component: ManageAccountIndex,
-          props: route => ({
-            c: route.query.c,
-            d: route.query.d,
-            u: route.query.u
-          }),
           meta: {
             auth: true
           }
@@ -76,11 +71,6 @@ const router = createRouter({
           path: '/trayekangkot',
           name: 'trayek angkot',
           component: TrayekIndex,
-          props: route => ({
-            c: route.query.c,
-            d: route.query.d,
-            u: route.query.u
-          }),
           meta: {
             auth: true
           }

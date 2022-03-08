@@ -225,7 +225,6 @@ export default {
         }
 
         context.commit('addNewAccount', response.data.data);
-
     },
     async getAccountById(context, { id }) {
         const url = `https://kiri.mfaiztriputra.id/api/admin/users/${id}`;

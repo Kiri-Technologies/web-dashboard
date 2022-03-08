@@ -19,18 +19,16 @@ export default {
                     titik_akhir
                 }
             });
-
-            console.log(response.data.name);
-
-            context.commit('addNewTrayek', {
-                id: response.data.name,
-                kode_trayek,
-                titik_awal,
-                titik_akhir
-            });
         } catch (error) {
-            console.log(error);
+            throw error.message;
         }
+
+        context.commit('addNewTrayek', {
+            id: response.data.name,
+            kode_trayek,
+            titik_awal,
+            titik_akhir
+        });
     },
     async getAllTrayek(context) {
         const url = 'https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek.json';
@@ -64,20 +62,20 @@ export default {
             });
 
         } catch (error) {
-            console.log(error);
+            throw error.message;
         }
     },
-    async getTrayekById(context, { id }){
+    async getTrayekById(context, { id }) {
         const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
 
         let response;
 
-        try{
+        try {
             response = await axios({
                 method: 'get',
                 url: url
             });
-        }catch (error){
+        } catch (error) {
             console.log(error)
         }
         console.log(response);
@@ -89,7 +87,7 @@ export default {
             titik_akhir: response.data.titik_akhir,
         });
     },
-    async updateTrayekById(context, { id, kode_trayek, titik_awal, titik_akhir}){
+    async updateTrayekById(context, { id, kode_trayek, titik_awal, titik_akhir }) {
         const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
 
         // let response;
@@ -108,15 +106,38 @@ export default {
                     titik_akhir
                 }
             });
+        } catch (error) {
+            throw error.message;
+        }
 
-            context.commit('setTrayekData', {
-                id: id,
-                kode_trayek,
-                titik_awal,
-                titik_akhir
+        context.commit('setTrayekData', {
+            id: id,
+            kode_trayek,
+            titik_awal,
+            titik_akhir
+        });
+    },
+    async deleteTrayekById(context, { id }) {
+        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
+
+        // let response;
+
+        // const access_token = localStorage.getItem('access_token');
+        // const token_type = localStorage.getItem('token_type');
+        // const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            await axios({
+                method: 'delete',
+                url: url,
             });
         } catch (error) {
-            console.log(error);
+            throw error.message;
         }
+
+        context.dispatch('getAllTrayek');
+        context.commit('setTrayekData', {
+            id: id,
+        });
     }
 }

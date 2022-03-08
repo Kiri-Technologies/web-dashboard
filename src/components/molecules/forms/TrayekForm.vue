@@ -64,7 +64,9 @@
         </label>
       </div>
       <div class="flex justify-end mt-7">
-        <button-danger type="button" size="sm"> Batal </button-danger>
+        <button-danger :link="true" :to="{ name: 'trayek angkot' }" size="sm">
+          Batal
+        </button-danger>
 
         <button-primary
           class="ml-1"
@@ -150,11 +152,13 @@ export default {
 
         this.isLoading = false;
 
+        this.$store.commit("alert/setAlert", {
+          operation: "create",
+          isSucceed: true,
+        });
+
         this.$router.push({
-          name: "trayek angkot",
-          query: {
-            c: "true",
-          },
+          name: "trayek angkot"
         });
       } catch (error) {
         this.formIsInvalid = true;
@@ -194,11 +198,13 @@ export default {
 
         this.isLoading = false;
 
+        this.$store.commit("alert/setAlert", {
+          operation: "update",
+          isSucceed: true,
+        });
+
         this.$router.push({
-          name: "trayek angkot",
-          query: {
-            u: "true",
-          },
+          name: "trayek angkot"
         });
       } catch (error) {
         this.formIsInvalid = true;
