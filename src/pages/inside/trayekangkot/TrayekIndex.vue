@@ -1,6 +1,7 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
+      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
       <p>
         <menu-title>
           <template v-slot:default> Trayek </template>
@@ -22,7 +23,7 @@
         :message="alert.message"
       ></base-alert>
       <div class="overflow-x-auto mt-2">
-        <table class="table w-full">
+        <table class="table w-full" id="myTable">
           <!-- head -->
           <thead>
             <tr>
@@ -102,6 +103,14 @@ export default {
       },
       allTrayek: null,
       dummyAccount: null,
+      crumbs: [
+        {
+          title: "Trayek",
+          link: {
+            path: "/trayekangkot"
+          }
+        }
+      ]
     };
   },
   methods: {

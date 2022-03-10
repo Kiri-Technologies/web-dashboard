@@ -1,6 +1,7 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
+      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
       <p>
         <menu-title>
           <template v-slot:default> Akun </template>
@@ -85,6 +86,14 @@ export default {
       },
       allAccount: null,
       dummyAccount: null,
+      crumbs: [
+        {
+          title: "Akun",
+          link: {
+            path: "/manageaccount"
+          }
+        }
+      ]
     };
   },
   methods: {

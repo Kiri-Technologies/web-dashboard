@@ -96,6 +96,7 @@ const router = createRouter({
           path: '/trayekangkot/:id/detail',
           name: 'detail trayek',
           component: TrayekDetail,
+          props: true,
           meta: {
             auth: true
           }

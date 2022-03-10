@@ -1,6 +1,7 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
+      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
       <p>
         <menu-title>
           <template v-slot:default> Detail Trayek </template>
@@ -89,12 +90,29 @@
 <script>
 import GoogleMap from '../../../components/molecules/map/GoogleMap.vue'
 export default {
+  props: ['id'],
   data() {
     return {
-      id: "",
       kode_trayek: "",
       titik_awal: "",
       titik_akhir: "",
+      crumbs: [
+        {
+          title: "Trayek",
+          link: {
+            path: "/trayekangkot"
+          }
+        },
+        {
+          title: "Detail Trayek",
+          link: {
+            name: 'detail trayek',
+            params: {
+              id: this.id
+            }
+          }
+        }
+      ]
     };
   },
   components: {
@@ -107,7 +125,6 @@ export default {
           id: id,
         });
         const trayek = this.$store.getters["trayek/getTrayek"];
-        this.id = trayek.id;
         this.kode_trayek = trayek.kode_trayek;
         this.titik_awal = trayek.titik_awal;
         this.titik_akhir = trayek.titik_akhir;
