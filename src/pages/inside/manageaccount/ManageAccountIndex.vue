@@ -32,7 +32,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="account in allAccount" :key="account.id">
+            <tr v-if="emptyAccount">
+              <td colspan="100%" class="text-center">Tidak ada akun yang tersedia</td>
+            </tr>
+            <tr v-else v-for="account in allAccount" :key="account.id">
               <td>{{ account.name }}</td>
               <td>{{ account.email }}</td>
               <td>{{ changeDateFormat(account.birthdate) }}</td>
@@ -84,7 +87,7 @@ export default {
         mode: "",
         message: "",
       },
-      allAccount: null,
+      allAccount: [],
       dummyAccount: null,
       crumbs: [
         {
@@ -95,6 +98,11 @@ export default {
         }
       ]
     };
+  },
+  computed: {
+    emptyAccount(){
+      return this.allAccount.length < 1 ? true : false;
+    }
   },
   methods: {
     async loadAllAccount() {

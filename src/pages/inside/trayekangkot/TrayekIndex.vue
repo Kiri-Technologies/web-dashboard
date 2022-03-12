@@ -22,6 +22,7 @@
         :mode="alert.mode"
         :message="alert.message"
       ></base-alert>
+
       <div class="overflow-x-auto mt-2">
         <table class="table w-full" id="myTable">
           <!-- head -->
@@ -34,7 +35,10 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="trayek in allTrayek" :key="trayek.id">
+            <tr v-if="emptyTrayek">
+              <td colspan="100%" class="text-center">Tidak ada trayek yang tersedia</td>
+            </tr>
+            <tr v-else v-for="trayek in allTrayek" :key="trayek.id">
               <td>{{ trayek.kode_trayek }}</td>
               <td>{{ trayek.titik_awal }}</td>
               <td>{{ trayek.titik_akhir }}</td>
@@ -101,17 +105,22 @@ export default {
         mode: "",
         message: "",
       },
-      allTrayek: null,
+      allTrayek: [],
       dummyAccount: null,
       crumbs: [
         {
           title: "Trayek",
           link: {
-            path: "/trayekangkot"
-          }
-        }
-      ]
+            path: "/trayekangkot",
+          },
+        },
+      ],
     };
+  },
+  computed: {
+    emptyTrayek(){
+      return this.allTrayek.length < 1 ? true : false;
+    }
   },
   methods: {
     async loadAllTrayek() {
@@ -157,13 +166,13 @@ export default {
         }
       }
     },
-    setAlert(){
-      const alert = this.$store.getters['alert/getAlert'];
+    setAlert() {
+      const alert = this.$store.getters["alert/getAlert"];
       if (alert.isActive) {
         this.turnOnAlert(alert.operation, alert.isSucceed);
-        this.$store.commit('alert/revokeAlert');
+        this.$store.commit("alert/revokeAlert");
       }
-    }
+    },
   },
   created() {
     this.loadAllTrayek();

@@ -10,14 +10,7 @@ export default {
             kode_trayek: "d01",
             titik_awal: "Buah Batu",
             titik_akhir: "Dipatiukur",
-            allTrayek: [
-                {
-                    id: "d01",
-                    kode_trayek: "d01",
-                    titik_awal: "Buah Batu",
-                    titik_akhir: "Dipatiukur",
-                }
-            ],
+            allTrayek: [],
         };
     },
     mutations,
