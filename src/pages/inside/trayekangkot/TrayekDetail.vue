@@ -12,7 +12,7 @@
         <button-primary
           :link="true"
           :to="{
-            name: 'update trayek'
+            name: 'update trayek',
           }"
           size="sm"
         >
@@ -56,31 +56,64 @@
             <div class="col-span-2 grid content-center">
               <h1 class="font-bold">Titik Halte Virtual</h1>
             </div>
-            <button-primary size="sm">Tambah</button-primary>
+            <button-primary
+              :link="true"
+              size="sm"
+              :to="{ name: 'create halte virtual', params: { trayekid: id } }"
+              >Tambah</button-primary
+            >
           </div>
-          <div
-            class="
-              grid grid-cols-3
-              border-solid border border-gray-300
-              rounded-b-md
-              p-2
-            "
-          >
-            <div class="col-span-2">Pasar Kordon</div>
-            <div class="flex justify-end">
-              <font-awesome-icon
-                icon="pen-square"
-                class="text-lg text-blue-600 ml-2"
-              />
-              <font-awesome-icon
-                icon="trash"
-                class="text-lg text-red-600 ml-2"
-              />
+          <div class="border-solid border border-gray-300 rounded-b-md">
+            <div
+              class="grid grid-cols-3 p-2 cursor-pointer"
+              v-for="halteVirtual in allHalteVirtual"
+              :key="halteVirtual.id"
+              :class="{
+                'bg-gray-200': selectedHalteVirtual == halteVirtual.id,
+              }"
+              @click="selectHalteVirtual(halteVirtual.id)"
+            >
+              <div class="col-span-2">{{ halteVirtual.name }}</div>
+              <div class="flex justify-end">
+
+                <router-link
+                  :to="{
+                    name: 'update halte virtual',
+                    params: {
+                      trayekid: id,
+                      id: halteVirtual.id,
+                    },
+                  }"
+                >
+                  <font-awesome-icon
+                    icon="pen-square"
+                    class="text-lg text-blue-600 ml-2"
+                  />
+                </router-link>
+                <delete-modal
+                  :id="halteVirtual.id"
+                  @deleteButtonClicked="deleteButtonClicked"
+                >
+                  <template v-slot:default>
+                    <font-awesome-icon
+                      icon="trash"
+                      class="text-lg text-red-600 ml-2"
+                    />
+                  </template>
+                  <template v-slot:title> Hapus Halte Virtual? </template>
+                  <template v-slot:body>
+                    Anda yakin untuk menghapus Halte Virtual yang dipilih?
+                  </template>
+                </delete-modal>
+              </div>
             </div>
           </div>
         </div>
         <div class="col-span-2">
-            <google-map></google-map>
+          <google-map
+            :allHalteVirtual="allHalteVirtual"
+            :center="centerHalteVirtual"
+          ></google-map>
         </div>
       </div>
     </card>
@@ -88,35 +121,56 @@
 </template>
 
 <script>
-import GoogleMap from '../../../components/molecules/map/GoogleMap.vue'
+import GoogleMap from "../../../components/molecules/map/GoogleMap.vue";
 export default {
-  props: ['id'],
+  props: ["id"],
   data() {
     return {
       kode_trayek: "",
       titik_awal: "",
       titik_akhir: "",
+      allHalteVirtual: [],
+      selectedHalteVirtual: "",
       crumbs: [
         {
           title: "Trayek",
           link: {
-            path: "/trayekangkot"
-          }
+            path: "/trayekangkot",
+          },
         },
         {
           title: "Detail Trayek",
           link: {
-            name: 'detail trayek',
+            name: "detail trayek",
             params: {
-              id: this.id
-            }
-          }
-        }
-      ]
+              id: this.id,
+            },
+          },
+        },
+      ],
     };
   },
+  computed: {
+    centerHalteVirtual() {
+      if (this.selectedHalteVirtual == "" && this.allHalteVirtual.length > 0) {
+        return {
+          lat: this.allHalteVirtual[0].lat,
+          lng: this.allHalteVirtual[0].lng,
+        };
+      } else if (this.allHalteVirtual.length < 1) {
+        return {
+          lat: -6.909904811200833,
+          lng: 107.61499400618688,
+        };
+      } else {
+        return this.allHalteVirtual.filter(
+          (hv) => hv.id == this.selectedHalteVirtual
+        )[0];
+      }
+    },
+  },
   components: {
-      GoogleMap
+    GoogleMap,
   },
   methods: {
     async loadTrayekById(id) {
@@ -132,6 +186,38 @@ export default {
         console.log(error);
       }
     },
+    async loadHalteVirtual() {
+      try {
+        await this.$store.dispatch("halteVirtual/getAllHalteVirtualByTrayek", {
+          trayekid: this.id,
+        });
+        const halteVirtual =
+          this.$store.getters["halteVirtual/getAllHalteVirtual"];
+        this.allHalteVirtual = halteVirtual;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async deleteButtonClicked(halteVirtualId) {
+      try {
+        await this.$store.dispatch("halteVirtual/deleteHalteVirtual", {
+          trayekid: this.id,
+          id: halteVirtualId,
+        });
+        this.loadHalteVirtual();
+        this.turnOnAlert("delete", "true");
+      } catch (error) {
+        this.turnOnAlert("delete", "false");
+      }
+    },
+    selectHalteVirtual(id) {
+      if (id == this.selectedHalteVirtual) {
+        this.selectedHalteVirtual = "";
+      } else {
+        this.selectedHalteVirtual = id;
+      }
+    },
+    
     // initMap() {
     //   // The location of Uluru
     //   const uluru = { lat: -25.344, lng: 131.036 };
@@ -150,6 +236,7 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.loadTrayekById(this.$route.params.id);
+      this.loadHalteVirtual();
     }
   },
 };

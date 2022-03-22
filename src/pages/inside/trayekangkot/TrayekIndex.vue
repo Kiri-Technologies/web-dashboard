@@ -129,7 +129,9 @@ export default {
         const trayek = this.$store.getters["trayek/getAllTrayek"];
         this.allTrayek = trayek;
       } catch (error) {
+        this.formIsInvalid = true;
         this.errorMessage = error.message;
+        this.turnOnAlert("error", this.errorMessage);
       }
     },
     async deleteButtonClicked(id) {

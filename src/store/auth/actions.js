@@ -79,7 +79,7 @@ export default {
                 }
             });
         } catch (error) {
-            const errorMessage = new Error('Failed to store data!');
+            const errorMessage = new Error('Failed to get data!');
             throw errorMessage;
         }
 
@@ -121,7 +121,8 @@ export default {
         }
     },
     async updateProfile(context, { name, email, birthdate, no_hp, password }) {
-        const url = 'https://kiri.mfaiztriputra.id/api/profile/update';
+        const urlProfile = 'https://kiri.mfaiztriputra.id/api/profile/update';
+        const urlPassword = 'https://kiri.mfaiztriputra.id/api/profile/update/password'
 
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');
@@ -130,24 +131,36 @@ export default {
         try {
             await axios({
                 method: 'post',
-                url: url,
+                url: urlProfile,
                 data: {
                     name: name,
                     email: email,
                     birthdate: birthdate,
                     no_hp: no_hp,
-                    password: password,
                     role: 'admin'
                 },
                 headers: {
                     Authorization: authHeader
                 }
             });
+
+            if (password !== '') {
+                await axios({
+                    method: 'post',
+                    url: urlPassword,
+                    data: {
+                        password: password,
+                    },
+                    headers: {
+                        Authorization: authHeader
+                    }
+                });
+            }
         } catch (error) {
             let message;
             if (error.response.status == 400) {
                 if (error.response.data.message.email) {
-                    message = "Email sudah diambil";
+                    message = "Email sudah terdaftar";
                 }
             } else {
                 message = 'Failed to store data!';
@@ -185,7 +198,7 @@ export default {
             let message;
             if (error.response.status == 400) {
                 if (error.response.data.message.email) {
-                    message = "Email sudah diambil";
+                    message = "Email sudah terdaftar";
                 }
             } else {
                 message = 'Failed to store data!';
@@ -220,7 +233,7 @@ export default {
                 }
             });
         } catch (error) {
-            const errorMessage = new Error('Failed to store data!');
+            const errorMessage = new Error('Failed to get data!');
             throw errorMessage;
         }
 

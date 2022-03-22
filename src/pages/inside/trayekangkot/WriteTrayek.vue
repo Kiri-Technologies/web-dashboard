@@ -52,10 +52,8 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.mode = "updateTrayek";
-      console.log(this.mode);
     } else if (this.$route.name == "create new trayek") {
       this.mode = "createTrayek";
-      console.log(this.mode);
     }
   },
 };

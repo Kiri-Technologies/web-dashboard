@@ -177,7 +177,9 @@ export default {
         this.titik_awal = trayek.titik_awal;
         this.titik_akhir = trayek.titik_akhir;
       } catch (error) {
-        console.log(error);
+        this.formIsInvalid = true;
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", this.errorMessage);
       }
     },
     async updateTrayek() {

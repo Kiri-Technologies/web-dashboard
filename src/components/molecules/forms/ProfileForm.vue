@@ -389,7 +389,6 @@ export default {
       this.isLoading = false;
     },
     async getAccountById(id) {
-      console.log(id);
       try {
         await this.$store.dispatch("auth/getAccountById", {
           id: id,

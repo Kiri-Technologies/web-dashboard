@@ -9,6 +9,10 @@ import AccountForm from './pages/inside/manageaccount/AccountForm.vue';
 import TrayekIndex from './pages/inside/trayekangkot/TrayekIndex.vue';
 import WriteTrayek from './pages/inside/trayekangkot/WriteTrayek.vue';
 import TrayekDetail from './pages/inside/trayekangkot/TrayekDetail.vue'
+import WriteHalteVirtual from './pages/inside/haltevirtual/WriteHalteVirtual.vue';
+import AngkotIndex from './pages/inside/angkot/AngkotIndex.vue';
+import DetailAngkot from './pages/inside/angkot/DetailAngkot.vue'
+import FeedbackAppIndex from './pages/inside/feedbackapp/FeedbackAppIndex.vue'
 
 const router = createRouter({
   history: createWebHistory(),
@@ -97,6 +101,48 @@ const router = createRouter({
           name: 'detail trayek',
           component: TrayekDetail,
           props: true,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/haltevirtual/:trayekid/create',
+          name: 'create halte virtual',
+          component: WriteHalteVirtual,
+          props: true,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/haltevirtual/:trayekid/:id/update',
+          name: 'update halte virtual',
+          component: WriteHalteVirtual,
+          props: true,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/angkot',
+          name: 'angkot index',
+          component: AngkotIndex,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/angkot/detail',
+          name: 'detail angkot',
+          component: DetailAngkot,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/feedbackapp',
+          name: 'feedback aplikasi',
+          component: FeedbackAppIndex,
           meta: {
             auth: true
           }

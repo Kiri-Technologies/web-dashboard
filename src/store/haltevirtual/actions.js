@@ -1,7 +1,7 @@
 import axios from "axios";
 export default {
-    async createTrayek(context, { kode_trayek, titik_awal, titik_akhir }) {
-        const url = 'https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek.json';
+    async createHalteVirtual(context, { trayekid, name, lat, lng }) {
+        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual.json`;
 
         let response;
 
@@ -14,9 +14,9 @@ export default {
                 method: 'post',
                 url: url,
                 data: {
-                    kode_trayek,
-                    titik_awal,
-                    titik_akhir
+                    name,
+                    lat,
+                    long: lng
                 }
             });
         } catch (error) {
@@ -33,15 +33,15 @@ export default {
             throw errorMessage;
         }
 
-        context.commit('addNewTrayek', {
+        context.commit('setHalteVirtualData', {
             id: response.data.name,
-            kode_trayek,
-            titik_awal,
-            titik_akhir
+            name,
+            lat,
+            lng
         });
     },
-    async getAllTrayek(context) {
-        const url = 'https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek.json';
+    async getAllHalteVirtualByTrayek(context, { trayekid }) {
+        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual.json`;
 
         let response;
 
@@ -60,15 +60,15 @@ export default {
             for (const id in response.data) {
                 results.push({
                     id: id,
-                    kode_trayek: response.data[id].kode_trayek,
-                    titik_awal: response.data[id].titik_awal,
-                    titik_akhir: response.data[id].titik_akhir
+                    name: response.data[id].name,
+                    lat: Number(response.data[id].lat),
+                    lng: Number(response.data[id].long)
                 });
             }
 
-            let trayek = results;
-            context.commit('addNewTrayek', {
-                trayek
+            let halteVirtual = results;
+            context.commit('addAllHalteVirtual', {
+                data: halteVirtual
             });
 
         } catch (error) {
@@ -76,8 +76,8 @@ export default {
             throw errorMessage;
         }
     },
-    async getTrayekById(context, { id }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
+    async getHalteVirtualById(context, { trayekid, id }) {
+        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual/${id}.json`;
 
         let response;
 
@@ -91,30 +91,24 @@ export default {
             throw errorMessage;
         }
 
-        context.commit('setTrayekData', {
+        context.commit('setHalteVirtualData', {
             id: id,
-            kode_trayek: response.data.kode_trayek,
-            titik_awal: response.data.titik_awal,
-            titik_akhir: response.data.titik_akhir,
+            name: response.data.name,
+            lat: response.data.lat,
+            lng: response.data.long
         });
     },
-    async updateTrayekById(context, { id, kode_trayek, titik_awal, titik_akhir }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
-
-        // let response;
-
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+    async updateHalteVirtual(context, { trayekid, id, name, lat, lng }) {
+        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual/${id}.json`;
 
         try {
             await axios({
                 method: 'patch',
                 url: url,
                 data: {
-                    kode_trayek,
-                    titik_awal,
-                    titik_akhir
+                    name,
+                    lat,
+                    long: lng
                 }
             });
         } catch (error) {
@@ -131,15 +125,15 @@ export default {
             throw errorMessage;
         }
 
-        context.commit('setTrayekData', {
+        context.commit('setHalteVirtualData', {
             id: id,
-            kode_trayek,
-            titik_awal,
-            titik_akhir
+            name,
+            lat,
+            lng
         });
     },
-    async deleteTrayekById(context, { id }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
+    async deleteHalteVirtual(context, { trayekid, id }){
+        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual/${id}.json`;
 
         // let response;
 
@@ -153,10 +147,12 @@ export default {
                 url: url,
             });
         } catch (error) {
-            const errorMessage = new Error('Gagal menghapus trayek');
+            const errorMessage = new Error('Gagal menghapus halte virtual');
             throw errorMessage;
         }
 
-        context.dispatch('getAllTrayek');
+        context.dispatch('getAllHalteVirtualByTrayek', {
+            trayekid
+        });
     }
 }

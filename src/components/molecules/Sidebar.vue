@@ -38,6 +38,16 @@
             >Trayek Angkot</router-link
           >
         </li>
+        <li>
+          <router-link :to="{ name: 'angkot index' }"
+            >List Angkot</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="{ name: 'feedback aplikasi' }"
+            >Feedback Aplikasi</router-link
+          >
+        </li>
       </ul>
     </div>
     <div
