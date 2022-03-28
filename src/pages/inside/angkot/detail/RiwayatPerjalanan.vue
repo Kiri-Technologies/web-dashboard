@@ -5,17 +5,17 @@
         <div>
           <div class="grid grid-cols-2">
             <div>Kode Trayek</div>
-            <div class="text-gray-500">: S-101</div>
+            <div class="text-gray-500">: {{ angkot.route.kode_angkot }}</div>
           </div>
           <div class="grid grid-cols-2">
             <div>Plat Nomor</div>
-            <div class="text-gray-500">: B 1234 AM</div>
+            <div class="text-gray-500">: {{ angkot.plat_nomor }}</div>
           </div>
         </div>
         <div>
           <div class="grid grid-cols-2">
             <div>Trayek Angkot</div>
-            <div class="text-gray-500">: Cipagalo Buah Batu</div>
+            <div class="text-gray-500">: {{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}</div>
           </div>
         </div>
       </div>
@@ -33,15 +33,68 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>23 Agustus 2022 13:59</td>
-            <td>Rohmat Sahuri</td>
-            <td>Jamal Sugiono</td>
-            <td>Gerbang Telkom</td>
-            <td>Transmart Buah Batu</td>
+          <tr v-for="p in perjalanan" :key="p.id">
+            <td>{{ changeDateFormat(p.created_at) }}</td>
+            <td>{{ p.user_supir.name }}</td>
+            <td>{{ p.user_penumpang.name }}</td>
+            <td>{{ p.titik_naik }}</td>
+            <td>{{ p.titik_turun }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 </template>
+
+<script>
+import moment from "moment";
+
+export default {
+  data() {
+    return {
+      angkot: {
+        route: {
+          kode_angkot: "",
+          titik_awal: "",
+          titik_akhir: "",
+        },
+        plat_nomor: "",
+      },
+      perjalanan: [],
+    };
+  },
+  methods: {
+    async getAngkot() {
+      try {
+        await this.$store.dispatch("angkot/getAngkotById", {
+          id: this.$route.params.id,
+        });
+        this.angkot = this.$store.getters["angkot/getAngkot"];
+      } catch (error) {
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", false);
+      }
+    },
+    async getAllPerjalananByIdAngkot() {
+      try {
+        await this.$store.dispatch("perjalanan/getAllPerjalananByIdAngkot", {
+          idAngkot: this.$route.params.id,
+        });
+        this.perjalanan = this.$store.getters[
+          "perjalanan/getAllPerjalanan"
+        ];
+      } catch (error) {
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", false);
+      }
+    },
+    changeDateFormat(date) {
+      return moment(date, "YYYY-MM-DD").format("DD MMMM YYYY HH:MM");
+    },
+  },
+  created(){
+    this.getAngkot();
+    this.getAllPerjalananByIdAngkot();
+  }
+};
+</script>

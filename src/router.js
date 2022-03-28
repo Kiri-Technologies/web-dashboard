@@ -132,9 +132,10 @@ const router = createRouter({
           }
         },
         {
-          path: '/angkot/detail',
+          path: '/angkot/:id/detail',
           name: 'detail angkot',
           component: DetailAngkot,
+          props: true,
           meta: {
             auth: true
           }

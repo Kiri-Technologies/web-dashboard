@@ -31,13 +31,72 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>23 Agustus 2022 13:59</td>
-            <td>Rohmat Sahuri</td>
-            <td>Rp. 10.000.000</td>
+          <tr v-for="ls in listRiwayatSupirNarik" :key="ls.id">
+            <td>{{ changeDateFormat(ls.created_at) }}</td>
+            <td>{{ ls.supir.name }}</td>
+            <td>{{ rupiahFormat(ls.jumlah_pendapatan) }}</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 </template>
+
+<script>
+import moment from "moment";
+
+export default {
+  data() {
+    return {
+      angkot: {
+        route: {
+          kode_angkot: "",
+          titik_awal: "",
+          titik_akhir: "",
+        },
+        plat_nomor: "",
+      },
+      listRiwayatSupirNarik: [],
+    };
+  },
+  methods: {
+    async getAngkot() {
+      try {
+        await this.$store.dispatch("angkot/getAngkotById", {
+          id: this.$route.params.id,
+        });
+        this.angkot = this.$store.getters["angkot/getAngkot"];
+      } catch (error) {
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", false);
+      }
+    },
+    async getAllRiwayatSupirNarik() {
+      try {
+        await this.$store.dispatch("riwayatSupirNarik/getAllRiwayatSupirNarik", {
+          idAngkot: this.$route.params.id,
+        });
+        this.listRiwayatSupirNarik = this.$store.getters[
+          "riwayatSupirNarik/getAllRiwayatSupirNarik"
+        ];
+      } catch (error) {
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", false);
+      }
+    },
+    changeDateFormat(date) {
+      return moment(date, "YYYY-MM-DD").format("DD MMMM YYYY HH:MM");
+    },
+    rupiahFormat(number) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      }).format(number);
+    },
+  },
+  created(){
+    this.getAngkot();
+    this.getAllRiwayatSupirNarik();
+  }
+};
+</script>

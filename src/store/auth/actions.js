@@ -32,7 +32,7 @@ export default {
 
         const access_token = response.data.data.token.original.token;
         const token_type = response.data.data.token.original.token_type;
-        const expiresIn = (rememberMe ? 86400 : response.data.data.token.original.expires_in) * 1000;
+        const expiresIn = (rememberMe ? 86400 : 3600) * 1000;
         const tokenExpirationDate = Date.now() + expiresIn;
 
         localStorage.setItem('access_token', access_token);
@@ -51,7 +51,7 @@ export default {
             name: response.data.data.name,
             birthdate: response.data.data.birthdate,
             role: response.data.data.role,
-            no_hp: response.data.data.noh_hp,
+            phone_number: response.data.data.phone_number,
             image: response.data.data.image,
             token_type: token_type,
         });
@@ -90,7 +90,7 @@ export default {
             name: response.data.data.name,
             birthdate: response.data.data.birthdate,
             role: response.data.data.role,
-            no_hp: response.data.data.no_hp,
+            phone_number: response.data.data.phone_number,
             image: response.data.data.image,
             token_type: token_type,
         });
@@ -120,9 +120,9 @@ export default {
             context.dispatch('autoLogout');
         }
     },
-    async updateProfile(context, { name, email, birthdate, no_hp, password }) {
+    async updateProfile(context, { name, email, birthdate, phone_number, password }) {
         const urlProfile = 'https://kiri.mfaiztriputra.id/api/profile/update';
-        const urlPassword = 'https://kiri.mfaiztriputra.id/api/profile/update/password'
+        const urlPassword = 'https://kiri.mfaiztriputra.id/api/profile/update/password';
 
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');
@@ -136,7 +136,7 @@ export default {
                     name: name,
                     email: email,
                     birthdate: birthdate,
-                    no_hp: no_hp,
+                    phone_number: phone_number,
                     role: 'admin'
                 },
                 headers: {
@@ -173,10 +173,10 @@ export default {
             email: email,
             name: name,
             birthdate: birthdate,
-            no_hp: no_hp
+            phone_number: phone_number
         });
     },
-    async register(context, { name, email, birthdate, no_hp, password }) {
+    async register(context, { name, email, birthdate, phone_number, password }) {
         const url = 'https://kiri.mfaiztriputra.id/api/register';
 
         let response;
@@ -189,7 +189,7 @@ export default {
                     name: name,
                     email: email,
                     birthdate: birthdate,
-                    no_hp: no_hp,
+                    phone_number: phone_number,
                     password: password,
                     role: 'admin'
                 }
@@ -212,7 +212,7 @@ export default {
             name: name,
             email: email,
             birthdate: birthdate,
-            no_hp: no_hp
+            phone_number: phone_number
         });
     },
     async getAllAccount(context) {
@@ -266,10 +266,10 @@ export default {
             name: response.data.data.name,
             email: response.data.data.email,
             birthdate: response.data.data.birthdate,
-            no_hp: response.data.data.no_hp,
+            phone_number: response.data.data.phone_number,
         });
     },
-    async updateAdminAccount(context, { id, name, email, birthdate, no_hp, password }) {
+    async updateAdminAccount(context, { id, name, email, birthdate, phone_number, password }) {
         const url = `https://kiri.mfaiztriputra.id/api/admin/users/${id}/update`;
 
         const access_token = localStorage.getItem('access_token');
@@ -284,7 +284,7 @@ export default {
                     name: name,
                     email: email,
                     birthdate: birthdate,
-                    no_hp: no_hp,
+                    phone_number: phone_number,
                     password: password,
                     role: 'admin'
                 },
@@ -310,7 +310,7 @@ export default {
             email: email,
             name: name,
             birthdate: birthdate,
-            no_hp: no_hp
+            phone_number: phone_number
         });
     },
     async deleteAdminAccount(context, { id }) {
@@ -351,15 +351,7 @@ export default {
                 }
             });
 
-            localStorage.removeItem('access_token');
-            localStorage.removeItem('token_type');
-            localStorage.removeItem('email');
-            localStorage.removeItem('tokenExpirationDate');
-
-            clearTimeout(timer);
-
-            context.commit('revokeAllAuthData');
-
+            context.dispatch('clearAuthData');
         } catch (error) {
             const errorMessage = new Error('Failed to store data!');
             throw errorMessage;
@@ -370,5 +362,15 @@ export default {
         context.commit('didAutoLogout', {
             didAutoLogout: true
         });
+    },
+    clearAuthData(context) {
+        localStorage.removeItem('access_token');
+        localStorage.removeItem('token_type');
+        localStorage.removeItem('email');
+        localStorage.removeItem('tokenExpirationDate');
+
+        clearTimeout(timer);
+
+        context.commit('revokeAllAuthData');
     }
 };

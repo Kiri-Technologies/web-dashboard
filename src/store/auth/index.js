@@ -13,7 +13,7 @@ export default {
             birthdate: null,
             role: null,
             token_type: null,
-            no_hp: null,
+            phone_number: null,
             image: null,
             didAutoLogout: false,
             allAccount: null,
@@ -22,7 +22,7 @@ export default {
                 name: "Adul",
                 email: "Adul@gmail.com",
                 birthdate: "2000-01-25",
-                no_hp: "123412341234",
+                phone_number: "123412341234",
             }
         };
     },

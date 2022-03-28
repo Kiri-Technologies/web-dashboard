@@ -76,6 +76,6 @@ export default {
       }
       return "Ulasan Penumpang"
     }
-  }
+  },
 };
 </script>

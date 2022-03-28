@@ -10,6 +10,8 @@ import { faArrowLeft, faPenSquare, faTrash, faInfoCircle, faStar } from "@fortaw
 // Component atoms
 import ButtonDanger from './components/atoms/buttons/ButtonDanger.vue';
 import ButtonPrimary from './components/atoms/buttons/ButtonPrimary.vue';
+import ButtonWarning from './components/atoms/buttons/ButtonWarning.vue';
+import ButtonSuccess from './components/atoms/buttons/ButtonSuccess.vue';
 import MenuTitle from './components/atoms/menuTitle/MenuTitle.vue';
 import BaseAlert from './components/atoms/alert/BaseAlert.vue';
 import Card from './components/atoms/card/Card.vue';
@@ -28,6 +30,8 @@ const app = createApp(App);
 app.component("font-awesome-icon", FontAwesomeIcon);
 app.component("button-danger", ButtonDanger);
 app.component("button-primary", ButtonPrimary);
+app.component("button-warning", ButtonWarning);
+app.component("button-success", ButtonSuccess);
 app.component("menu-title", MenuTitle);
 app.component("base-alert", BaseAlert);
 app.component("card", Card);

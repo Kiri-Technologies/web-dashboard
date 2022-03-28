@@ -56,16 +56,16 @@
           type="number"
           placeholder="Nomor Hp"
           class="input input-bordered"
-          :class="{ 'input-error': validation.no_hp == 'invalid' }"
+          :class="{ 'input-error': validation.phone_number == 'invalid' }"
           ref="nohp"
-          v-model.trim="no_hp"
+          v-model.trim="phone_number"
           readonly
           required
           @blur="validateNoHp"
         />
-        <label class="label" v-if="validation.no_hp == 'invalid'">
+        <label class="label" v-if="validation.phone_number == 'invalid'">
           <span class="label-text-alt text-red-500">{{
-            formMessage.no_hp
+            formMessage.phone_number
           }}</span>
         </label>
       </div>
@@ -115,7 +115,6 @@
           class="input input-bordered"
           :class="{ 'input-error': validation.password == 'invalid' }"
           v-model.trim="password"
-          required
           @blur="validatePassword"
         />
         <label class="label" v-if="validation.password == 'invalid'">
@@ -140,7 +139,6 @@
             'input-error': validation.password_confirmation == 'invalid',
           }"
           v-model.trim="password_confirmation"
-          required
           @blur="validatePasswordConfirmation"
         />
         <label
@@ -170,7 +168,7 @@
           "
           size="sm"
           :link="true"
-          :to="{name: 'manage account'}"
+          :to="{ name: 'manage account' }"
         >
           Batal
         </button-danger>
@@ -227,13 +225,13 @@ export default {
       id: "",
       email: "",
       name: "",
-      no_hp: "",
+      phone_number: "",
       birthdate: "",
       dataBeforeUpdate: {
         email: "",
         name: "",
         birthdate: "",
-        no_hp: "",
+        phone_number: "",
       },
       formIsInvalid: false,
       errorMessage: true,
@@ -244,7 +242,7 @@ export default {
       validation: {
         email: "pending",
         name: "pending",
-        no_hp: "pending",
+        phone_number: "pending",
         birthdate: "pending",
         password: "pending",
         password_confirmation: "pending",
@@ -252,7 +250,7 @@ export default {
       formMessage: {
         email: "",
         name: "",
-        no_hp: "",
+        phone_number: "",
         birthdate: "",
         password: "",
         password_confirmation: "",
@@ -287,14 +285,14 @@ export default {
         this.isUpdate = true;
         this.dataBeforeUpdate.email = this.email;
         this.dataBeforeUpdate.name = this.name;
-        this.dataBeforeUpdate.no_hp = this.no_hp;
+        this.dataBeforeUpdate.phone_number = this.phone_number;
         this.dataBeforeUpdate.birthdate = this.birthdate;
       } else if (mode === "batal") {
         this.revokeAllData();
         this.email = this.dataBeforeUpdate.email;
         this.name = this.dataBeforeUpdate.name;
         this.birthdate = this.dataBeforeUpdate.birthdate;
-        this.no_hp = this.dataBeforeUpdate.no_hp;
+        this.phone_number = this.dataBeforeUpdate.phone_number;
         this.isUpdate = false;
       }
     },
@@ -314,7 +312,7 @@ export default {
         const user = this.$store.getters["auth/profile"];
         this.email = user.email;
         this.name = user.name;
-        this.no_hp = user.no_hp;
+        this.phone_number = user.phone_number;
         this.birthdate = user.birthdate;
       } catch (error) {
         this.formIsInvalid = true;
@@ -334,9 +332,14 @@ export default {
           name: this.name,
           email: this.email,
           birthdate: this.birthdate,
-          no_hp: this.no_hp,
+          phone_number: this.phone_number,
           password: this.password,
         });
+
+        if (this.password !== "") {
+          await this.$store.dispatch("auth/clearAuthData");
+          this.$router.replace("/login");
+        }
 
         this.password = this.password_confirmation = "";
 
@@ -367,7 +370,7 @@ export default {
           name: this.name,
           email: this.email,
           birthdate: this.birthdate,
-          no_hp: this.no_hp,
+          phone_number: this.phone_number,
           password: this.password,
         });
 
@@ -379,7 +382,7 @@ export default {
         });
 
         this.$router.push({
-          name: "manage account"
+          name: "manage account",
         });
       } catch (error) {
         this.formIsInvalid = true;
@@ -397,7 +400,7 @@ export default {
         this.id = user.id;
         this.email = user.email;
         this.name = user.name;
-        this.no_hp = user.no_hp;
+        this.phone_number = user.phone_number;
         this.birthdate = user.birthdate;
       } catch (error) {
         console.log(error);
@@ -417,7 +420,7 @@ export default {
           name: this.name,
           email: this.email,
           birthdate: this.birthdate,
-          no_hp: this.no_hp,
+          phone_number: this.phone_number,
           password: this.password,
         });
 
@@ -429,7 +432,7 @@ export default {
         });
 
         this.$router.push({
-          name: "manage account"
+          name: "manage account",
         });
       } catch (error) {
         this.formIsInvalid = true;
@@ -462,7 +465,7 @@ export default {
     setInputValidation() {
       this.validation.email =
         this.validation.name =
-        this.validation.no_hp =
+        this.validation.phone_number =
         this.validation.birthdate =
         this.validation.password =
         this.validation.password_confirmation =
@@ -471,7 +474,7 @@ export default {
     revokeAllData() {
       this.email =
         this.name =
-        this.no_hp =
+        this.phone_number =
         this.birthdate =
         this.password =
         this.password_confirmation =
@@ -482,13 +485,17 @@ export default {
         this.email == "" ||
         this.name == "" ||
         this.birthdate == "" ||
-        this.no_hp == "" ||
-        this.password == "" ||
-        this.password_confirmation == "" ||
-        this.password !== this.password_confirmation
+        this.phone_number == ""
+        // this.password == "" ||
+        // this.password_confirmation == "" ||
+        // this.password !== this.password_confirmation
       ) {
         let message = "Pastikan input sudah sesuai";
-        if (this.password !== this.password_confirmation) {
+        if (
+          this.password !== this.password_confirmation &&
+          this.password !== "" &&
+          this.$route.name !== "account"
+        ) {
           message = "Password dan konfirmasi password harus sesuai";
         }
         this.formIsInvalid = true;
@@ -522,12 +529,12 @@ export default {
       }
     },
     validateNoHp() {
-      if (this.no_hp == "") {
-        this.validation.no_hp = "invalid";
-        this.formMessage.no_hp = "Please enter a phone number";
+      if (this.phone_number == "") {
+        this.validation.phone_number = "invalid";
+        this.formMessage.phone_number = "Please enter a phone number";
       } else {
-        this.formMessage.no_hp = "";
-        this.validation.no_hp = "valid";
+        this.formMessage.phone_number = "";
+        this.validation.phone_number = "valid";
       }
     },
     validateBirthdate() {
@@ -540,22 +547,26 @@ export default {
       }
     },
     validatePassword() {
-      if (this.password == "") {
-        this.validation.password = "invalid";
-        this.formMessage.password = "Please enter a password";
-      } else {
-        this.formMessage.password = "";
-        this.validation.password = "valid";
+      if (this.$route.name !== "account") {
+        if (this.password == "") {
+          this.validation.password = "invalid";
+          this.formMessage.password = "Please enter a password";
+        } else {
+          this.formMessage.password = "";
+          this.validation.password = "valid";
+        }
       }
     },
     validatePasswordConfirmation() {
-      if (this.password_confirmation == "") {
-        this.validation.password_confirmation = "invalid";
-        this.formMessage.password_confirmation =
-          "Please enter a password confirmation";
-      } else {
-        this.formMessage.password_confirmation = "";
-        this.validation.password_confirmation = "valid";
+      if (this.$route.name !== "account") {
+        if (this.password_confirmation == "") {
+          this.validation.password_confirmation = "invalid";
+          this.formMessage.password_confirmation =
+            "Please enter a password confirmation";
+        } else {
+          this.formMessage.password_confirmation = "";
+          this.validation.password_confirmation = "valid";
+        }
       }
     },
   },

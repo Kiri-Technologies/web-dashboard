@@ -52,6 +52,12 @@
           </menu-title>
         </p>
 
+        <base-alert
+          v-if="alert.turn"
+          :mode="alert.mode"
+          :message="alert.message"
+        ></base-alert>
+
         <div class="overflow-x-auto mt-2">
           <table class="table w-full" id="myTable">
             <!-- head -->
@@ -65,13 +71,13 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>S-101</td>
-                <td>B 4466 US</td>
-                <td>Kebayoran Lama - Ciledug</td>
-                <td>H. Abdurahman Said</td>
+              <tr v-for="angkot in allAngkot" :key="angkot.id">
+                <td>{{ angkot.route.kode_angkot }}</td>
+                <td>{{ angkot.plat_nomor }}</td>
+                <td>{{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}</td>
+                <td>{{ angkot.user_owner.name }}</td>
                 <td>
-                  <router-link :to="{ name: 'detail angkot' }">
+                  <router-link :to="{ name: 'detail angkot', params: {id: angkot.id} }">
                     <font-awesome-icon
                       icon="info-circle"
                       class="text-lg text-yellow-500"
@@ -91,6 +97,12 @@
 export default {
   data() {
     return {
+      allAngkot: [],
+      alert: {
+        turn: false,
+        mode: "",
+        message: "",
+      },
       crumbs: [
         {
           title: "Angkot",
@@ -101,6 +113,31 @@ export default {
       ],
     };
   },
+  methods: {
+    // get all angkot data from api through action.js
+    async getAllAngkot() {
+      try {
+        await this.$store.dispatch("angkot/getAllAngkot");
+        this.allAngkot = this.$store.getters["angkot/getAllAngkot"];
+      } catch (error) {
+        // call turnonalert function to turn on alert
+        this.turnOnAlert(error.message, true);
+      }
+    },
+    turnOnAlert(message, isSucceed) {
+      this.alert.turn = true;
+      if (isSucceed) {
+        this.alert.mode = "success";
+        this.alert.message = message;
+      } else if (!isSucceed) {
+        this.alert.mode = "error";
+        this.alert.message = message;
+      }
+    },
+  },
+  created(){
+    this.getAllAngkot();
+  }
 };
 </script>
 
