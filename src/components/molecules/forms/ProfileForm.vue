@@ -349,7 +349,7 @@ export default {
         this.$refs.birthdate.setAttribute("readonly", "");
         this.isUpdate = false;
         this.changeIsUpdate();
-        this.turnOnAlert("success", "Berhasil mengubah akun");
+        this.turnOnAlert("success", "Berhasil mengubah profil");
       } catch (error) {
         this.formIsInvalid = true;
         this.errorMessage = error.message;

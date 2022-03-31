@@ -166,6 +166,10 @@ export default {
           this.alert.message = "Gagal mengupdate trayek";
         }
       }
+
+      setTimeout(() => {
+        this.alert.turn = false;
+      }, 5000);
     },
     setAlert() {
       const alert = this.$store.getters["alert/getAlert"];
@@ -178,15 +182,6 @@ export default {
   created() {
     this.loadAllTrayek();
     this.setAlert();
-  },
-  mounted() {
-    if (this.$route.query.c) {
-      this.turnOnAlert("create", this.$route.query.c);
-    } else if (this.$route.query.d) {
-      this.turnOnAlert("delete", this.$route.query.d);
-    } else if (this.$route.query.u) {
-      this.turnOnAlert("update", this.$route.query.u);
-    }
   },
 };
 </script>

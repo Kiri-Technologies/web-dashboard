@@ -48,6 +48,21 @@
             >Feedback Aplikasi</router-link
           >
         </li>
+        <li>
+          <router-link :to="{ name: 'riwayat pendapatan' }"
+            >Riwayat Pendapatan</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="{ name: 'riwayat perjalanan' }"
+            >Riwayat Perjalanan</router-link
+          >
+        </li>
+        <li>
+          <router-link :to="{ name: 'approve angkot' }"
+            >Approval Angkot</router-link
+          >
+        </li>
       </ul>
     </div>
     <div

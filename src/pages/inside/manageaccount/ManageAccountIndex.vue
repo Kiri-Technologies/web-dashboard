@@ -139,6 +139,10 @@ export default {
           this.alert.message = "Gagal mengupdate akun";
         }
       }
+
+      setTimeout(() => {
+        this.alert.turn = false;
+      }, 5000);
     },
     async deleteButtonClicked(id) {
       try {

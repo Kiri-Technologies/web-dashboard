@@ -52,6 +52,12 @@
         "
       >
         <div class="grid grid-flow-row auto-rows-max p-2">
+          <base-alert
+            v-if="alert.turn"
+            :mode="alert.mode"
+            :message="alert.message"
+          ></base-alert>
+
           <div class="grid grid-cols-3 p-2 bg-gray-200">
             <div class="col-span-2 grid content-center">
               <h1 class="font-bold">Titik Halte Virtual</h1>
@@ -75,7 +81,6 @@
             >
               <div class="col-span-2">{{ halteVirtual.name }}</div>
               <div class="flex justify-end">
-
                 <router-link
                   :to="{
                     name: 'update halte virtual',
@@ -131,6 +136,11 @@ export default {
       titik_akhir: "",
       allHalteVirtual: [],
       selectedHalteVirtual: "",
+      alert: {
+        turn: false,
+        mode: "success",
+        message: "",
+      },
       crumbs: [
         {
           title: "Trayek",
@@ -205,10 +215,44 @@ export default {
           id: halteVirtualId,
         });
         this.loadHalteVirtual();
-        this.turnOnAlert("delete", "true");
+        this.turnOnAlert("delete", true);
       } catch (error) {
-        this.turnOnAlert("delete", "false");
+        this.turnOnAlert("delete", false);
       }
+    },
+    setAlert() {
+      const alert = this.$store.getters["alert/getAlert"];
+      if (alert.isActive) {
+        this.turnOnAlert(alert.operation, alert.isSucceed);
+        this.$store.commit("alert/revokeAlert");
+      }
+    },
+    turnOnAlert(operation, isSucceed) {
+      this.alert.turn = true;
+
+      if (isSucceed) {
+        this.alert.mode = "success";
+        if (operation == "create") {
+          this.alert.message = "Berhasil menambahkan halte virtual";
+        } else if (operation == "delete") {
+          this.alert.message = "Berhasil menghapus halte virtual";
+        } else if (operation == "update") {
+          this.alert.message = "Berhasil mengubah halte virtual";
+        }
+      } else if (!isSucceed) {
+        this.alert.mode = "error";
+        if (operation == "create") {
+          this.alert.message = "Gagal menambahkan halte virtual";
+        } else if (operation == "delete") {
+          this.alert.message = "Gagal menghapus halte virtual";
+        } else if (operation == "update") {
+          this.alert.message = "Gagal mengupdate halte virtual";
+        }
+      }
+
+      setTimeout(() => {
+        this.alert.turn = false;
+      }, 5000);
     },
     selectHalteVirtual(id) {
       if (id == this.selectedHalteVirtual) {
@@ -217,27 +261,13 @@ export default {
         this.selectedHalteVirtual = id;
       }
     },
-    
-    // initMap() {
-    //   // The location of Uluru
-    //   const uluru = { lat: -25.344, lng: 131.036 };
-    //   // The map, centered at Uluru
-    //   const map = new google.maps.Map(document.getElementById("map"), {
-    //     zoom: 4,
-    //     center: uluru,
-    //   });
-    //   // The marker, positioned at Uluru
-    //   const marker = new google.maps.Marker({
-    //     position: uluru,
-    //     map: map,
-    //   });
-    // },
   },
   created() {
     if (this.$route.params.id) {
       this.loadTrayekById(this.$route.params.id);
       this.loadHalteVirtual();
     }
+    this.setAlert();
   },
 };
 </script>

@@ -85,7 +85,7 @@ export default {
       }
     },
     changeDateFormat(date) {
-      return moment(date, "YYYY-MM-DD").format("DD MMMM YYYY HH:MM");
+      return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY HH:MM");
     },
     rupiahFormat(number) {
       return new Intl.NumberFormat("id-ID", {

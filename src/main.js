@@ -5,7 +5,7 @@ import router from './router.js';
 import store from './store/store.js';
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faArrowLeft, faPenSquare, faTrash, faInfoCircle, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faArrowLeft, faPenSquare, faTrash, faInfoCircle, faStar, faCheckSquare, faWindowClose } from "@fortawesome/free-solid-svg-icons";
 
 // Component atoms
 import ButtonDanger from './components/atoms/buttons/ButtonDanger.vue';
@@ -24,6 +24,8 @@ library.add(faPenSquare);
 library.add(faTrash);
 library.add(faInfoCircle);
 library.add(faStar);
+library.add(faCheckSquare);
+library.add(faWindowClose);
 
 const app = createApp(App);
 

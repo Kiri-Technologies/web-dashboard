@@ -13,6 +13,9 @@ import WriteHalteVirtual from './pages/inside/haltevirtual/WriteHalteVirtual.vue
 import AngkotIndex from './pages/inside/angkot/AngkotIndex.vue';
 import DetailAngkot from './pages/inside/angkot/DetailAngkot.vue'
 import FeedbackAppIndex from './pages/inside/feedbackapp/FeedbackAppIndex.vue'
+import RiwayatPendapatanIndex from './pages/inside/riwayat/pendapatan/RiwayatPendapatanIndex.vue';
+import RiwayatPerjalananIndex from './pages/inside/riwayat/perjalanan/RiwayatPerjalananIndex.vue';
+import ApproveAngkotIndex from './pages/inside/approveangkot/ApproveAngkotIndex.vue';
 
 const router = createRouter({
   history: createWebHistory(),
@@ -144,6 +147,30 @@ const router = createRouter({
           path: '/feedbackapp',
           name: 'feedback aplikasi',
           component: FeedbackAppIndex,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/riwayatpendapatan',
+          name: 'riwayat pendapatan',
+          component: RiwayatPendapatanIndex,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/riwayatperjalanan',
+          name: 'riwayat perjalanan',
+          component: RiwayatPerjalananIndex,
+          meta: {
+            auth: true
+          }
+        },
+        {
+          path: '/approveangkot',
+          name: 'approve angkot',
+          component: ApproveAngkotIndex,
           meta: {
             auth: true
           }

@@ -68,9 +68,7 @@
           @blur="validateLongitude"
         />
         <label class="label" v-if="validation.lng == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-            formMessage.lng
-          }}</span>
+          <span class="label-text-alt text-red-500">{{ formMessage.lng }}</span>
         </label>
       </div>
       <div class="flex justify-end mt-7">
@@ -185,8 +183,8 @@ export default {
         this.$router.push({
           name: "detail trayek",
           params: {
-            id: this.trayekid
-          }
+            id: this.trayekid,
+          },
         });
       } catch (error) {
         this.formIsInvalid = true;
@@ -214,9 +212,10 @@ export default {
       try {
         await this.$store.dispatch("halteVirtual/getHalteVirtualById", {
           id: id,
-          trayekid: this.trayekid
+          trayekid: this.trayekid,
         });
-        const halteVirtual = this.$store.getters["halteVirtual/getHalteVirtual"];
+        const halteVirtual =
+          this.$store.getters["halteVirtual/getHalteVirtual"];
         this.id = halteVirtual.id;
         this.name = halteVirtual.name;
         this.lat = halteVirtual.lat;
@@ -254,8 +253,8 @@ export default {
         this.$router.push({
           name: "detail trayek",
           params: {
-            id: this.trayekid
-          }
+            id: this.trayekid,
+          },
         });
       } catch (error) {
         this.formIsInvalid = true;
@@ -303,8 +302,10 @@ export default {
     },
   },
   created() {
+    if (this.$route.params.id) {
+      this.loadHalteVirtual(this.$route.params.id);
+    }
     this.loadTrayek(this.$route.params.trayekid);
-    this.loadHalteVirtual(this.$route.params.id);
     // if (this.mode == "updateTrayek" && this.$route.params.trayekid) {
     // }
   },
