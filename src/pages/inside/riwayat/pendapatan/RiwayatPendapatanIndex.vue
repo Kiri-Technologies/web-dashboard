@@ -1,46 +1,12 @@
 <template>
   <section class="mt-4">
     <section class="flex justify-center">
-      <div class="grid grid-cols-2 gap-4 w-11/12">
-        <card class="shadow-lg w-100">
-          <div class="grid grid-flow-row auto-rows-auto">
-            <div
-              class="
-                bg-gray-200
-                text-center
-                py-1
-                rounded-md
-                text-gray-600
-                font-bold
-              "
-            >
-              Total Pendapatan Bulan Ini
-            </div>
-            <div class="font-bold text-6xl py-4 text-center text-kiri-green">
-              1,984,523
-            </div>
-          </div>
-        </card>
-        <card class="shadow-lg w-100">
-          <div class="grid grid-flow-row auto-rows-auto">
-            <div
-              class="
-                bg-gray-200
-                text-center
-                py-1
-                rounded-md
-                text-gray-600
-                font-bold
-              "
-            >
-              Total Pendapatan Bulan Kemarin
-            </div>
-            <div class="font-bold text-6xl py-4 text-center text-kiri-green">
-              1,984,523
-            </div>
-          </div>
-        </card>
-      </div>
+      <side-to-side-stat
+        :title1="'Total Pendapatan Bulan Ini'"
+        :title2="'Total Pendapatan Bulan Kemarin'"
+        :data1="'1,984,523'"
+        :data2="'1,984,523'"
+      ></side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
       <card class="shadow-lg w-11/12">
@@ -48,7 +14,9 @@
         <p>
           <menu-title>
             <template v-slot:default> Riwayat Pendapatan </template>
-            <template v-slot:menuName> Daftar pendapatan yang telah dicatat </template>
+            <template v-slot:menuName>
+              Daftar pendapatan yang telah dicatat
+            </template>
           </menu-title>
         </p>
 
@@ -71,12 +39,29 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                  <td>23, Agustus 2021 13:59</td>
-                  <td>Kebayoran Lama - Ciledug</td>
-                  <td>B 4466 US</td>
-                  <td>Rojali</td>
-                  <td>Rp. 10.000</td>
+              <tr v-if="listRiwayatSupirNarik.length < 1">
+                <td colspan="100%" class="text-center text-gray-500">
+                  Tidak ada riwayat pendapatan
+                </td>
+              </tr>
+              <tr v-else v-for="ls in listRiwayatSupirNarik" :key="ls.id">
+                <td>{{ changeDateFormat(ls.created_at) }}</td>
+                <td>
+                  {{
+                    ls.vehicle.route == null
+                      ? "-"
+                      : ls.vehicle.route.titik_awal
+                  }}
+                  -
+                  {{
+                    ls.vehicle.route == null
+                      ? "-"
+                      : ls.vehicle.route.titik_akhir
+                  }}
+                </td>
+                <td>{{ ls.vehicle.plat_nomor }}</td>
+                <td>{{ ls.supir.name }}</td>
+                <td>{{ rupiahFormat(ls.jumlah_pendapatan) }}</td>
               </tr>
             </tbody>
           </table>
@@ -87,10 +72,11 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
-      allAngkot: [],
+      listRiwayatSupirNarik: [],
       alert: {
         turn: false,
         mode: "",
@@ -107,15 +93,24 @@ export default {
     };
   },
   methods: {
-    // get all angkot data from api through action.js
-    async getAllAngkot() {
+    async getAllRiwayatSupirNarik() {
       try {
-        await this.$store.dispatch("angkot/getAllAngkot");
-        this.allAngkot = this.$store.getters["angkot/getAllAngkot"];
+        await this.$store.dispatch("riwayatSupirNarik/getAllRiwayatSupirNarik");
+        this.listRiwayatSupirNarik =
+          this.$store.getters["riwayatSupirNarik/getAllRiwayatSupirNarik"];
       } catch (error) {
-        // call turnonalert function to turn on alert
-        this.turnOnAlert(error.message, true);
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", false);
       }
+    },
+    changeDateFormat(date) {
+      return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");
+    },
+    rupiahFormat(number) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+      }).format(number);
     },
     turnOnAlert(message, isSucceed) {
       this.alert.turn = true;
@@ -128,9 +123,9 @@ export default {
       }
     },
   },
-  created(){
-    this.getAllAngkot();
-  }
+  created() {
+    this.getAllRiwayatSupirNarik();
+  },
 };
 </script>
 

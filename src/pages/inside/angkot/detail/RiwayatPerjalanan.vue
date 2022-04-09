@@ -5,7 +5,7 @@
         <div>
           <div class="grid grid-cols-2">
             <div>Kode Trayek</div>
-            <div class="text-gray-500">: {{ angkot.route.kode_angkot }}</div>
+            <div class="text-gray-500">: {{ angkot.route.kode_trayek }}</div>
           </div>
           <div class="grid grid-cols-2">
             <div>Plat Nomor</div>
@@ -33,12 +33,17 @@
           </tr>
         </thead>
         <tbody>
+          <tr v-if="perjalanan.length < 1">
+            <td colspan="100%" class="text-center text-gray-500">
+              Tidak ada riwayat perjalanan di angkot ini
+            </td>
+          </tr>
           <tr v-for="p in perjalanan" :key="p.id">
             <td>{{ changeDateFormat(p.created_at) }}</td>
             <td>{{ p.user_supir.name }}</td>
             <td>{{ p.user_penumpang.name }}</td>
-            <td>{{ p.titik_naik }}</td>
-            <td>{{ p.titik_turun }}</td>
+            <td>{{ p.nama_tempat_naik }}</td>
+            <td>{{ p.nama_tempat_turun }}</td>
           </tr>
         </tbody>
       </table>

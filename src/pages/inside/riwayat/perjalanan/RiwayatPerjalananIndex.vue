@@ -1,54 +1,21 @@
 <template>
   <section class="mt-4">
     <section class="flex justify-center">
-      <div class="grid grid-cols-2 gap-4 w-11/12">
-        <card class="shadow-lg w-100">
-          <div class="grid grid-flow-row auto-rows-auto">
-            <div
-              class="
-                bg-gray-200
-                text-center
-                py-1
-                rounded-md
-                text-gray-600
-                font-bold
-              "
-            >
-              Total Perjalanan Bulan Ini
-            </div>
-            <div class="font-bold text-6xl py-4 text-center text-kiri-green">
-              1,984,523
-            </div>
-          </div>
-        </card>
-        <card class="shadow-lg w-100">
-          <div class="grid grid-flow-row auto-rows-auto">
-            <div
-              class="
-                bg-gray-200
-                text-center
-                py-1
-                rounded-md
-                text-gray-600
-                font-bold
-              "
-            >
-              Total Perjalanan Bulan Kemarin
-            </div>
-            <div class="font-bold text-6xl py-4 text-center text-kiri-green">
-              1,984,523
-            </div>
-          </div>
-        </card>
-      </div>
+      <side-to-side-stat
+        :title1="'Total Perjalanan Bulan Ini'"
+        :title2="'Total Perjalanan Bulan Kemarin'"
+        :data1="'1,984,523'"
+        :data2="'1,984,523'"></side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
       <card class="shadow-lg w-11/12">
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
           <menu-title>
-            <template v-slot:default> Riwayat Pendapatan </template>
-            <template v-slot:menuName> Daftar pendapatan yang telah dicatat </template>
+            <template v-slot:default> Riwayat Perjalanan </template>
+            <template v-slot:menuName>
+              Daftar riwayat perjalanan angkot
+            </template>
           </menu-title>
         </p>
 
@@ -73,14 +40,19 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                  <td>23, Agustus 2021 13:59</td>
-                  <td>Rojali</td>
-                  <td>B 4466 US</td>
-                  <td>Kebayoran Lama - Ciledug</td>
-                  <td>Jalil</td>
-                  <td>Gerbang Telkom</td>
-                  <td>Transmart Buah Batu</td>
+              <tr v-if="allPerjalanan.length < 1">
+                <td colspan="100%" class="text-center text-gray-500">
+                  Tidak ada riwayat perjalanan
+                </td>
+              </tr>
+              <tr v-else v-for="perjalanan in allPerjalanan" :key="perjalanan.id">
+                <td>{{ changeDateFormat(perjalanan.created_at) }}</td>
+                <td>{{ perjalanan.user_supir.name }}</td>
+                <td>{{ perjalanan.vehicle == null ? 'B 4466 US' : perjalanan.vehicle.plat_nomor }}</td>
+                <td>{{ perjalanan.vehicle == null ? 'Kebayoran' : perjalanan.vehicle.route.titik_awal }} - {{ perjalanan.vehicle == null ? 'Ciledug' : perjalanan.vehicle.route.titik_akhir }}</td>
+                <td>{{ perjalanan.user_penumpang.name }}</td>
+                <td>{{ perjalanan.nama_tempat_naik }}</td>
+                <td>{{ perjalanan.nama_tempat_turun }}</td>
               </tr>
             </tbody>
           </table>
@@ -91,10 +63,11 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
   data() {
     return {
-      allAngkot: [],
+      allPerjalanan: [],
       alert: {
         turn: false,
         mode: "",
@@ -102,24 +75,26 @@ export default {
       },
       crumbs: [
         {
-          title: "Pendapatan",
+          title: "Perjalanan",
           link: {
-            path: "/riwayatpendapatan",
+            path: "/riwayatperjalanan",
           },
         },
       ],
     };
   },
   methods: {
-    // get all angkot data from api through action.js
-    async getAllAngkot() {
+    async getAllPerjalanan() {
       try {
-        await this.$store.dispatch("angkot/getAllAngkot");
-        this.allAngkot = this.$store.getters["angkot/getAllAngkot"];
+        await this.$store.dispatch("perjalanan/getAllPerjalanan");
+        this.allPerjalanan = this.$store.getters["perjalanan/getAllPerjalanan"];
       } catch (error) {
-        // call turnonalert function to turn on alert
-        this.turnOnAlert(error.message, true);
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", false);
       }
+    },
+    changeDateFormat(date) {
+      return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");
     },
     turnOnAlert(message, isSucceed) {
       this.alert.turn = true;
@@ -132,14 +107,8 @@ export default {
       }
     },
   },
-  created(){
-    this.getAllAngkot();
-  }
+  created() {
+    this.getAllPerjalanan();
+  },
 };
 </script>
-
-<style scoped>
-.text-kiri-green {
-  color: #39ac00;
-}
-</style>

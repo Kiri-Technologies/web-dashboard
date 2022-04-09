@@ -40,6 +40,11 @@
             </tr>
           </thead>
           <tbody>
+            <tr v-if="filteredFeedbackApp.length < 1">
+              <td colspan="100%" class="text-center text-gray-500">
+                Feedback Kosong
+              </td>
+            </tr>
             <tr v-for="fa in filteredFeedbackApp" :key="fa.id">
               <td>{{ fa.user_id }}</td>
               <td>{{ fa.review }}</td>

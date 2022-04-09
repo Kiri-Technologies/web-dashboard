@@ -18,6 +18,8 @@ import Card from './components/atoms/card/Card.vue';
 import BaseBreadCrumb from './components/atoms/breadcrumb/BaseBreadCrumb.vue';
 import DeleteModal from './components/atoms/modal/DeleteModal.vue';
 import SaveModal from './components/atoms/modal/SaveModal.vue';
+import SideToSideStat from './components/molecules/chart/SideToSideStat.vue';
+import BaseStatCard from './components/atoms/chart/BaseStatCard.vue';
 
 library.add(faArrowLeft);
 library.add(faPenSquare);
@@ -40,6 +42,8 @@ app.component("card", Card);
 app.component("base-bread-crumb", BaseBreadCrumb);
 app.component('delete-modal', DeleteModal);
 app.component('save-modal', SaveModal);
+app.component('side-to-side-stat', SideToSideStat);
+app.component('base-stat-card', BaseStatCard);
 
 app.use(store);
 app.use(router);

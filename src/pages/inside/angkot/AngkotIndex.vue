@@ -71,13 +71,22 @@
               </tr>
             </thead>
             <tbody>
+              <tr v-if="allAngkot.length < 1">
+                <td colspan="100%" class="text-center text-gray-500">
+                  Data angkot kosong
+                </td>
+              </tr>
               <tr v-for="angkot in allAngkot" :key="angkot.id">
-                <td>{{ angkot.route.kode_angkot }}</td>
+                <td>{{ angkot.route.kode_trayek }}</td>
                 <td>{{ angkot.plat_nomor }}</td>
-                <td>{{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}</td>
+                <td>
+                  {{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}
+                </td>
                 <td>{{ angkot.user_owner.name }}</td>
                 <td>
-                  <router-link :to="{ name: 'detail angkot', params: {id: angkot.id} }">
+                  <router-link
+                    :to="{ name: 'detail angkot', params: { id: angkot.id } }"
+                  >
                     <font-awesome-icon
                       icon="info-circle"
                       class="text-lg text-yellow-500"
@@ -135,9 +144,9 @@ export default {
       }
     },
   },
-  created(){
+  created() {
     this.getAllAngkot();
-  }
+  },
 };
 </script>
 

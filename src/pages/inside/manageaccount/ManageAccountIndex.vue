@@ -33,7 +33,7 @@
           </thead>
           <tbody>
             <tr v-if="emptyAccount">
-              <td colspan="100%" class="text-center">Tidak ada akun yang tersedia</td>
+              <td colspan="100%" class="text-center text-gray-500">Tidak ada akun yang tersedia</td>
             </tr>
             <tr v-else v-for="account in allAccount" :key="account.id">
               <td>{{ account.name }}</td>

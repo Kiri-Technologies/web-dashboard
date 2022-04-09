@@ -4,7 +4,7 @@
       <div class="col-span-2">
         <div class="grid grid-cols-2">
           <div>Kode Trayek</div>
-          <div class="text-gray-500">: {{ angkot.route.kode_angkot }}</div>
+          <div class="text-gray-500">: {{ angkot.route.kode_trayek }}</div>
         </div>
         <div class="grid grid-cols-2">
           <div>Plat Nomor</div>
@@ -73,7 +73,7 @@
               </thead>
               <tbody>
                 <tr v-if="emptyListSupir">
-                  <td colspan="100%" class="text-center">
+                  <td colspan="100%" class="text-center text-gray-500">
                     Tidak ada supir di angkot ini
                   </td>
                 </tr>
@@ -95,6 +95,11 @@
                 </tr>
               </thead>
               <tbody>
+                <tr v-if="listRiwayatSupirNarik.length < 1">
+                  <td colspan="100%" class="text-center text-gray-500">
+                    Tidak ada riwayat pendapatan di angkot ini
+                  </td>
+                </tr>
                 <tr v-for="rs in listRiwayatSupirNarik" :key="rs.id">
                   <td>{{ changeDateFormat(rs.created_at) }}</td>
                   <td>{{ rupiahFormat(rs.jumlah_pendapatan) }}</td>
@@ -163,7 +168,7 @@ export default {
     },
     async getAllRiwayatSupirNarik() {
       try {
-        await this.$store.dispatch("riwayatSupirNarik/getAllRiwayatSupirNarik", {
+        await this.$store.dispatch("riwayatSupirNarik/getAllRiwayatSupirNarikByAngkotId", {
           idAngkot: this.$route.params.id,
         });
         this.listRiwayatSupirNarik = this.$store.getters[

@@ -36,7 +36,7 @@
           </thead>
           <tbody>
             <tr v-if="emptyTrayek">
-              <td colspan="100%" class="text-center">Tidak ada trayek yang tersedia</td>
+              <td colspan="100%" class="text-center text-gray-500">Tidak ada trayek yang tersedia</td>
             </tr>
             <tr v-else v-for="trayek in allTrayek" :key="trayek.id">
               <td>{{ trayek.kode_trayek }}</td>

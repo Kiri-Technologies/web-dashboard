@@ -34,6 +34,7 @@ import RiwayatPendapatan from "./detail/RiwayatPendapatan.vue";
 import UlasanPenumpang from "./detail/UlasanPenumpang.vue";
 
 export default {
+  props: ['id'],
   components: {
     InfoAngkot,
     RiwayatPerjalanan,
@@ -59,7 +60,7 @@ export default {
         {
           title: "Detail Angkot",
           link: {
-            path: "/angkot/detail",
+            path: `/angkot/${this.id}/detail`,
           },
         },
       ],
@@ -76,6 +77,6 @@ export default {
       }
       return "Ulasan Penumpang"
     }
-  },
+  }
 };
 </script>
