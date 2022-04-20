@@ -1,16 +1,18 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <p>
-        <menu-title>
-          <template v-slot:default> Akun </template>
-          <template v-slot:menuName>
-            {{ menuName }}
-          </template>
-        </menu-title>
-      </p>
+      <card-body>
+        <p>
+          <menu-title>
+            <template v-slot:default> Akun </template>
+            <template v-slot:menuName>
+              {{ menuName }}
+            </template>
+          </menu-title>
+        </p>
 
-      <profile-form @changeIsUpdate="changeIsUpdate"> </profile-form>
+        <profile-form @changeIsUpdate="changeIsUpdate"> </profile-form>
+      </card-body>
     </card>
   </section>
 </template>

@@ -3,14 +3,14 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-side sticky">
       <label for="my-drawer-2" class="drawer-overlay"></label>
-      <ul class="menu p-4 overflow-y-auto w-80">
+      <ul class="menu p-4 overflow-y-auto w-70">
         <li>
           <div class="card w-11/12 admin-profile-card text-white rounded-md">
             <div class="card-body px-4 py-2">
               <div class="grid grid-cols-3">
                 <div>
                   <div class="avatar align-middle">
-                    <div class="w-14 h-14 rounded-xl">
+                    <div class="w-10 h-10 rounded-xl">
                       <img
                         src="https://api.lorem.space/image/face?hash=64318"
                       />

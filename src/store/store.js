@@ -8,6 +8,7 @@ import angkotModule from './angkot/index.js'
 import listSupirModule from "./listsupir/index.js";
 import riwayatSupirNarikModule from "./riwayatsupirnarik/index.js";
 import perjalananModule from "./perjalanan/index.js";
+import chartModule from "./chart/index.js";
 
 const store = createStore({
     modules: {
@@ -19,7 +20,8 @@ const store = createStore({
         angkot: angkotModule,
         listSupir: listSupirModule,
         riwayatSupirNarik: riwayatSupirNarikModule,
-        perjalanan: perjalananModule
+        perjalanan: perjalananModule,
+        chart: chartModule
     }
 });
 

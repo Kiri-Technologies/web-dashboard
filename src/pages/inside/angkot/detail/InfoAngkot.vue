@@ -109,7 +109,10 @@
           </div>
         </div>
       </div>
-      <div></div>
+      <div>
+        <div v-if="isLoading" class="text-sm text-center text-gray-400">Loading chart...</div>
+        <bar-chart v-else :dataProps="pendapatanChart.totalPendapatanHarian" :labelsProps="pendapatanChart.labels" :title="pendapatanChart.title"></bar-chart>
+      </div>
     </div>
   </section>
 </template>
@@ -119,6 +122,7 @@ import moment from "moment";
 export default {
   data() {
     return {
+      isLoading: false,
       angkot: {
         route: {
           kode_angkot: "",
@@ -136,6 +140,24 @@ export default {
       },
       listSupir: [],
       listRiwayatSupirNarik: [],
+      pendapatanChart: {
+        totalPendapatanHarian: [0, 0, 0, 0, 0, 0, 0],
+        title: "Riwayat pendapatan dalam 7 hari kemarin",
+        labels: [
+          moment().subtract(6, "days").format("dddd"),
+          moment().subtract(5, "days").format("dddd"),
+          moment().subtract(4, "days").format("dddd"),
+          moment().subtract(3, "days").format("dddd"),
+          moment().subtract(2, "days").format("dddd"),
+          moment().subtract(1, "days").format("dddd"),
+          moment().format("dddd"),
+        ],
+      },
+      alert: {
+        turn: false,
+        mode: "",
+        message: "",
+      },
     };
   },
   computed: {
@@ -168,16 +190,41 @@ export default {
     },
     async getAllRiwayatSupirNarik() {
       try {
-        await this.$store.dispatch("riwayatSupirNarik/getAllRiwayatSupirNarikByAngkotId", {
-          idAngkot: this.$route.params.id,
-        });
-        this.listRiwayatSupirNarik = this.$store.getters[
-          "riwayatSupirNarik/getAllRiwayatSupirNarik"
-        ];
+        await this.$store.dispatch(
+          "riwayatSupirNarik/getAllRiwayatSupirNarikByAngkotId",
+          {
+            idAngkot: this.$route.params.id,
+          }
+        );
+        this.listRiwayatSupirNarik =
+          this.$store.getters["riwayatSupirNarik/getAllRiwayatSupirNarik"];
       } catch (error) {
         this.errorMessage = error.message;
         this.turnOnAlert("error", false);
       }
+    },
+    async getTotalPendapatanHarian() {
+      this.isLoading = true;
+      try {
+        await this.$store.dispatch("chart/getTotalPendapatanHarianByIdAngkot", {
+          idAngkot: this.$route.params.id,
+        });
+        let pendapatanHarian =
+          this.$store.getters["chart/getTotalPendapatanHarian"];
+
+        let totalPendapatanHarian = [];
+
+        for (const p in pendapatanHarian) {
+          totalPendapatanHarian.push(
+            pendapatanHarian[p]
+          );
+        }
+        this.pendapatanChart.totalPendapatanHarian = totalPendapatanHarian.reverse();
+      } catch (error) {
+        this.errorMessage = error.message;
+        this.turnOnAlert("error", false);
+      }
+        this.isLoading = false;
     },
     changeDateFormat(date) {
       return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");
@@ -203,6 +250,7 @@ export default {
     this.getAngkot();
     this.getListSupir();
     this.getAllRiwayatSupirNarik();
+    this.getTotalPendapatanHarian();
   },
 };
 </script>

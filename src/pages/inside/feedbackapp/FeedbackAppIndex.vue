@@ -1,112 +1,126 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
-      <p>
-        <menu-title>
-          <template v-slot:default> Feedback </template>
-          <template v-slot:menuName>
-            Menampilkan list feedback untuk aplikasi
-          </template>
-        </menu-title>
-      </p>
+      <card-body>
+        <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
+        <p>
+          <menu-title>
+            <template v-slot:default> Feedback </template>
+            <template v-slot:menuName>
+              Menampilkan list feedback untuk aplikasi
+            </template>
+          </menu-title>
+        </p>
 
-      <div class="tabs mt-5">
-        <a
-          v-for="tab in tabs"
-          :key="tab"
-          class="tab tab-bordered"
-          :class="{ 'tab-active': currentTab == tab }"
-          @click="currentTab = tab"
-          >{{ tab }}</a
-        >
-      </div>
+        <div class="tabs mt-5">
+          <a
+            v-for="tab in tabs"
+            :key="tab"
+            class="tab tab-bordered"
+            :class="{ 'tab-active': currentTab == tab }"
+            @click="currentTab = tab"
+            >{{ tab }}</a
+          >
+        </div>
 
-      <base-alert
-        v-if="alert.turn"
-        :mode="alert.mode"
-        :message="alert.message"
-      ></base-alert>
+        <base-alert
+          v-if="alert.turn"
+          :mode="alert.mode"
+          :message="alert.message"
+        ></base-alert>
 
-      <div class="overflow-x-auto mt-4">
-        <table class="table w-full">
-          <!-- head -->
-          <thead>
-            <tr>
-              <td>Nama</td>
-              <td>Review</td>
-              <td>Tanggapan</td>
-              <td v-if="currentTab == 'All Feedback' || currentTab == 'Pending'">Change Status</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="filteredFeedbackApp.length < 1">
-              <td colspan="100%" class="text-center text-gray-500">
-                Feedback Kosong
-              </td>
-            </tr>
-            <tr v-for="fa in filteredFeedbackApp" :key="fa.id">
-              <td>{{ fa.user_id }}</td>
-              <td>{{ fa.review }}</td>
-              <td>
-                {{ fa.tanggapan }}
-              </td>
-              <td v-if="currentTab !== 'Cancelled' || currentTab !== 'Processed'">
-                <save-modal
-                  :id="fa.id + 'pending'"
-                  @saveButtonClicked="changeStatusToPending"
-                  v-if="currentTab == 'All Feedback'"
+        <div class="overflow-x-auto mt-4">
+          <table class="table w-full">
+            <!-- head -->
+            <thead>
+              <tr>
+                <td>Nama</td>
+                <td>Review</td>
+                <td>Tanggapan</td>
+                <td
+                  v-if="currentTab == 'All Feedback' || currentTab == 'Pending'"
                 >
-                  <template v-slot:default>
-                    <button-warning :class="loadingState" size="sm">
-                      Pending
-                    </button-warning>
-                  </template>
-                  <template v-slot:title> Edit Status </template>
-                  <template v-slot:body>
-                    Anda yakin untuk mengubah status menjadi
-                    <span class="text-yellow-600">pending</span>?
-                  </template>
-                </save-modal>
-
-                <save-modal
-                  :id="fa.id + 'cancelled'"
-                  @saveButtonClicked="changeStatusToCancelled"
-                  v-if="currentTab == 'Pending'"
+                  Change Status
+                </td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="filteredFeedbackApp.length < 1">
+                <td colspan="100%" class="text-center text-gray-500">
+                  Feedback Kosong
+                </td>
+              </tr>
+              <tr v-for="fa in filteredFeedbackApp" :key="fa.id">
+                <td>{{ fa.user_id }}</td>
+                <td>{{ fa.review }}</td>
+                <td>
+                  {{ fa.tanggapan }}
+                </td>
+                <td
+                  v-if="
+                    currentTab !== 'Cancelled' || currentTab !== 'Processed'
+                  "
                 >
-                  <template v-slot:default>
-                    <button-danger class="mr-2" :class="loadingState" size="sm">
-                      Cancelled
-                    </button-danger>
-                  </template>
-                  <template v-slot:title> Edit Status </template>
-                  <template v-slot:body>
-                    Anda yakin untuk mengubah status menjadi
-                    <span class="text-red-600">cancelled</span>?
-                  </template>
-                </save-modal>
+                  <save-modal
+                    :id="fa.id + 'pending'"
+                    @saveButtonClicked="changeStatusToPending"
+                    v-if="currentTab == 'All Feedback'"
+                  >
+                    <template v-slot:default>
+                      <button-warning :class="loadingState" size="sm">
+                        Pending
+                      </button-warning>
+                    </template>
+                    <template v-slot:title> Edit Status </template>
+                    <template v-slot:body>
+                      Anda yakin untuk mengubah status menjadi
+                      <span class="text-yellow-600">pending</span>?
+                    </template>
+                  </save-modal>
 
-                <save-modal
-                  :id="fa.id + 'processed'"
-                  @saveButtonClicked="changeStatusToProcessed"
-                  v-if="currentTab == 'Pending'"
-                >
-                  <template v-slot:default>
-                    <button-success :class="loadingState" size="sm">
-                      Processed
-                    </button-success>
-                  </template>
-                  <template v-slot:title> Edit Status </template>
-                  <template v-slot:body>
-                    Anda yakin untuk mengubah status menjadi
-                    <span class="text-green-600">processed</span>?
-                  </template>
-                </save-modal>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                  <save-modal
+                    :id="fa.id + 'cancelled'"
+                    @saveButtonClicked="changeStatusToCancelled"
+                    v-if="currentTab == 'Pending'"
+                  >
+                    <template v-slot:default>
+                      <button-danger
+                        class="mr-2"
+                        :class="loadingState"
+                        size="sm"
+                      >
+                        Cancelled
+                      </button-danger>
+                    </template>
+                    <template v-slot:title> Edit Status </template>
+                    <template v-slot:body>
+                      Anda yakin untuk mengubah status menjadi
+                      <span class="text-red-600">cancelled</span>?
+                    </template>
+                  </save-modal>
+
+                  <save-modal
+                    :id="fa.id + 'processed'"
+                    @saveButtonClicked="changeStatusToProcessed"
+                    v-if="currentTab == 'Pending'"
+                  >
+                    <template v-slot:default>
+                      <button-success :class="loadingState" size="sm">
+                        Processed
+                      </button-success>
+                    </template>
+                    <template v-slot:title> Edit Status </template>
+                    <template v-slot:body>
+                      Anda yakin untuk mengubah status menjadi
+                      <span class="text-green-600">processed</span>?
+                    </template>
+                  </save-modal>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </card-body>
     </card>
   </section>
 </template>

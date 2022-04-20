@@ -1,26 +1,31 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
-      <p class="mb-5">
-        <menu-title>
-          <template v-slot:default>
-            {{
-              mode == "createHalteVirtual"
-                ? `Tambah Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
-                : `Update Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
-            }}
-          </template>
-          <template v-slot:menuName>
-            {{
-              mode == "createHalteVirtual"
-                ? "Menambahkan Halte Virtual"
-                : "Memperbarui Halte Virtual Terpilih"
-            }}
-          </template>
-        </menu-title>
-      </p>
-      <halte-virtual-form :mode="mode" :trayekid="trayekid"></halte-virtual-form>
+      <card-body>
+        <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
+        <p class="mb-5">
+          <menu-title>
+            <template v-slot:default>
+              {{
+                mode == "createHalteVirtual"
+                  ? `Tambah Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
+                  : `Update Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
+              }}
+            </template>
+            <template v-slot:menuName>
+              {{
+                mode == "createHalteVirtual"
+                  ? "Menambahkan Halte Virtual"
+                  : "Memperbarui Halte Virtual Terpilih"
+              }}
+            </template>
+          </menu-title>
+        </p>
+        <halte-virtual-form
+          :mode="mode"
+          :trayekid="trayekid"
+        ></halte-virtual-form>
+      </card-body>
     </card>
   </section>
 </template>
@@ -43,7 +48,9 @@ export default {
       },
       crumbs: [
         {
-          title: this.$route.params.id ? "Update Halte Virtual" : "Tambah Halte Virtual",
+          title: this.$route.params.id
+            ? "Update Halte Virtual"
+            : "Tambah Halte Virtual",
           link: {
             path: this.$route.params.id
               ? `/haltevirtual/${this.trayekid}/${this.$route.params.id}/update`

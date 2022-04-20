@@ -11,22 +11,20 @@
       <card
         class="text-center shadow-2xl 2xl:max-w-lg max-w-sm w-96 2xl:w-full"
       >
-        <template v-slot:image>
-          <figure class="px-2 pt-2 flex justify-center items-center">
-            <img
-              src="../assets/logoKiri.png"
-              class="max-w-xs max-h-48 2xl:max-w-sm 2xl:max-h-72"
-            />
-          </figure>
-        </template>
-        <template v-slot:default>
+        <figure class="px-2 pt-2 flex justify-center items-center">
+          <img
+            src="../assets/logoKiri.png"
+            class="max-w-xs max-h-48 2xl:max-w-sm 2xl:max-h-72"
+          />
+        </figure>
+        <card-body>
           <base-alert
             v-if="formIsInvalid"
             :mode="mode"
             :message="errorMessage"
           ></base-alert>
           <login-form @formError="formError"></login-form>
-        </template>
+        </card-body>
       </card>
     </div>
   </div>

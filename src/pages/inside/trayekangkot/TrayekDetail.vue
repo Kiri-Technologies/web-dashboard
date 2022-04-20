@@ -1,126 +1,130 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
-      <p>
-        <menu-title>
-          <template v-slot:default> Detail Trayek </template>
-          <template v-slot:menuName> Melihat Detail Trayek Terpilih </template>
-        </menu-title>
-      </p>
-      <div class="flex flex-row justify-end">
-        <button-primary
-          :link="true"
-          :to="{
-            name: 'update trayek',
-          }"
-          size="sm"
-        >
-          Edit Trayek
-        </button-primary>
-      </div>
-
-      <!-- detail trayek -->
-      <div class="mt-5">
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <div class="grid grid-cols-2">
-              <div>Kode Trayek</div>
-              <div class="text-gray-500">: {{ kode_trayek }}</div>
-            </div>
-            <div class="grid grid-cols-2">
-              <div>Titik Awal</div>
-              <div class="text-gray-500">: {{ titik_awal }}</div>
-            </div>
-          </div>
-          <div>
-            <div class="grid grid-cols-2">
-              <div>Titik Akhir</div>
-              <div class="text-gray-500">: {{ titik_akhir }}</div>
-            </div>
-          </div>
+      <card-body>
+        <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
+        <p>
+          <menu-title>
+            <template v-slot:default> Detail Trayek </template>
+            <template v-slot:menuName>
+              Melihat Detail Trayek Terpilih
+            </template>
+          </menu-title>
+        </p>
+        <div class="flex flex-row justify-end">
+          <button-primary
+            :link="true"
+            :to="{
+              name: 'update trayek',
+            }"
+            size="sm"
+          >
+            Edit Trayek
+          </button-primary>
         </div>
-      </div>
 
-      <!-- maps & halte virtual -->
-      <div
-        class="
-          grid grid-cols-3
-          mt-5
-          border-solid border border-gray-300
-          rounded-md
-        "
-      >
-        <div class="grid grid-flow-row auto-rows-max p-2">
-          <base-alert
-            v-if="alert.turn"
-            :mode="alert.mode"
-            :message="alert.message"
-          ></base-alert>
-
-          <div class="grid grid-cols-3 p-2 bg-gray-200">
-            <div class="col-span-2 grid content-center">
-              <h1 class="font-bold">Titik Halte Virtual</h1>
+        <!-- detail trayek -->
+        <div class="mt-5">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <div class="grid grid-cols-2">
+                <div>Kode Trayek</div>
+                <div class="text-gray-500">: {{ kode_trayek }}</div>
+              </div>
+              <div class="grid grid-cols-2">
+                <div>Titik Awal</div>
+                <div class="text-gray-500">: {{ titik_awal }}</div>
+              </div>
             </div>
-            <button-primary
-              :link="true"
-              size="sm"
-              :to="{ name: 'create halte virtual', params: { trayekid: id } }"
-              >Tambah</button-primary
-            >
-          </div>
-          <div class="border-solid border border-gray-300 rounded-b-md">
-            <div
-              class="grid grid-cols-3 p-2 cursor-pointer"
-              v-for="halteVirtual in allHalteVirtual"
-              :key="halteVirtual.id"
-              :class="{
-                'bg-gray-200': selectedHalteVirtual == halteVirtual.id,
-              }"
-              @click="selectHalteVirtual(halteVirtual.id)"
-            >
-              <div class="col-span-2">{{ halteVirtual.name }}</div>
-              <div class="flex justify-end">
-                <router-link
-                  :to="{
-                    name: 'update halte virtual',
-                    params: {
-                      trayekid: id,
-                      id: halteVirtual.id,
-                    },
-                  }"
-                >
-                  <font-awesome-icon
-                    icon="pen-square"
-                    class="text-lg text-blue-600 ml-2"
-                  />
-                </router-link>
-                <delete-modal
-                  :id="halteVirtual.id"
-                  @deleteButtonClicked="deleteButtonClicked"
-                >
-                  <template v-slot:default>
-                    <font-awesome-icon
-                      icon="trash"
-                      class="text-lg text-red-600 ml-2"
-                    />
-                  </template>
-                  <template v-slot:title> Hapus Halte Virtual? </template>
-                  <template v-slot:body>
-                    Anda yakin untuk menghapus Halte Virtual yang dipilih?
-                  </template>
-                </delete-modal>
+            <div>
+              <div class="grid grid-cols-2">
+                <div>Titik Akhir</div>
+                <div class="text-gray-500">: {{ titik_akhir }}</div>
               </div>
             </div>
           </div>
         </div>
-        <div class="col-span-2">
-          <google-map
-            :allHalteVirtual="allHalteVirtual"
-            :center="centerHalteVirtual"
-          ></google-map>
+
+        <!-- maps & halte virtual -->
+        <div
+          class="
+            grid grid-cols-3
+            mt-5
+            border-solid border border-gray-300
+            rounded-md
+          "
+        >
+          <div class="grid grid-flow-row auto-rows-max p-2">
+            <base-alert
+              v-if="alert.turn"
+              :mode="alert.mode"
+              :message="alert.message"
+            ></base-alert>
+
+            <div class="grid grid-cols-3 p-2 bg-gray-200">
+              <div class="col-span-2 grid content-center">
+                <h1 class="font-bold">Titik Halte Virtual</h1>
+              </div>
+              <button-primary
+                :link="true"
+                size="sm"
+                :to="{ name: 'create halte virtual', params: { trayekid: id } }"
+                >Tambah</button-primary
+              >
+            </div>
+            <div class="border-solid border border-gray-300 rounded-b-md">
+              <div
+                class="grid grid-cols-3 p-2 cursor-pointer"
+                v-for="halteVirtual in allHalteVirtual"
+                :key="halteVirtual.id"
+                :class="{
+                  'bg-gray-200': selectedHalteVirtual == halteVirtual.id,
+                }"
+                @click="selectHalteVirtual(halteVirtual.id)"
+              >
+                <div class="col-span-2">{{ halteVirtual.name }}</div>
+                <div class="flex justify-end">
+                  <router-link
+                    :to="{
+                      name: 'update halte virtual',
+                      params: {
+                        trayekid: id,
+                        id: halteVirtual.id,
+                      },
+                    }"
+                  >
+                    <font-awesome-icon
+                      icon="pen-square"
+                      class="text-lg text-blue-600 ml-2"
+                    />
+                  </router-link>
+                  <delete-modal
+                    :id="halteVirtual.id"
+                    @deleteButtonClicked="deleteButtonClicked"
+                  >
+                    <template v-slot:default>
+                      <font-awesome-icon
+                        icon="trash"
+                        class="text-lg text-red-600 ml-2"
+                      />
+                    </template>
+                    <template v-slot:title> Hapus Halte Virtual? </template>
+                    <template v-slot:body>
+                      Anda yakin untuk menghapus Halte Virtual yang dipilih?
+                    </template>
+                  </delete-modal>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-span-2">
+            <google-map
+              :allHalteVirtual="allHalteVirtual"
+              :center="centerHalteVirtual"
+            ></google-map>
+          </div>
         </div>
-      </div>
+      </card-body>
     </card>
   </section>
 </template>

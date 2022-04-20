@@ -1,28 +1,30 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
-      <p>
-        <menu-title>
-          <template v-slot:default> Detail Angkot </template>
-          <template v-slot:menuName>
-            Menampilkan data angkot terpilih
-          </template>
-        </menu-title>
-      </p>
+      <card-body>
+        <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
+        <p>
+          <menu-title>
+            <template v-slot:default> Detail Angkot </template>
+            <template v-slot:menuName>
+              Menampilkan data angkot terpilih
+            </template>
+          </menu-title>
+        </p>
 
-      <div class="tabs mt-5">
-        <a
-          v-for="tab in tabs"
-          :key="tab"
-          class="tab tab-bordered"
-          :class="{ 'tab-active': currentTab == tab }"
-          @click="currentTab = tab"
-          >{{ tabName(tab) }}</a
-        >
-      </div>
+        <div class="tabs mt-5">
+          <a
+            v-for="tab in tabs"
+            :key="tab"
+            class="tab tab-bordered"
+            :class="{ 'tab-active': currentTab == tab }"
+            @click="currentTab = tab"
+            >{{ tabName(tab) }}</a
+          >
+        </div>
 
-      <component :is="currentTab"></component>
+        <component :is="currentTab"></component>
+      </card-body>
     </card>
   </section>
 </template>
@@ -34,7 +36,7 @@ import RiwayatPendapatan from "./detail/RiwayatPendapatan.vue";
 import UlasanPenumpang from "./detail/UlasanPenumpang.vue";
 
 export default {
-  props: ['id'],
+  props: ["id"],
   components: {
     InfoAngkot,
     RiwayatPerjalanan,
@@ -67,16 +69,16 @@ export default {
     };
   },
   methods: {
-    tabName(tab){
+    tabName(tab) {
       if (tab == "InfoAngkot") {
         return "Info Angkot";
-      }else if (tab == "RiwayatPerjalanan") {
+      } else if (tab == "RiwayatPerjalanan") {
         return "Riwayat Perjalanan";
-      }else if (tab == "RiwayatPendapatan") {
+      } else if (tab == "RiwayatPendapatan") {
         return "Riwayat Pendapatan";
       }
-      return "Ulasan Penumpang"
-    }
-  }
+      return "Ulasan Penumpang";
+    },
+  },
 };
 </script>

@@ -350,12 +350,13 @@ export default {
                     Authorization: authHeader
                 }
             });
-
             context.dispatch('clearAuthData');
         } catch (error) {
-            const errorMessage = new Error('Failed to store data!');
-            throw errorMessage;
+            context.dispatch('clearAuthData');
+            // const errorMessage = new Error('Failed to store data!');
+            // throw errorMessage;
         }
+
     },
     autoLogout(context) {
         context.dispatch('logout');

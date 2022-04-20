@@ -1,96 +1,100 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
-      <p>
-        <menu-title>
-          <template v-slot:default> Trayek </template>
-          <template v-slot:menuName> List Trayek yang Tersedia </template>
-        </menu-title>
-      </p>
-      <div class="flex flex-row justify-end">
-        <button-primary
-          :link="true"
-          :to="{ name: 'create new trayek' }"
-          size="sm"
-        >
-          Tambah Trayek
-        </button-primary>
-      </div>
-      <base-alert
-        v-if="alert.turn"
-        :mode="alert.mode"
-        :message="alert.message"
-      ></base-alert>
+      <card-body>
+        <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
+        <p>
+          <menu-title>
+            <template v-slot:default> Trayek </template>
+            <template v-slot:menuName> List Trayek yang Tersedia </template>
+          </menu-title>
+        </p>
+        <div class="flex flex-row justify-end">
+          <button-primary
+            :link="true"
+            :to="{ name: 'create new trayek' }"
+            size="sm"
+          >
+            Tambah Trayek
+          </button-primary>
+        </div>
+        <base-alert
+          v-if="alert.turn"
+          :mode="alert.mode"
+          :message="alert.message"
+        ></base-alert>
 
-      <div class="overflow-x-auto mt-2">
-        <table class="table w-full" id="myTable">
-          <!-- head -->
-          <thead>
-            <tr>
-              <th>Kode Trayek</th>
-              <th>Titik Awal</th>
-              <th>Titik Akhir</th>
-              <th>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-if="emptyTrayek">
-              <td colspan="100%" class="text-center text-gray-500">Tidak ada trayek yang tersedia</td>
-            </tr>
-            <tr v-else v-for="trayek in allTrayek" :key="trayek.id">
-              <td>{{ trayek.kode_trayek }}</td>
-              <td>{{ trayek.titik_awal }}</td>
-              <td>{{ trayek.titik_akhir }}</td>
-              <td>
-                <router-link
-                  :to="{
-                    name: 'detail trayek',
-                    params: {
-                      id: trayek.id,
-                    },
-                  }"
-                >
-                  <font-awesome-icon
-                    icon="info-circle"
-                    class="text-lg text-yellow-500"
-                  />
-                </router-link>
-
-                <router-link
-                  :to="{
-                    name: 'update trayek',
-                    params: {
-                      id: trayek.id,
-                    },
-                  }"
-                >
-                  <font-awesome-icon
-                    icon="pen-square"
-                    class="text-lg text-blue-600 ml-2"
-                  />
-                </router-link>
-
-                <delete-modal
-                  :id="trayek.id"
-                  @deleteButtonClicked="deleteButtonClicked"
-                >
-                  <template v-slot:default>
+        <div class="overflow-x-auto mt-2">
+          <table class="table w-full" id="myTable">
+            <!-- head -->
+            <thead>
+              <tr>
+                <th>Kode Trayek</th>
+                <th>Titik Awal</th>
+                <th>Titik Akhir</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-if="emptyTrayek">
+                <td colspan="100%" class="text-center text-gray-500">
+                  Tidak ada trayek yang tersedia
+                </td>
+              </tr>
+              <tr v-else v-for="trayek in allTrayek" :key="trayek.id">
+                <td>{{ trayek.kode_trayek }}</td>
+                <td>{{ trayek.titik_awal }}</td>
+                <td>{{ trayek.titik_akhir }}</td>
+                <td>
+                  <router-link
+                    :to="{
+                      name: 'detail trayek',
+                      params: {
+                        id: trayek.id,
+                      },
+                    }"
+                  >
                     <font-awesome-icon
-                      icon="trash"
-                      class="text-lg text-red-600 ml-2"
+                      icon="info-circle"
+                      class="text-lg text-yellow-500"
                     />
-                  </template>
-                  <template v-slot:title> Hapus Trayek? </template>
-                  <template v-slot:body>
-                    Anda yakin untuk menghapus Trayek yang dipilih?
-                  </template>
-                </delete-modal>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                  </router-link>
+
+                  <router-link
+                    :to="{
+                      name: 'update trayek',
+                      params: {
+                        id: trayek.id,
+                      },
+                    }"
+                  >
+                    <font-awesome-icon
+                      icon="pen-square"
+                      class="text-lg text-blue-600 ml-2"
+                    />
+                  </router-link>
+
+                  <delete-modal
+                    :id="trayek.id"
+                    @deleteButtonClicked="deleteButtonClicked"
+                  >
+                    <template v-slot:default>
+                      <font-awesome-icon
+                        icon="trash"
+                        class="text-lg text-red-600 ml-2"
+                      />
+                    </template>
+                    <template v-slot:title> Hapus Trayek? </template>
+                    <template v-slot:body>
+                      Anda yakin untuk menghapus Trayek yang dipilih?
+                    </template>
+                  </delete-modal>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </card-body>
     </card>
   </section>
 </template>
@@ -118,9 +122,9 @@ export default {
     };
   },
   computed: {
-    emptyTrayek(){
+    emptyTrayek() {
       return this.allTrayek.length < 1 ? true : false;
-    }
+    },
   },
   methods: {
     async loadAllTrayek() {

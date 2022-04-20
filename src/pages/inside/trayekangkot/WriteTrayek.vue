@@ -1,22 +1,24 @@
 <template>
   <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
-      <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
-      <p class="mb-5">
-        <menu-title>
-          <template v-slot:default>
-            {{ mode == "createTrayek" ? "Tambah Trayek" : "Update Trayek" }}
-          </template>
-          <template v-slot:menuName>
-            {{
-              mode == "createTrayek"
-                ? "Menambahkan Trayek Baru"
-                : "Memperbarui Trayek Terpilih"
-            }}
-          </template>
-        </menu-title>
-      </p>
-      <trayek-form :mode="mode"></trayek-form>
+      <card-body>
+        <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
+        <p class="mb-5">
+          <menu-title>
+            <template v-slot:default>
+              {{ mode == "createTrayek" ? "Tambah Trayek" : "Update Trayek" }}
+            </template>
+            <template v-slot:menuName>
+              {{
+                mode == "createTrayek"
+                  ? "Menambahkan Trayek Baru"
+                  : "Memperbarui Trayek Terpilih"
+              }}
+            </template>
+          </menu-title>
+        </p>
+        <trayek-form :mode="mode"></trayek-form>
+      </card-body>
     </card>
   </section>
 </template>
@@ -25,7 +27,7 @@
 import TrayekForm from "../../../components/molecules/forms/TrayekForm.vue";
 
 export default {
-  props: ['id'],
+  props: ["id"],
   data() {
     return {
       inputSuccess: false,
@@ -34,16 +36,18 @@ export default {
         {
           title: "Trayek",
           link: {
-            path: "/trayekangkot"
-          }
+            path: "/trayekangkot",
+          },
         },
         {
           title: this.id ? "Update Trayek" : "Tambah Trayek",
           link: {
-            path: this.id ? `/trayekangkot/${this.id}/update` : '/trayekangkot/create'
-          }
-        }
-      ]
+            path: this.id
+              ? `/trayekangkot/${this.id}/update`
+              : "/trayekangkot/create",
+          },
+        },
+      ],
     };
   },
   components: {
