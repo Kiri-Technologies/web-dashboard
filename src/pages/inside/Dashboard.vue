@@ -36,22 +36,22 @@
               <single-stat
                 title="Submitted"
                 :value="totalFeedbackApp.submitted"
-                color="text-blue-500"
+                :color="{'text-blue-500': true}"
               />
               <single-stat
                 title="Cancelled"
                 :value="totalFeedbackApp.cancelled"
-                color="text-red-500"
+                :color="{'text-red-500': true}"
               />
               <single-stat
                 title="Pending"
                 :value="totalFeedbackApp.pending"
-                color="text-yellow-500"
+                :color="{'text-yellow-500': true}"
               />
               <single-stat
                 title="Processed"
                 :value="totalFeedbackApp.processed"
-                color="text-green-500"
+                :color="{'text-green-500': true}"
               />
             </stats-container>
           </card-body>

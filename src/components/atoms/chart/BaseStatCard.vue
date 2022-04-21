@@ -14,7 +14,7 @@
         >
           {{ title }}
         </div>
-        <div class="font-bold text-6xl py-4 text-center text-kiri-green">
+        <div class="font-bold text-5xl py-4 text-center text-kiri-green">
           {{ data }}
         </div>
       </div>

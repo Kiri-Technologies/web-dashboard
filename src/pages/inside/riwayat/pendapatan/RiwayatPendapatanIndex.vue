@@ -4,8 +4,8 @@
       <side-to-side-stat
         title1="Total Pendapatan Bulan Ini"
         title2="Total Pendapatan Bulan Kemarin"
-        :data1="totalPendapatanBulanIni"
-        :data2="totalPendapatanBulanLalu"
+        :data1="rupiahFormat(totalPendapatanBulanIni)"
+        :data2="rupiahFormat(totalPendapatanBulanLalu)"
       ></side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
@@ -48,18 +48,17 @@
                 <tr v-else v-for="ls in listRiwayatSupirNarik" :key="ls.id">
                   <td>{{ changeDateFormat(ls.created_at) }}</td>
                   <td>
-                    <!-- {{
-                    ls.vehicle.route
-                      ? "-"
+                    {{
+                    ls.vehicle == null
+                      ? "Kebayoran"
                       : ls.vehicle.route.titik_awal
                   }}
                   -
                   {{
-                    ls.vehicle.route
-                      ? "-"
+                    ls.vehicle == null
+                      ? "Ciputat"
                       : ls.vehicle.route.titik_akhir
-                  }} -->
-                    Kebayoran - Ciputat
+                  }}
                   </td>
                   <td>
                     {{

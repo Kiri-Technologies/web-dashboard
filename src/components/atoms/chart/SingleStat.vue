@@ -13,8 +13,8 @@ export default {
       default: "Stats Title",
     },
     value: {
-      type: String,
-      default: "0",
+      type: Number,
+      default: 0,
     },
     color: {
       type: Object,
