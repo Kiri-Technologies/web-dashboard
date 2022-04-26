@@ -3,7 +3,7 @@
     <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
     <div class="drawer-side sticky">
       <label for="my-drawer-2" class="drawer-overlay"></label>
-      <ul class="menu p-4 overflow-y-auto w-70">
+      <ul class="menu p-4 pb-20 overflow-y-auto w-70">
         <li>
           <div class="card w-11/12 admin-profile-card text-white rounded-md">
             <div class="card-body px-4 py-2">
@@ -29,39 +29,63 @@
           <router-link :to="{ name: 'dashboard' }">Dashboard</router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'manage account' }"
-            >Manage Account</router-link
-          >
+          <router-link :to="{ name: 'approve angkot' }">
+            Approval Angkot
+          </router-link>
         </li>
         <li>
-          <router-link :to="{ name: 'trayek angkot' }"
-            >Trayek Angkot</router-link
-          >
+          <a @click="showRiwayatMenu">
+            Riwayat
+            <span class="ml-2" :class="riwayatMenuRotate">
+              <font-awesome-icon icon="caret-up" />
+            </span>
+          </a>
+          <transition name="dropdown" mode="out-in">
+            <ul v-if="riwayatMenuIsShowed">
+              <li>
+                <router-link :to="{ name: 'riwayat pendapatan' }">
+                  Pendapatan
+                </router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'riwayat perjalanan' }">
+                  Perjalanan
+                </router-link>
+              </li>
+            </ul>
+          </transition>
         </li>
         <li>
-          <router-link :to="{ name: 'angkot index' }"
-            >List Angkot</router-link
-          >
-        </li>
-        <li>
-          <router-link :to="{ name: 'feedback aplikasi' }"
-            >Feedback Aplikasi</router-link
-          >
-        </li>
-        <li>
-          <router-link :to="{ name: 'riwayat pendapatan' }"
-            >Riwayat Pendapatan</router-link
-          >
-        </li>
-        <li>
-          <router-link :to="{ name: 'riwayat perjalanan' }"
-            >Riwayat Perjalanan</router-link
-          >
-        </li>
-        <li>
-          <router-link :to="{ name: 'approve angkot' }"
-            >Approval Angkot</router-link
-          >
+          <a @click="showListMenu">
+            List
+            <span class="ml-2" :class="listMenuRotate">
+              <font-awesome-icon icon="caret-up" />
+            </span>
+          </a>
+          <transition name="dropdown" mode="out-in">
+            <ul v-if="listMenuIsShowed">
+              <li>
+                <router-link :to="{ name: 'manage account' }">
+                  Akun
+                </router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'angkot index' }">
+                  Angkot
+                </router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'trayek angkot' }">
+                  Trayek
+                </router-link>
+              </li>
+              <li>
+                <router-link :to="{ name: 'feedback aplikasi' }">
+                  Feedback Aplikasi
+                </router-link>
+              </li>
+            </ul>
+          </transition>
         </li>
       </ul>
     </div>
@@ -81,9 +105,28 @@
 
 <script>
 export default {
+  data() {
+    return {
+      riwayatMenuIsShowed: false,
+      listMenuIsShowed: false,
+    };
+  },
   computed: {
     name() {
       return this.$store.getters["auth/profileName"];
+    },
+    listMenuRotate() {
+      return {
+        "rotate-180": this.riwayatMenuIsShowed,
+      };
+    },
+  },
+  methods: {
+    showRiwayatMenu() {
+      this.riwayatMenuIsShowed = !this.riwayatMenuIsShowed;
+    },
+    showListMenu() {
+      this.listMenuIsShowed = !this.listMenuIsShowed;
     },
   },
 };
@@ -107,5 +150,25 @@ a.active {
 
 #content {
   background-color: #dfecd8;
+}
+
+.dropdown-enter-active {
+  animation: slide-fade 0.3s ease-out;
+}
+
+.dropdown-leave-active {
+  animation: slide-fade 0.3s ease-in reverse;
+}
+
+@keyframes slide-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px);
+  }
 }
 </style>
