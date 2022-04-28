@@ -1,7 +1,7 @@
 export default {
-    setHalteVirtualData(state, { id, name, lat, lng }) {
+    setHalteVirtualById(state, { id, nama_lokasi, lat, lng }) {
         state.id = id;
-        state.name = name;
+        state.nama_lokasi = nama_lokasi;
         state.lat = lat;
         state.lng = lng;
     },

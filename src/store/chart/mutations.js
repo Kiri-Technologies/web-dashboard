@@ -26,4 +26,10 @@ export default {
     setTotalFeedbackApp(state, { totalFeedbackApp }) {
         state.totalFeedbackApp = totalFeedbackApp
     },
+    setTotalPerjalananBulanIni(state, { totalPerjalananBulanIni }) {
+        state.totalPerjalananBulanIni = totalPerjalananBulanIni
+    },
+    setTotalPerjalananBulanLalu(state, { totalPerjalananBulanLalu }) {
+        state.totalPerjalananBulanLalu = totalPerjalananBulanLalu
+    },
 }

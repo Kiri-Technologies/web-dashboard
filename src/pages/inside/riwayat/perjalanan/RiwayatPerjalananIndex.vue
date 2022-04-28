@@ -4,8 +4,8 @@
       <side-to-side-stat
         :title1="'Total Perjalanan Bulan Ini'"
         :title2="'Total Perjalanan Bulan Kemarin'"
-        :data1="'1,984,523'"
-        :data2="'1,984,523'"
+        :data1="totalPerjalananBulanIni"
+        :data2="totalPerjalananBulanLalu"
       ></side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
@@ -93,6 +93,8 @@ export default {
   data() {
     return {
       allPerjalanan: [],
+      totalPerjalananBulanIni: 0,
+      totalPerjalananBulanLalu: 0,
       alert: {
         turn: false,
         mode: "",
@@ -118,6 +120,22 @@ export default {
         this.turnOnAlert("error", false);
       }
     },
+    async getTotalPerjalananBulanIni(){
+      try{
+        await this.$store.dispatch("chart/getTotalPerjalananBulanIni");
+        this.totalPerjalananBulanIni = this.$store.getters["chart/getTotalPerjalananBulanIni"];
+      }catch(error){
+        console.log(error.message);
+      }
+    },
+    async getTotalPerjalananBulanLalu(){
+      try{
+        await this.$store.dispatch("chart/getTotalPerjalananBulanLalu");
+        this.totalPerjalananBulanLalu = this.$store.getters["chart/getTotalPerjalananBulanLalu"];
+      }catch(error){
+        console.log(error.message);
+      }
+    },
     changeDateFormat(date) {
       return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");
     },
@@ -134,6 +152,7 @@ export default {
   },
   created() {
     this.getAllPerjalanan();
+    this.getTotalPerjalananBulanIni();
   },
 };
 </script>

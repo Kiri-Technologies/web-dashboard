@@ -15,6 +15,8 @@ export default {
             totalFeedbackApp: {},
             mostUsedTrayek: [],
             mostUsedHalteVirtual: [],
+            totalPerjalananBulanIni: 0,
+            totalPerjalananBulanLalu: 0,
         };
     },
     mutations,

@@ -1,18 +1,19 @@
 import axios from "axios";
 export default {
     async createTrayek(context, { kode_trayek, titik_awal, titik_akhir }) {
-        const url = 'https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek.json';
+        const url = `https://kiri.mfaiztriputra.id/api/admin/routes/create`;
 
-        let response;
-
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
-            response = await axios({
+            await axios({
                 method: 'post',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                },
                 data: {
                     kode_trayek,
                     titik_awal,
@@ -22,9 +23,6 @@ export default {
         } catch (error) {
             let message;
             if (error.response.status == 400) {
-                // if (error.response.data.message.email) {
-                //     message = "Email sudah terdaftar";
-                // }
                 message = "Pastikan form sudah sesuai"
             } else {
                 message = 'Failed to store data!';
@@ -32,85 +30,76 @@ export default {
             const errorMessage = new Error(message);
             throw errorMessage;
         }
-
-        context.commit('addNewTrayek', {
-            id: response.data.name,
-            kode_trayek,
-            titik_awal,
-            titik_akhir
-        });
     },
     async getAllTrayek(context) {
-        const url = 'https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek.json';
+        const url = `https://kiri.mfaiztriputra.id/api/routes`;
 
         let response;
 
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             response = await axios({
                 method: 'get',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                }
             });
-
-            let results = []
-
-            for (const id in response.data) {
-                results.push({
-                    id: id,
-                    kode_trayek: response.data[id].kode_trayek,
-                    titik_awal: response.data[id].titik_awal,
-                    titik_akhir: response.data[id].titik_akhir
-                });
-            }
-
-            let trayek = results;
-            context.commit('addNewTrayek', {
-                trayek
-            });
-
         } catch (error) {
             const errorMessage = new Error("Failed to get data!");
             throw errorMessage;
         }
+
+        context.commit('addAllTrayek', {
+            allTrayek: response.data.data,
+        });
     },
     async getTrayekById(context, { id }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
+        const url = `https://kiri.mfaiztriputra.id/api/routes/${id}`;
 
         let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             response = await axios({
                 method: 'get',
-                url: url
+                url: url,
+                headers: {
+                    Authorization: authHeader,
+                }
             });
         } catch (error) {
             const errorMessage = new Error("Failed to get data!");
             throw errorMessage;
         }
 
-        context.commit('setTrayekData', {
+        context.commit('setTrayekByid', {
             id: id,
-            kode_trayek: response.data.kode_trayek,
-            titik_awal: response.data.titik_awal,
-            titik_akhir: response.data.titik_akhir,
+            kode_trayek: response.data.data.kode_trayek,
+            titik_awal: response.data.data.titik_awal,
+            titik_akhir: response.data.data.titik_akhir,
         });
     },
     async updateTrayekById(context, { id, kode_trayek, titik_awal, titik_akhir }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
+        const url = `https://kiri.mfaiztriputra.id/api/admin/routes/${id}/update`;
 
-        // let response;
-
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             await axios({
-                method: 'patch',
+                method: 'post',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                },
                 data: {
                     kode_trayek,
                     titik_awal,
@@ -120,9 +109,6 @@ export default {
         } catch (error) {
             let message;
             if (error.response.status == 400) {
-                // if (error.response.data.message.email) {
-                //     message = "Email sudah terdaftar";
-                // }
                 message = "Pastikan form sudah sesuai"
             } else {
                 message = 'Failed to store data!';
@@ -130,27 +116,21 @@ export default {
             const errorMessage = new Error(message);
             throw errorMessage;
         }
-
-        context.commit('setTrayekData', {
-            id: id,
-            kode_trayek,
-            titik_awal,
-            titik_akhir
-        });
     },
     async deleteTrayekById(context, { id }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${id}.json`;
+        const url = `https://kiri.mfaiztriputra.id/api/admin/routes/${id}/delete`;
 
-        // let response;
-
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             await axios({
-                method: 'delete',
+                method: 'post',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                }
             });
         } catch (error) {
             const errorMessage = new Error('Gagal menghapus trayek');

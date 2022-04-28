@@ -5,7 +5,7 @@ export default {
     getHalteVirtual(state){
         return {
             id: state.id,
-            name: state.name,
+            nama_lokasi: state.nama_lokasi,
             lat: state.lat,
             lng: state.lng,
         }

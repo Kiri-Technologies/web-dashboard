@@ -1,20 +1,22 @@
 import axios from "axios";
 export default {
-    async createHalteVirtual(context, { trayekid, name, lat, lng }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual.json`;
+    async createHalteVirtual(context, { trayekid, nama_lokasi, lat, lng }) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/create`;
 
-        let response;
-
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
-            response = await axios({
+            await axios({
                 method: 'post',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                },
                 data: {
-                    name,
+                    route_id: trayekid,
+                    nama_lokasi: nama_lokasi,
                     lat,
                     long: lng
                 }
@@ -22,9 +24,6 @@ export default {
         } catch (error) {
             let message;
             if (error.response.status == 400) {
-                // if (error.response.data.message.email) {
-                //     message = "Email sudah terdaftar";
-                // }
                 message = "Pastikan form sudah sesuai"
             } else {
                 message = 'Failed to store data!';
@@ -32,81 +31,91 @@ export default {
             const errorMessage = new Error(message);
             throw errorMessage;
         }
-
-        context.commit('setHalteVirtualData', {
-            id: response.data.name,
-            name,
-            lat,
-            lng
-        });
     },
     async getAllHalteVirtualByTrayek(context, { trayekid }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual.json`;
+        const url = `https://kiri.mfaiztriputra.id/api/haltevirtual?route_id=${trayekid}`;
 
         let response;
 
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             response = await axios({
                 method: 'get',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                }
             });
-
-            let results = []
-
-            for (const id in response.data) {
-                results.push({
-                    id: id,
-                    name: response.data[id].name,
-                    lat: Number(response.data[id].lat),
-                    lng: Number(response.data[id].long)
-                });
-            }
-
-            let halteVirtual = results;
-            context.commit('addAllHalteVirtual', {
-                data: halteVirtual
-            });
+            
 
         } catch (error) {
             const errorMessage = new Error("Failed to get data!");
             throw errorMessage;
         }
+
+        console.log(response.data.data);
+
+        let data = response.data.data.map((item) => {
+            return {
+                id: item.id,
+                nama_lokasi: item.nama_lokasi,
+                lat: Number(item.lat),
+                lng: Number(item.long),
+            }
+        })
+
+        context.commit('addAllHalteVirtual', {
+            data: data,
+        });
     },
-    async getHalteVirtualById(context, { trayekid, id }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual/${id}.json`;
+    async getHalteVirtualById(context, { id }) {
+        const url = `https://kiri.mfaiztriputra.id/api/haltevirtual/${id}`;
 
         let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             response = await axios({
                 method: 'get',
-                url: url
+                url: url,
+                headers: {
+                    Authorization: authHeader,
+                }
             });
         } catch (error) {
             const errorMessage = new Error("Failed to get data!");
             throw errorMessage;
         }
 
-        context.commit('setHalteVirtualData', {
+        context.commit('setHalteVirtualById', {
             id: id,
-            name: response.data.name,
-            lat: response.data.lat,
-            lng: response.data.long
+            nama_lokasi: response.data.data.nama_lokasi,
+            lat: Number(response.data.data.lat),
+            lng: Number(response.data.data.long)
         });
     },
-    async updateHalteVirtual(context, { trayekid, id, name, lat, lng }) {
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual/${id}.json`;
+    async updateHalteVirtual(context, { id, nama_lokasi, lat, lng }) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/update`;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             await axios({
                 method: 'patch',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                },
                 data: {
-                    name,
+                    nama_lokasi,
                     lat,
                     long: lng
                 }
@@ -114,9 +123,6 @@ export default {
         } catch (error) {
             let message;
             if (error.response.status == 400) {
-                // if (error.response.data.message.email) {
-                //     message = "Email sudah terdaftar";
-                // }
                 message = "Pastikan form sudah sesuai"
             } else {
                 message = 'Failed to store data!';
@@ -124,35 +130,25 @@ export default {
             const errorMessage = new Error(message);
             throw errorMessage;
         }
-
-        context.commit('setHalteVirtualData', {
-            id: id,
-            name,
-            lat,
-            lng
-        });
     },
-    async deleteHalteVirtual(context, { trayekid, id }){
-        const url = `https://kiri-web-dashboard-default-rtdb.asia-southeast1.firebasedatabase.app/trayek/${trayekid}/haltevirtual/${id}.json`;
+    async deleteHalteVirtual(context, { id }){
+        const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/delete`;
 
-        // let response;
-
-        // const access_token = localStorage.getItem('access_token');
-        // const token_type = localStorage.getItem('token_type');
-        // const authHeader = `${token_type} ${access_token}`;
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
 
         try {
             await axios({
                 method: 'delete',
                 url: url,
+                headers: {
+                    Authorization: authHeader,
+                }
             });
         } catch (error) {
             const errorMessage = new Error('Gagal menghapus halte virtual');
             throw errorMessage;
         }
-
-        context.dispatch('getAllHalteVirtualByTrayek', {
-            trayekid
-        });
     }
 }

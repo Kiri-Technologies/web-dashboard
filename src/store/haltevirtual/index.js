@@ -7,7 +7,7 @@ export default {
     state() {
         return {
             id: "",
-            name: "",
+            nama_lokasi: "",
             lat: null,
             lng: null,
             allHalteVirtual: [],

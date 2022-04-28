@@ -261,4 +261,56 @@ export default {
             totalFeedbackApp: response.data.data
         });
     },
+    async getTotalPerjalananBulanIni(context) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/chart/totalPerjalananBulanIni`;
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error("Failed to get data");
+            throw errorMessage;
+        }
+
+        context.commit('setTotalPerjalananBulanIni', {
+            totalPerjalananBulanIni: response.data.data
+        });
+    },
+    async getTotalPerjalananBulanLalu(context) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/chart/totalPerjalananBulanLalu`;
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error("Failed to get data");
+            throw errorMessage;
+        }
+
+        context.commit('setTotalPerjalananBulanLalu', {
+            totalPerjalananBulanLalu: response.data.data
+        });
+    },
 }

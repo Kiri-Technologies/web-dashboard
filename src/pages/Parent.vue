@@ -2,7 +2,11 @@
   <div class="h-screen overflow-y-hidden">
     <navbar></navbar>
     <Sidebar>
-      <router-view></router-view>
+      <router-view v-slot="{ Component }">
+        <transition name="menu" mode="out-in">
+          <component :is="Component" />
+        </transition>
+      </router-view>
     </Sidebar>
   </div>
 </template>
@@ -20,3 +24,25 @@ export default {
   },
 };
 </script>
+
+<style>
+.menu-enter-active {
+  animation: slide-fade-scale 0.25s ease;
+}
+
+.menu-leave-active {
+  animation: slide-fade-scale 0.25s ease-out reverse;
+}
+
+@keyframes slide-fade-scale {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+  }
+}
+</style>

@@ -98,7 +98,7 @@
         class="mb-4 btn btn-primary drawer-button lg:hidden"
         >open menu</label
       >
-      <slot />
+        <slot />
     </div>
   </div>
 </template>
@@ -116,6 +116,11 @@ export default {
       return this.$store.getters["auth/profileName"];
     },
     listMenuRotate() {
+      return {
+        "rotate-180": this.riwayatMenuIsShowed,
+      };
+    },
+    riwayatMenuRotate() {
       return {
         "rotate-180": this.riwayatMenuIsShowed,
       };
@@ -161,12 +166,12 @@ a.active {
 }
 
 @keyframes slide-fade {
-  0% {
+  from {
     opacity: 0;
     transform: translateY(-10px);
   }
 
-  100% {
+  to {
     opacity: 1;
     transform: translateY(0px);
   }

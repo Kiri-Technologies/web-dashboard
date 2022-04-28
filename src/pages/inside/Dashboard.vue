@@ -36,22 +36,22 @@
               <single-stat
                 title="Submitted"
                 :value="totalFeedbackApp.submitted"
-                :color="{'text-blue-500': true}"
+                :color="{ 'text-blue-500': true }"
               />
               <single-stat
                 title="Cancelled"
                 :value="totalFeedbackApp.cancelled"
-                :color="{'text-red-500': true}"
+                :color="{ 'text-red-500': true }"
               />
               <single-stat
                 title="Pending"
                 :value="totalFeedbackApp.pending"
-                :color="{'text-yellow-500': true}"
+                :color="{ 'text-yellow-500': true }"
               />
               <single-stat
                 title="Processed"
                 :value="totalFeedbackApp.processed"
-                :color="{'text-green-500': true}"
+                :color="{ 'text-green-500': true }"
               />
             </stats-container>
           </card-body>
@@ -89,16 +89,16 @@
                   rounded-md
                   mt-1
                 "
-                v-for="(mut, index) in mostUsedTrayek"
-                :key="mut.id"
+                v-for="(trayek, index) in mostUsedTrayek"
+                :key="trayek.id"
               >
                 <div class="grid grid-cols-3">
                   <div class="col-span-2 font-semibold">
-                    {{ index + 1 }}. {{ mut.kode_trayek }}
+                    {{ index + 1 }}. {{ trayek.kode_trayek }}
                   </div>
-                  <div class="text-right">{{ mut.count }}</div>
+                  <div class="text-right">{{ trayek.count }}</div>
                 </div>
-                <div>{{ mut.titik_awal }} - {{ mut.titik_akhir }}</div>
+                <div>{{ trayek.titik_awal }} - {{ trayek.titik_akhir }}</div>
               </div>
             </div>
           </card-body>
@@ -133,7 +133,6 @@
             </div>
           </card-body>
         </card>
-        
       </div>
     </div>
   </div>
@@ -185,9 +184,7 @@ export default {
   methods: {
     async getTotalPendapatanHarian() {
       try {
-        await this.$store.dispatch("chart/getTotalPendapatanHarian", {
-          idAngkot: this.$route.params.id,
-        });
+        await this.$store.dispatch("chart/getTotalPendapatanHarian");
         let pendapatanHarian =
           this.$store.getters["chart/getTotalPendapatanHarian"];
 
@@ -215,7 +212,7 @@ export default {
       try {
         await this.$store.dispatch("chart/getMostUsedTrayek");
         this.mostUsedTrayek = this.$store.getters["chart/getMostUsedTrayek"];
-        this.mostUsedTrayek.length = 10;
+        this.mostUsedTrayek = this.mostUsedTrayek.slice(0, 10);
       } catch (error) {
         console.log(error.message);
       }
@@ -225,7 +222,7 @@ export default {
         await this.$store.dispatch("chart/getMostUsedHalteVirtual");
         this.mostUsedHalteVirtual =
           this.$store.getters["chart/getMostUsedHalteVirtual"];
-        this.mostUsedHalteVirtual.length = 10;
+        this.mostUsedHalteVirtual = this.mostUsedHalteVirtual.slice(0, 10);
       } catch (error) {
         console.log(error.message);
       }

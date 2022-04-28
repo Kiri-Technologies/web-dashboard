@@ -26,14 +26,14 @@
           type="text"
           placeholder="Nama Halte Virtual"
           class="input input-bordered"
-          :class="{ 'input-error': validation.name == 'invalid' }"
-          v-model.trim="name"
+          :class="{ 'input-error': validation.nama_lokasi == 'invalid' }"
+          v-model.trim="nama_lokasi"
           required
-          @blur="validateName"
+          @blur="validateNamaLokasi"
         />
-        <label class="label" v-if="validation.name == 'invalid'">
+        <label class="label" v-if="validation.nama_lokasi == 'invalid'">
           <span class="label-text-alt text-red-500">{{
-            formMessage.name
+            formMessage.nama_lokasi
           }}</span>
         </label>
       </div>
@@ -108,7 +108,7 @@ export default {
   data() {
     return {
       id: "",
-      name: "",
+      nama_lokasi: "",
       lat: "",
       lng: "",
       trayek: {
@@ -123,12 +123,12 @@ export default {
         message: "",
       },
       validation: {
-        name: "pending",
+        nama_lokasi: "pending",
         lat: "pending",
         lng: "pending",
       },
       formMessage: {
-        name: "",
+        nama_lokasi: "",
         lat: "",
         lng: "",
       },
@@ -168,7 +168,7 @@ export default {
       try {
         await this.$store.dispatch("halteVirtual/createHalteVirtual", {
           trayekid: this.trayekid,
-          name: this.name,
+          nama_lokasi: this.nama_lokasi,
           lat: this.lat,
           lng: this.lng,
         });
@@ -217,7 +217,7 @@ export default {
         const halteVirtual =
           this.$store.getters["halteVirtual/getHalteVirtual"];
         this.id = halteVirtual.id;
-        this.name = halteVirtual.name;
+        this.nama_lokasi = halteVirtual.nama_lokasi;
         this.lat = halteVirtual.lat;
         this.lng = halteVirtual.lng;
       } catch (error) {
@@ -236,9 +236,8 @@ export default {
 
       try {
         await this.$store.dispatch("halteVirtual/updateHalteVirtual", {
-          trayekid: this.trayekid,
           id: this.$route.params.id,
-          name: this.name,
+          nama_lokasi: this.nama_lokasi,
           lat: this.lat,
           lng: this.lng,
         });
@@ -267,15 +266,15 @@ export default {
       this.alert.mode = mode;
       this.alert.message = message;
     },
-    validateName() {
-      if (this.name == "") {
-        this.validation.name = "invalid";
+    validateNamaLokasi() {
+      if (this.nama_lokasi == "") {
+        this.validation.nama_lokasi = "invalid";
         this.formIsInvalid = true;
-        this.formMessage.name = "Please enter a halte virtual name";
+        this.formMessage.nama_lokasi = "Please enter a halte virtual name";
       } else {
         this.formIsInvalid = false;
-        this.formMessage.name = "";
-        this.validation.name = "valid";
+        this.formMessage.nama_lokasi = "";
+        this.validation.nama_lokasi = "valid";
       }
     },
     validateLatitude() {

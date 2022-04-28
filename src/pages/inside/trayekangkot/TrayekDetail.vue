@@ -82,7 +82,7 @@
                 }"
                 @click="selectHalteVirtual(halteVirtual.id)"
               >
-                <div class="col-span-2">{{ halteVirtual.name }}</div>
+                <div class="col-span-2">{{ halteVirtual.nama_lokasi }}</div>
                 <div class="flex justify-end">
                   <router-link
                     :to="{
@@ -215,7 +215,6 @@ export default {
     async deleteButtonClicked(halteVirtualId) {
       try {
         await this.$store.dispatch("halteVirtual/deleteHalteVirtual", {
-          trayekid: this.id,
           id: halteVirtualId,
         });
         this.loadHalteVirtual();

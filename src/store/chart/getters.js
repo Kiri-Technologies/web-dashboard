@@ -23,4 +23,10 @@ export default {
     getTotalFeedbackApp(state){
         return state.totalFeedbackApp;
     },
+    getTotalPerjalananBulanIni(state){
+        return state.totalPerjalananBulanIni;
+    },
+    getTotalPerjalananBulanLalu(state){
+        return state.totalPerjalananBulanLalu;
+    },
 }
