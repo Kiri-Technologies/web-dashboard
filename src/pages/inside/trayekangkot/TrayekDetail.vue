@@ -4,7 +4,7 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title>
+          <menu-title :path="{ path: '/trayekangkot' }">
             <template v-slot:default> Detail Trayek </template>
             <template v-slot:menuName>
               Melihat Detail Trayek Terpilih

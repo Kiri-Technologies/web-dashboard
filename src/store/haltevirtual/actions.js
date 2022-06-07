@@ -95,12 +95,13 @@ export default {
 
         context.commit('setHalteVirtualById', {
             id: id,
+            route_id: response.data.data.route_id,
             nama_lokasi: response.data.data.nama_lokasi,
             lat: Number(response.data.data.lat),
             lng: Number(response.data.data.long)
         });
     },
-    async updateHalteVirtual(context, { id, nama_lokasi, lat, lng }) {
+    async updateHalteVirtual(context, { id, route_id, nama_lokasi, lat, lng }) {
         const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/update`;
 
         const access_token = localStorage.getItem('access_token');
@@ -109,13 +110,14 @@ export default {
 
         try {
             await axios({
-                method: 'patch',
+                method: 'post',
                 url: url,
                 headers: {
                     Authorization: authHeader,
                 },
                 data: {
                     nama_lokasi,
+                    route_id,
                     lat,
                     long: lng
                 }

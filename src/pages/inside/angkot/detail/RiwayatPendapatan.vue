@@ -21,28 +21,12 @@
       </div>
     </div>
     <div class="overflow-x-auto mt-4">
-      <table class="table w-full">
-        <!-- head -->
-        <thead>
-          <tr>
-            <th>Waktu</th>
-            <th>Nama Supir</th>
-            <th>Jumlah Pendapatan</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="listRiwayatSupirNarik.length < 1">
-            <td colspan="100%" class="text-center text-gray-500">
-              Tidak ada riwayat pendapatan di angkot ini
-            </td>
-          </tr>
-          <tr v-for="ls in listRiwayatSupirNarik" :key="ls.id">
-            <td>{{ changeDateFormat(ls.created_at) }}</td>
-            <td>{{ ls.supir.name }}</td>
-            <td>{{ rupiahFormat(ls.jumlah_pendapatan) }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="p-5 flex justify-center" v-if="isLoading">
+        <button class="btn bg-transparent loading text-black border-none">
+          Loading data...
+        </button>
+      </div>
+      <data-table :columns="columns" :entries="filteredListRiwayatSupirNarik" v-else></data-table>
     </div>
   </section>
 </template>
@@ -53,6 +37,24 @@ import moment from "moment";
 export default {
   data() {
     return {
+      isLoading: false,
+      columns: [
+        {
+          name: 'waktu', text: 'waktu'
+        },
+        {
+          name: 'trayek', text: 'trayek'
+        },
+        {
+          name: 'plat_nomor', text: 'plat nomor'
+        },
+        {
+          name: 'nama_supir', text: 'nama supir'
+        },
+        {
+          name: 'jumlah_pendapatan', text: 'jumlah pendapatan'
+        },
+      ],
       angkot: {
         route: {
           kode_angkot: "",
@@ -63,6 +65,20 @@ export default {
       },
       listRiwayatSupirNarik: [],
     };
+  },
+  computed: {
+    filteredListRiwayatSupirNarik() {
+      return this.listRiwayatSupirNarik.map(ls => {
+        ls.waktu = this.changeDateFormat(ls.created_at);
+        ls.trayek = ls.vehicle == null
+          ? "Kebayoran - Ciputat"
+          : ls.vehicle.route.titik_awal + " - " + ls.vehicle.route.titik_akhir;
+        ls.plat_nomor = ls.vehicle == null ? "B 4433 US" : ls.vehicle.plat_nomor;
+        ls.nama_supir = ls.supir.name;
+        ls.jumlah_pendapatan = this.rupiahFormat(ls.jumlah_pendapatan);
+        return ls;
+      })
+    }
   },
   methods: {
     async getAngkot() {
@@ -101,9 +117,15 @@ export default {
       }).format(number);
     },
   },
-  created() {
-    this.getAngkot();
-    this.getAllRiwayatSupirNarik();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.getAngkot();
+      await this.getAllRiwayatSupirNarik();
+    } catch (error) {
+      console.log(error.message);
+    }
+    this.isLoading = false;
   },
 };
 </script>

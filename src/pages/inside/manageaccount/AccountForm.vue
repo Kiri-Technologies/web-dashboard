@@ -4,15 +4,15 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p class="mb-5">
-          <menu-title>
+          <menu-title :path="{ path: '/manageaccount' }">
             <template v-slot:default>
               {{ mode == "createNewAccount" ? "Tambah Akun" : "Update Akun" }}
             </template>
             <template v-slot:menuName>
               {{
-                mode == "createNewAccount"
-                  ? "Menambahkan Akun Baru"
-                  : "Memperbarui Akun Terpilih"
+                  mode == "createNewAccount"
+                    ? "Menambahkan Akun Baru"
+                    : "Memperbarui Akun Terpilih"
               }}
             </template>
           </menu-title>

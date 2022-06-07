@@ -126,7 +126,7 @@ export default {
 
         try {
             await axios({
-                method: 'post',
+                method: 'delete',
                 url: url,
                 headers: {
                     Authorization: authHeader,

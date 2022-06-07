@@ -4,7 +4,7 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title>
+          <menu-title :path="{ path: '/angkot' }">
             <template v-slot:default> Detail Angkot </template>
             <template v-slot:menuName>
               Menampilkan data angkot terpilih
@@ -13,14 +13,10 @@
         </p>
 
         <div class="tabs mt-5">
-          <a
-            v-for="tab in tabs"
-            :key="tab"
-            class="tab tab-bordered"
-            :class="{ 'tab-active': currentTab == tab }"
-            @click="currentTab = tab"
-            >{{ tabName(tab) }}</a
-          >
+          <a v-for="tab in tabs" :key="tab" class="tab tab-bordered" :class="{ 'tab-active': currentTab == tab }"
+            @click="currentTab = tab">
+            {{ tabName(tab) }}
+          </a>
         </div>
 
         <component :is="currentTab"></component>

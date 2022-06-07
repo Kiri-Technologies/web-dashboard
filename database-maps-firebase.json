@@ -1,0 +1,86 @@
+// penumpang naik turun
+{
+  "penumpang_naik_turun": {
+    "2": { // id angkot
+      "naik": {},
+      "turun": {
+        "1": { // id perjalanan
+          "id_perjalanan": 1,
+          "id_user": 1,
+          "id_titik_naik": "1",
+          "id_titik_turun": "1",
+          "titik_naik": "transmart",
+          "titik_turun": "borma"
+        },
+        "2": {
+          "id_perjalanan": 1,
+          "id_user": 1,
+          "id_titik_naik": "1",
+          "id_titik_turun": "1",
+          "titik_naik": "transmart",
+          "titik_turun": "borma"
+        }
+      }
+    }
+  }
+}
+
+penumpang_naik_turun/{id_angkot}/naik.json (kalau gapake library, langsung hit endpoint biasanya pake .json)
+
+// angkot
+{
+  "angkot": {
+    "1": { // route_id
+      "2": { // angkot_id
+        "lat": 123,
+        "long": 123,
+        "arah": "buah batu",
+        "is_beroperasi": true,
+        "is_waiting_passengers": true,
+        "is_full": true,
+        "owner_id": 1
+      }
+    }
+  }
+}
+
+angkot/{route_id}/{angkot_id}.json (kalau gapake library, langsung hit endpoint biasanya pake .json)
+
+// jarak antar angkot
+{
+  "jarak_antar_angkot": {
+    "1": { // angkot_id
+      "angkot_id_didepan": 1,
+      "jarak_antar_angkot_waktu": "15 menit",
+      "jarak_antar_angkot_km": "10 KM"
+    }
+  }
+}
+
+jarak_antar_angkot/{angkot_id}.json (kalau gapake library, langsung hit endpoint biasanya pake .json)
+
+// Halte virtual
+{
+  "setpoints": {
+    "1": { // setpoint id
+      "nama_lokasi": "transmart",
+      "route_id": 1,
+      "lat": 123,
+      "long": 123,
+      "arah": "buah batu",
+      "prioritas": {
+        "2": { // id angkot
+          "lat": 123,
+          "long": 123,
+          "route_id": 123,
+          "arah": "buah batu",
+          "is_beroperasi": true,
+          "is_waiting_passengers": true,
+          "timestamp": "2022-05-31 12:00:00",
+        }
+      }
+    }
+  }
+}
+
+setpoints/{setpoint_id}/prioritas.json (kalau gapake library, langsung hit endpoint biasanya pake .json)

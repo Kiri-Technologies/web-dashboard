@@ -3,7 +3,7 @@
     <card class="shadow-lg w-11/12">
       <card-body>
         <p>
-          <menu-title>
+          <menu-title :path="{ path: '/' }">
             <template v-slot:default> Akun </template>
             <template v-slot:menuName>
               {{ menuName }}

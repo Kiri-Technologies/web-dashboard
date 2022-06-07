@@ -11,9 +11,7 @@
                 <div>
                   <div class="avatar align-middle">
                     <div class="w-10 h-10 rounded-xl">
-                      <img
-                        src="https://api.lorem.space/image/face?hash=64318"
-                      />
+                      <img src="https://api.lorem.space/image/face?hash=64318" />
                     </div>
                   </div>
                 </div>
@@ -36,7 +34,7 @@
         <li>
           <a @click="showRiwayatMenu">
             Riwayat
-            <span class="ml-2" :class="riwayatMenuRotate">
+            <span class="ml-2" ref="caret1">
               <font-awesome-icon icon="caret-up" />
             </span>
           </a>
@@ -58,7 +56,7 @@
         <li>
           <a @click="showListMenu">
             List
-            <span class="ml-2" :class="listMenuRotate">
+            <span class="ml-2" ref="caret2">
               <font-awesome-icon icon="caret-up" />
             </span>
           </a>
@@ -89,16 +87,9 @@
         </li>
       </ul>
     </div>
-    <div
-      class="flex flex-col drawer-content overflow-scroll pb-24"
-      id="content"
-    >
-      <label
-        for="my-drawer-2"
-        class="mb-4 btn btn-primary drawer-button lg:hidden"
-        >open menu</label
-      >
-        <slot />
+    <div class="flex flex-col drawer-content overflow-scroll pb-24" id="content">
+      <label for="my-drawer-2" class="mb-4 btn btn-primary drawer-button lg:hidden">open menu</label>
+      <slot />
     </div>
   </div>
 </template>
@@ -115,23 +106,27 @@ export default {
     name() {
       return this.$store.getters["auth/profileName"];
     },
-    listMenuRotate() {
-      return {
-        "rotate-180": this.riwayatMenuIsShowed,
-      };
-    },
-    riwayatMenuRotate() {
-      return {
-        "rotate-180": this.riwayatMenuIsShowed,
-      };
-    },
   },
   methods: {
     showRiwayatMenu() {
       this.riwayatMenuIsShowed = !this.riwayatMenuIsShowed;
+      if (this.riwayatMenuIsShowed) {
+        this.$refs.caret1.classList.add('rotate180');
+        this.$refs.caret1.classList.remove('rotate0');
+      } else {
+        this.$refs.caret1.classList.add('rotate0');
+        this.$refs.caret1.classList.remove('rotate180');
+      }
     },
     showListMenu() {
       this.listMenuIsShowed = !this.listMenuIsShowed;
+      if (this.listMenuIsShowed) {
+        this.$refs.caret2.classList.add('rotate180');
+        this.$refs.caret2.classList.remove('rotate0');
+      } else {
+        this.$refs.caret2.classList.add('rotate0');
+        this.$refs.caret2.classList.remove('rotate180');
+      }
     },
   },
 };
@@ -144,6 +139,20 @@ export default {
 
 a {
   color: #52575c !important;
+}
+
+#caret-1 {
+  transform: rotate(180deg);
+}
+
+.rotate180 {
+  transform: rotate(180deg);
+  transition-duration: 0.3s;
+}
+
+.rotate0 {
+  transform: rotate(0deg);
+  transition-duration: 0.3s;
 }
 
 a:hover,

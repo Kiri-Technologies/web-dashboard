@@ -10,6 +10,9 @@ export default {
             token_type: state.token_type
         }
     },
+    profileEmail(state){
+        return state.email;
+    },
     isAuthenticated(state) {
         return !!state.access_token;
     },

@@ -8,6 +8,9 @@ export default {
     getTotalAngkotMendaftarBulanIni(state){
         return state.totalAngkotMendaftarBulanIni;
     },
+    getTotalAngkotTerdaftar(state){
+        return state.totalAngkotTerdaftar;
+    },
     getTotalPendapatanHarian(state){
         return state.totalPendapatanHarian;
     },

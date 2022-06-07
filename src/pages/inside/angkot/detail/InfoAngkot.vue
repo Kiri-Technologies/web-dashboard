@@ -25,9 +25,9 @@
           <div class="text-gray-500">
             :
             {{
-              angkot.is_beroperasi == null || angkot.is_beroperasi == false
-                ? "Tidak beroperasi"
-                : "sedang beroperasi"
+                angkot.is_beroperasi == null || angkot.is_beroperasi == false
+                  ? "Tidak beroperasi"
+                  : "sedang beroperasi"
             }}
           </div>
         </div>
@@ -53,17 +53,14 @@
         </div>
       </div>
       <div>
-        <img
-          src="https://api.lorem.space/image/face?hash=64318"
-          class="w-36 h-36"
-        />
+        <img :src="angkot.qr_code" class="w-36 h-36" />
       </div>
     </div>
 
     <div class="grid grid-cols-2 mt-4">
       <div>
         <div>
-          <p>List Supir</p>
+          <p class="font-semibold">List Supir</p>
           <div class="overflow-auto max-h-72">
             <table class="table w-full">
               <thead>
@@ -85,7 +82,7 @@
           </div>
         </div>
         <div class="mt-2">
-          <p>Pendapatan</p>
+          <p class="font-semibold">Pendapatan</p>
           <div class="overflow-auto max-h-72">
             <table class="table w-full">
               <thead>
@@ -111,7 +108,8 @@
       </div>
       <div>
         <div v-if="isLoading" class="text-sm text-center text-gray-400">Loading chart...</div>
-        <bar-chart v-else :dataProps="pendapatanChart.totalPendapatanHarian" :labelsProps="pendapatanChart.labels" :title="pendapatanChart.title"></bar-chart>
+        <bar-chart v-else :dataProps="pendapatanChart.totalPendapatanHarian" :labelsProps="pendapatanChart.labels"
+          :title="pendapatanChart.title"></bar-chart>
       </div>
     </div>
   </section>
@@ -137,6 +135,7 @@ export default {
           name: "",
         },
         is_beroperasi: false,
+        qr_code: "https://picsum.photos/200",
       },
       listSupir: [],
       listRiwayatSupirNarik: [],
@@ -172,6 +171,7 @@ export default {
           id: this.$route.params.id,
         });
         this.angkot = this.$store.getters["angkot/getAngkot"];
+        console.log(this.angkot);
       } catch (error) {
         this.errorMessage = error.message;
         this.turnOnAlert("error", false);
@@ -224,7 +224,7 @@ export default {
         this.errorMessage = error.message;
         this.turnOnAlert("error", false);
       }
-        this.isLoading = false;
+      this.isLoading = false;
     },
     changeDateFormat(date) {
       return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");

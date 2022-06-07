@@ -41,7 +41,6 @@ export default {
   emits: ["deleteButtonClicked"],
   props: {
     id: {
-      type: String,
       required: true,
     },
   },

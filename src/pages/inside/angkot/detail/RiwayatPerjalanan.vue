@@ -21,32 +21,12 @@
       </div>
     </div>
     <div class="overflow-x-auto mt-4">
-      <table class="table w-full">
-        <!-- head -->
-        <thead>
-          <tr>
-            <th>Waktu</th>
-            <th>Nama Supir</th>
-            <th>Penumpang</th>
-            <th>Tempat Naik</th>
-            <th>Tempat Turun</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="perjalanan.length < 1">
-            <td colspan="100%" class="text-center text-gray-500">
-              Tidak ada riwayat perjalanan di angkot ini
-            </td>
-          </tr>
-          <tr v-for="p in perjalanan" :key="p.id">
-            <td>{{ changeDateFormat(p.created_at) }}</td>
-            <td>{{ p.user_supir.name }}</td>
-            <td>{{ p.user_penumpang.name }}</td>
-            <td>{{ p.nama_tempat_naik }}</td>
-            <td>{{ p.nama_tempat_turun }}</td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="p-5 flex justify-center" v-if="isLoading">
+        <button class="btn bg-transparent loading text-black border-none">
+          Loading data...
+        </button>
+      </div>
+      <data-table :entries="filteredPerjalanan" :columns="columns" v-else></data-table>
     </div>
   </section>
 </template>
@@ -57,6 +37,27 @@ import moment from "moment";
 export default {
   data() {
     return {
+      isLoading: false,
+      columns: [
+        {
+          name: 'waktu', text: 'waktu'
+        },
+        {
+          name: 'nama_supir', text: 'nama supir'
+        },
+        {
+          name: 'plat_nomor', text: 'plat nomor'
+        },
+        {
+          name: 'penumpang', text: 'penumpang'
+        },
+        {
+          name: 'tempat_naik', text: 'tempat naik'
+        },
+        {
+          name: 'tempat_turun', text: 'tempat turun'
+        },
+      ],
       angkot: {
         route: {
           kode_angkot: "",
@@ -67,6 +68,22 @@ export default {
       },
       perjalanan: [],
     };
+  },
+  computed: {
+    filteredPerjalanan() {
+      return this.perjalanan.map(perjalanan => {
+        perjalanan.waktu = this.changeDateFormat(perjalanan.created_at);
+        perjalanan.nama_supir = perjalanan.user_supir.name;
+        perjalanan.plat_nomor =
+          perjalanan.vehicle == null
+            ? "B 4466 US"
+            : perjalanan.vehicle.plat_nomor;
+        perjalanan.penumpang = perjalanan.user_penumpang.name;
+        perjalanan.tempat_naik = perjalanan.nama_tempat_naik;
+        perjalanan.tempat_turun = perjalanan.nama_tempat_turun;
+        return perjalanan;
+      })
+    }
   },
   methods: {
     async getAngkot() {
@@ -97,9 +114,15 @@ export default {
       return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY HH:MM");
     },
   },
-  created(){
-    this.getAngkot();
-    this.getAllPerjalananByIdAngkot();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.getAngkot();
+      await this.getAllPerjalananByIdAngkot();
+    } catch (error) {
+      console.log(error.message);
+    }
+    this.isLoading = false;
   }
 };
 </script>

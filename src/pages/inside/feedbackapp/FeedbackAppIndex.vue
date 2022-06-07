@@ -1,10 +1,15 @@
 <template>
-  <section class="flex justify-center mt-4">
+  <div class="p-5 flex justify-center" v-if="isLoading">
+    <button class="btn bg-transparent loading text-black border-none">
+      Loading data...
+    </button>
+  </div>
+  <section class="flex justify-center mt-4" v-else>
     <card class="shadow-lg w-11/12">
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title>
+          <menu-title :path="{ path: '/' }">
             <template v-slot:default> Feedback </template>
             <template v-slot:menuName>
               Menampilkan list feedback untuk aplikasi
@@ -13,112 +18,21 @@
         </p>
 
         <div class="tabs mt-5">
-          <a
-            v-for="tab in tabs"
-            :key="tab"
-            class="tab tab-bordered"
-            :class="{ 'tab-active': currentTab == tab }"
-            @click="currentTab = tab"
-            >{{ tab }}</a
-          >
+          <a v-for="tab in tabs" :key="tab" class="tab tab-bordered" :class="{ 'tab-active': currentTab == tab }"
+            @click="currentTab = tab">{{ tab }}</a>
         </div>
 
-        <base-alert
-          v-if="alert.turn"
-          :mode="alert.mode"
-          :message="alert.message"
-        ></base-alert>
+        <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
         <div class="overflow-x-auto mt-4">
-          <table class="table w-full">
-            <!-- head -->
-            <thead>
-              <tr>
-                <td>Nama</td>
-                <td>Review</td>
-                <td>Tanggapan</td>
-                <td
-                  v-if="currentTab == 'All Feedback' || currentTab == 'Pending'"
-                >
-                  Change Status
-                </td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="filteredFeedbackApp.length < 1">
-                <td colspan="100%" class="text-center text-gray-500">
-                  Feedback Kosong
-                </td>
-              </tr>
-              <tr v-for="fa in filteredFeedbackApp" :key="fa.id">
-                <td>{{ fa.user_id }}</td>
-                <td>{{ fa.review }}</td>
-                <td>
-                  {{ fa.tanggapan }}
-                </td>
-                <td
-                  v-if="
-                    currentTab !== 'Cancelled' || currentTab !== 'Processed'
-                  "
-                >
-                  <save-modal
-                    :id="fa.id + 'pending'"
-                    @saveButtonClicked="changeStatusToPending"
-                    v-if="currentTab == 'All Feedback'"
-                  >
-                    <template v-slot:default>
-                      <button-warning :class="loadingState" size="sm">
-                        Pending
-                      </button-warning>
-                    </template>
-                    <template v-slot:title> Edit Status </template>
-                    <template v-slot:body>
-                      Anda yakin untuk mengubah status menjadi
-                      <span class="text-yellow-600">pending</span>?
-                    </template>
-                  </save-modal>
-
-                  <save-modal
-                    :id="fa.id + 'cancelled'"
-                    @saveButtonClicked="changeStatusToCancelled"
-                    v-if="currentTab == 'Pending'"
-                  >
-                    <template v-slot:default>
-                      <button-danger
-                        class="mr-2"
-                        :class="loadingState"
-                        size="sm"
-                      >
-                        Cancelled
-                      </button-danger>
-                    </template>
-                    <template v-slot:title> Edit Status </template>
-                    <template v-slot:body>
-                      Anda yakin untuk mengubah status menjadi
-                      <span class="text-red-600">cancelled</span>?
-                    </template>
-                  </save-modal>
-
-                  <save-modal
-                    :id="fa.id + 'processed'"
-                    @saveButtonClicked="changeStatusToProcessed"
-                    v-if="currentTab == 'Pending'"
-                  >
-                    <template v-slot:default>
-                      <button-success :class="loadingState" size="sm">
-                        Processed
-                      </button-success>
-                    </template>
-                    <template v-slot:title> Edit Status </template>
-                    <template v-slot:body>
-                      Anda yakin untuk mengubah status menjadi
-                      <span class="text-green-600">processed</span>?
-                    </template>
-                  </save-modal>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <feedback-app-data-table :entries="filteredFeedbackApp" :currentTab="currentTab"
+            v-if="currentTab == 'All Feedback'" @changeStatus="changeStatus"></feedback-app-data-table>
+          <feedback-app-data-table :entries="filteredFeedbackApp" :currentTab="currentTab"
+            v-if="currentTab == 'Cancelled'" @changeStatus="changeStatus"></feedback-app-data-table>
+          <feedback-app-data-table :entries="filteredFeedbackApp" :currentTab="currentTab"
+            v-if="currentTab == 'Pending'" @changeStatus="changeStatus"></feedback-app-data-table>
+          <feedback-app-data-table :entries="filteredFeedbackApp" :currentTab="currentTab"
+            v-if="currentTab == 'Processed'" @changeStatus="changeStatus"></feedback-app-data-table>
         </div>
       </card-body>
     </card>
@@ -126,7 +40,12 @@
 </template>
 
 <script>
+import FeedbackAppDataTable from '../../../components/molecules/datatable/FeedbackAppDataTable.vue';
+
 export default {
+  components: {
+    FeedbackAppDataTable,
+  },
   data() {
     return {
       currentTab: "All Feedback",
@@ -162,17 +81,6 @@ export default {
         }
       });
     },
-    loadingState() {
-      if (this.isLoading) {
-        return {
-          loading: true,
-        };
-      } else {
-        return {
-          loading: false,
-        };
-      }
-    },
   },
   methods: {
     async loadAllFeedbackApp() {
@@ -181,38 +89,20 @@ export default {
         const allFeedbackApp =
           this.$store.getters["feedbackApp/getAllFeedbackApp"];
         this.allFeedbackApp = allFeedbackApp;
+
+        let processed = this.allFeedbackApp.filter(fa => fa.status == "processed" || fa.status == "process");
+        console.log(processed);
       } catch (error) {
         this.turnOnAlert(false);
       }
     },
-    async changeStatusToPending(id) {
-      this.changeStatus(id, "pending");
-    },
-    async changeStatusToProcessed(id) {
-      this.changeStatus(id, "processed");
-    },
-    async changeStatusToCancelled(id) {
-      this.changeStatus(id, "cancelled");
-    },
-    async changeStatus(id, status) {
-      this.isLoading = true;
-
-      try {
-        await this.$store.dispatch("feedbackApp/updateFeedbackAppById", {
-          id: id,
-          status: status,
-        });
-
-        this.loadAllFeedbackApp();
-
-        this.isLoading = false;
+    async changeStatus(isSucceed) {
+      if (isSucceed) {
+        await this.loadAllFeedbackApp();
         this.turnOnAlert(true);
-      } catch (error) {
+      } else {
         this.turnOnAlert(false);
       }
-      setTimeout(() => {
-        this.alert.turn = false;
-      }, 5000);
     },
     turnOnAlert(isSucceed) {
       this.alert.turn = true;
@@ -224,10 +114,20 @@ export default {
         this.alert.mode = "error";
         this.alert.message = "Gagal mengubah status";
       }
+
+      setTimeout(() => {
+        this.alert.turn = false;
+      }, 5000);
     },
   },
-  created() {
-    this.loadAllFeedbackApp();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.loadAllFeedbackApp();
+    } catch (error) {
+      console.log(error.message);
+    }
+    this.isLoading = false;
   },
 };
 </script>

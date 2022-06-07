@@ -1,39 +1,24 @@
 <template>
   <form @submit.prevent="submitMethod">
     <div class="w-4/5 mx-auto">
-      <base-alert
-        v-if="alert.turn"
-        :mode="alert.mode"
-        :message="alert.message"
-      ></base-alert>
+      <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
       <div class="form-control mb-2">
         <label class="label">
           <span class="label-text">Trayek</span>
         </label>
-        <input
-          type="text"
-          placeholder="Kode Trayek"
-          :value="trayek.kode_trayek"
-          class="input input-bordered"
-          readonly
-        />
+        <input type="text" placeholder="Kode Trayek" :value="trayek.kode_trayek" class="input input-bordered"
+          readonly />
       </div>
       <div class="form-control mb-2">
         <label class="label">
           <span class="label-text">Nama Halte Virtual</span>
         </label>
-        <input
-          type="text"
-          placeholder="Nama Halte Virtual"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.nama_lokasi == 'invalid' }"
-          v-model.trim="nama_lokasi"
-          required
-          @blur="validateNamaLokasi"
-        />
+        <input type="text" placeholder="Nama Halte Virtual" class="input input-bordered"
+          :class="{ 'input-error': validation.nama_lokasi == 'invalid' }" v-model.trim="nama_lokasi" required
+          @blur="validateNamaLokasi" />
         <label class="label" v-if="validation.nama_lokasi == 'invalid'">
           <span class="label-text-alt text-red-500">{{
-            formMessage.nama_lokasi
+              formMessage.nama_lokasi
           }}</span>
         </label>
       </div>
@@ -41,15 +26,9 @@
         <label class="label">
           <span class="label-text">Titik Latitude</span>
         </label>
-        <input
-          type="text"
-          placeholder="Titik Latitude"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.lat == 'invalid' }"
-          v-model.trim="lat"
-          required
-          @blur="validateLatitude"
-        />
+        <input type="text" placeholder="Titik Latitude" class="input input-bordered"
+          :class="{ 'input-error': validation.lat == 'invalid' }" v-model.trim="lat" required
+          @blur="validateLatitude" />
         <label class="label" v-if="validation.lat == 'invalid'">
           <span class="label-text-alt text-red-500">{{ formMessage.lat }}</span>
         </label>
@@ -58,34 +37,19 @@
         <label class="label">
           <span class="label-text">Titik Longitude</span>
         </label>
-        <input
-          type="text"
-          placeholder="Titik Longitude"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.lng == 'invalid' }"
-          v-model.trim="lng"
-          required
-          @blur="validateLongitude"
-        />
+        <input type="text" placeholder="Titik Longitude" class="input input-bordered"
+          :class="{ 'input-error': validation.lng == 'invalid' }" v-model.trim="lng" required
+          @blur="validateLongitude" />
         <label class="label" v-if="validation.lng == 'invalid'">
           <span class="label-text-alt text-red-500">{{ formMessage.lng }}</span>
         </label>
       </div>
       <div class="flex justify-end mt-7">
-        <button-danger
-          :link="true"
-          :to="{ name: 'detail trayek', params: { id: trayekid } }"
-          size="sm"
-        >
+        <button-danger :link="true" :to="{ name: 'detail trayek', params: { id: trayekid } }" size="sm">
           Batal
         </button-danger>
 
-        <button-primary
-          class="ml-1"
-          :class="loadingState"
-          size="sm"
-          type="submit"
-        >
+        <button-primary class="ml-1" :class="loadingState" size="sm" type="submit">
           Simpan
         </button-primary>
       </div>
@@ -104,11 +68,15 @@ export default {
       type: String,
       required: false,
     },
+    id: {
+      type: String,
+      required: false
+    }
   },
   data() {
     return {
-      id: "",
       nama_lokasi: "",
+      route_id: "",
       lat: "",
       lng: "",
       trayek: {
@@ -173,8 +141,6 @@ export default {
           lng: this.lng,
         });
 
-        this.isLoading = false;
-
         this.$store.commit("alert/setAlert", {
           operation: "create",
           isSucceed: true,
@@ -191,6 +157,7 @@ export default {
         this.errorMessage = error.message;
         this.turnOnAlert("error", this.errorMessage);
       }
+      this.isLoading = false;
     },
     async loadTrayek(id) {
       try {
@@ -216,7 +183,7 @@ export default {
         });
         const halteVirtual =
           this.$store.getters["halteVirtual/getHalteVirtual"];
-        this.id = halteVirtual.id;
+        this.route_id = halteVirtual.route_id;
         this.nama_lokasi = halteVirtual.nama_lokasi;
         this.lat = halteVirtual.lat;
         this.lng = halteVirtual.lng;
@@ -238,11 +205,10 @@ export default {
         await this.$store.dispatch("halteVirtual/updateHalteVirtual", {
           id: this.$route.params.id,
           nama_lokasi: this.nama_lokasi,
+          route_id: this.route_id,
           lat: this.lat,
           lng: this.lng,
         });
-
-        this.isLoading = false;
 
         this.$store.commit("alert/setAlert", {
           operation: "update",
@@ -260,6 +226,7 @@ export default {
         this.errorMessage = error.message;
         this.turnOnAlert("error", this.errorMessage);
       }
+      this.isLoading = false;
     },
     turnOnAlert(mode, message) {
       this.alert.turn = true;
@@ -305,8 +272,6 @@ export default {
       this.loadHalteVirtual(this.$route.params.id);
     }
     this.loadTrayek(this.$route.params.trayekid);
-    // if (this.mode == "updateTrayek" && this.$route.params.trayekid) {
-    // }
   },
 };
 </script>

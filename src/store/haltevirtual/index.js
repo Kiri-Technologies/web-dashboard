@@ -7,6 +7,7 @@ export default {
     state() {
         return {
             id: "",
+            route_id: "",
             nama_lokasi: "",
             lat: null,
             lng: null,

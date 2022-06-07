@@ -1,19 +1,20 @@
 <template>
-  <section class="mt-4">
+  <div class="p-5 flex justify-center" v-if="isLoading">
+    <button class="btn bg-transparent loading text-black border-none">
+      Loading data...
+    </button>
+  </div>
+  <section class="mt-4" v-else>
     <section class="flex justify-center">
-      <side-to-side-stat
-        :title1="'Total Perjalanan Bulan Ini'"
-        :title2="'Total Perjalanan Bulan Kemarin'"
-        :data1="totalPerjalananBulanIni"
-        :data2="totalPerjalananBulanLalu"
-      ></side-to-side-stat>
+      <side-to-side-stat :title1="'Total Perjalanan Bulan Ini'" :title2="'Total Perjalanan Bulan Lalu'"
+        :data1="totalPerjalananBulanIni" :data2="totalPerjalananBulanLalu"></side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
       <card class="shadow-lg w-11/12">
         <card-body>
           <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
           <p>
-            <menu-title>
+            <menu-title :path="{ path: '/' }">
               <template v-slot:default> Riwayat Perjalanan </template>
               <template v-slot:menuName>
                 Daftar riwayat perjalanan angkot
@@ -21,65 +22,10 @@
             </menu-title>
           </p>
 
-          <base-alert
-            v-if="alert.turn"
-            :mode="alert.mode"
-            :message="alert.message"
-          ></base-alert>
+          <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
           <div class="overflow-x-auto mt-2">
-            <table class="table w-full" id="myTable">
-              <!-- head -->
-              <thead>
-                <tr>
-                  <th>Waktu</th>
-                  <th>Nama Supir</th>
-                  <th>Plat Nomor</th>
-                  <th>Trayek</th>
-                  <th>Penumpang</th>
-                  <th>Tempat Naik</th>
-                  <th>Tempat Turun</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-if="allPerjalanan.length < 1">
-                  <td colspan="100%" class="text-center text-gray-500">
-                    Tidak ada riwayat perjalanan
-                  </td>
-                </tr>
-                <tr
-                  v-else
-                  v-for="perjalanan in allPerjalanan"
-                  :key="perjalanan.id"
-                >
-                  <td>{{ changeDateFormat(perjalanan.created_at) }}</td>
-                  <td>{{ perjalanan.user_supir.name }}</td>
-                  <td>
-                    {{
-                      perjalanan.vehicle == null
-                        ? "B 4466 US"
-                        : perjalanan.vehicle.plat_nomor
-                    }}
-                  </td>
-                  <td>
-                    {{
-                      perjalanan.vehicle == null
-                        ? "Kebayoran"
-                        : perjalanan.vehicle.route.titik_awal
-                    }}
-                    -
-                    {{
-                      perjalanan.vehicle == null
-                        ? "Ciledug"
-                        : perjalanan.vehicle.route.titik_akhir
-                    }}
-                  </td>
-                  <td>{{ perjalanan.user_penumpang.name }}</td>
-                  <td>{{ perjalanan.nama_tempat_naik }}</td>
-                  <td>{{ perjalanan.nama_tempat_turun }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <data-table :columns="columns" :entries="filteredPerjalanan"></data-table>
           </div>
         </card-body>
       </card>
@@ -92,9 +38,30 @@ import moment from "moment";
 export default {
   data() {
     return {
+      isLoading: false,
       allPerjalanan: [],
       totalPerjalananBulanIni: 0,
       totalPerjalananBulanLalu: 0,
+      columns: [
+        {
+          name: 'waktu', text: 'waktu'
+        },
+        {
+          name: 'nama_supir', text: 'nama supir'
+        },
+        {
+          name: 'plat_nomor', text: 'plat nomor'
+        },
+        {
+          name: 'penumpang', text: 'penumpang'
+        },
+        {
+          name: 'tempat_naik', text: 'tempat naik'
+        },
+        {
+          name: 'tempat_turun', text: 'tempat turun'
+        },
+      ],
       alert: {
         turn: false,
         mode: "",
@@ -110,6 +77,22 @@ export default {
       ],
     };
   },
+  computed: {
+    filteredPerjalanan() {
+      return this.allPerjalanan.map(perjalanan => {
+        perjalanan.waktu = this.changeDateFormat(perjalanan.created_at);
+        perjalanan.nama_supir = perjalanan.user_supir.name;
+        perjalanan.plat_nomor =
+          perjalanan.vehicle == null
+            ? "B 4466 US"
+            : perjalanan.vehicle.plat_nomor;
+        perjalanan.penumpang = perjalanan.user_penumpang.name;
+        perjalanan.tempat_naik = perjalanan.nama_tempat_naik;
+        perjalanan.tempat_turun = perjalanan.nama_tempat_turun;
+        return perjalanan;
+      })
+    }
+  },
   methods: {
     async getAllPerjalanan() {
       try {
@@ -120,19 +103,19 @@ export default {
         this.turnOnAlert("error", false);
       }
     },
-    async getTotalPerjalananBulanIni(){
-      try{
+    async getTotalPerjalananBulanIni() {
+      try {
         await this.$store.dispatch("chart/getTotalPerjalananBulanIni");
         this.totalPerjalananBulanIni = this.$store.getters["chart/getTotalPerjalananBulanIni"];
-      }catch(error){
+      } catch (error) {
         console.log(error.message);
       }
     },
-    async getTotalPerjalananBulanLalu(){
-      try{
+    async getTotalPerjalananBulanLalu() {
+      try {
         await this.$store.dispatch("chart/getTotalPerjalananBulanLalu");
         this.totalPerjalananBulanLalu = this.$store.getters["chart/getTotalPerjalananBulanLalu"];
-      }catch(error){
+      } catch (error) {
         console.log(error.message);
       }
     },
@@ -150,9 +133,16 @@ export default {
       }
     },
   },
-  created() {
-    this.getAllPerjalanan();
-    this.getTotalPerjalananBulanIni();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.getAllPerjalanan();
+      await this.getTotalPerjalananBulanIni();
+      await this.getTotalPerjalananBulanLalu();
+    }catch(error){
+      console.log(error.message);
+    }
+    this.isLoading = false;
   },
 };
 </script>

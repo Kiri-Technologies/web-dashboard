@@ -1,19 +1,21 @@
 <template>
-  <section class="mt-4">
+  <div class="p-5 flex justify-center" v-if="isLoading">
+    <button class="btn bg-transparent loading text-black border-none">
+      Loading data...
+    </button>
+  </div>
+  <section class="mt-4" v-else>
     <section class="flex justify-center">
-      <side-to-side-stat
-        title1="Total Pendapatan Bulan Ini"
-        title2="Total Pendapatan Bulan Kemarin"
-        :data1="rupiahFormat(totalPendapatanBulanIni)"
-        :data2="rupiahFormat(totalPendapatanBulanLalu)"
-      ></side-to-side-stat>
+      <side-to-side-stat title1="Total Pendapatan Bulan Ini" title2="Total Pendapatan Bulan Kemarin"
+        :data1="rupiahFormat(totalPendapatanBulanIni)" :data2="rupiahFormat(totalPendapatanBulanLalu)">
+      </side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
       <card class="shadow-lg w-11/12">
         <card-body>
           <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
           <p>
-            <menu-title>
+            <menu-title :path="{ path: '/' }">
               <template v-slot:default> Riwayat Pendapatan </template>
               <template v-slot:menuName>
                 Daftar pendapatan yang telah dicatat
@@ -21,55 +23,10 @@
             </menu-title>
           </p>
 
-          <base-alert
-            v-if="alert.turn"
-            :mode="alert.mode"
-            :message="alert.message"
-          ></base-alert>
+          <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
           <div class="overflow-x-auto mt-2">
-            <table class="table w-full" id="myTable">
-              <!-- head -->
-              <thead>
-                <tr>
-                  <th>Waktu</th>
-                  <th>Trayek</th>
-                  <th>Plat Nomor</th>
-                  <th>Nama Supir</th>
-                  <th>Jumlah Pendapatan</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-if="listRiwayatSupirNarik.length < 1">
-                  <td colspan="100%" class="text-center text-gray-500">
-                    Tidak ada riwayat pendapatan
-                  </td>
-                </tr>
-                <tr v-else v-for="ls in listRiwayatSupirNarik" :key="ls.id">
-                  <td>{{ changeDateFormat(ls.created_at) }}</td>
-                  <td>
-                    {{
-                    ls.vehicle == null
-                      ? "Kebayoran"
-                      : ls.vehicle.route.titik_awal
-                  }}
-                  -
-                  {{
-                    ls.vehicle == null
-                      ? "Ciputat"
-                      : ls.vehicle.route.titik_akhir
-                  }}
-                  </td>
-                  <td>
-                    {{
-                      ls.vehicle == null ? "B 4433 US" : ls.vehicle.plat_nomor
-                    }}
-                  </td>
-                  <td>{{ ls.supir.name }}</td>
-                  <td>{{ rupiahFormat(ls.jumlah_pendapatan) }}</td>
-                </tr>
-              </tbody>
-            </table>
+            <data-table :columns="columns" :entries="filteredListRiwayatSupirNarik"></data-table>
           </div>
         </card-body>
       </card>
@@ -82,9 +39,27 @@ import moment from "moment";
 export default {
   data() {
     return {
+      isLoading: false,
       listRiwayatSupirNarik: [],
       totalPendapatanBulanIni: 0,
       totalPendapatanBulanLalu: 0,
+      columns: [
+        {
+          name: 'waktu', text: 'waktu'
+        },
+        {
+          name: 'trayek', text: 'trayek'
+        },
+        {
+          name: 'plat_nomor', text: 'plat nomor'
+        },
+        {
+          name: 'nama_supir', text: 'nama supir'
+        },
+        {
+          name: 'jumlah_pendapatan', text: 'jumlah pendapatan'
+        },
+      ],
       alert: {
         turn: false,
         mode: "",
@@ -99,6 +74,20 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    filteredListRiwayatSupirNarik() {
+      return this.listRiwayatSupirNarik.map(ls => {
+        ls.waktu = this.changeDateFormat(ls.created_at);
+        ls.trayek = ls.vehicle == null
+          ? "Kebayoran - Ciputat"
+          : ls.vehicle.route.titik_awal + " - " + ls.vehicle.route.titik_akhir;
+        ls.plat_nomor = ls.vehicle == null ? "B 4433 US" : ls.vehicle.plat_nomor;
+        ls.nama_supir = ls.supir.name;
+        ls.jumlah_pendapatan = this.rupiahFormat(ls.jumlah_pendapatan);
+        return ls;
+      })
+    }
   },
   methods: {
     async getAllRiwayatSupirNarik() {
@@ -148,10 +137,16 @@ export default {
       }
     },
   },
-  created() {
-    this.getAllRiwayatSupirNarik();
-    this.getTotalPendapatanBulanIni();
-    this.getTotalPendapatanBulanLalu();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.getAllRiwayatSupirNarik();
+      await this.getTotalPendapatanBulanIni();
+      await this.getTotalPendapatanBulanLalu();
+    }catch(error){
+      console.log(error.message);
+    }
+    this.isLoading = false;
   },
 };
 </script>

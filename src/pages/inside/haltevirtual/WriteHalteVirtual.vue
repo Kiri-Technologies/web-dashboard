@@ -4,27 +4,28 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p class="mb-5">
-          <menu-title>
+          <menu-title :path="{
+            name: 'detail trayek', params: {
+              id: trayekid
+            }
+          }">
             <template v-slot:default>
               {{
-                mode == "createHalteVirtual"
-                  ? `Tambah Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
-                  : `Update Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
+                  mode == "createHalteVirtual"
+                    ? `Tambah Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
+                    : `Update Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
               }}
             </template>
             <template v-slot:menuName>
               {{
-                mode == "createHalteVirtual"
-                  ? "Menambahkan Halte Virtual"
-                  : "Memperbarui Halte Virtual Terpilih"
+                  mode == "createHalteVirtual"
+                    ? "Menambahkan Halte Virtual"
+                    : "Memperbarui Halte Virtual Terpilih"
               }}
             </template>
           </menu-title>
         </p>
-        <halte-virtual-form
-          :mode="mode"
-          :trayekid="trayekid"
-        ></halte-virtual-form>
+        <halte-virtual-form :mode="mode" :trayekid="trayekid" :id="id"></halte-virtual-form>
       </card-body>
     </card>
   </section>
@@ -34,10 +35,9 @@
 import HalteVirtualForm from "../../../components/molecules/forms/HalteVirtualForm.vue";
 
 export default {
-  props: ["trayekid"],
+  props: ["trayekid", "id"],
   data() {
     return {
-      id: "",
       inputSuccess: false,
       mode: "",
       trayek: {
@@ -64,13 +64,12 @@ export default {
     HalteVirtualForm,
   },
   methods: {
-    async loadTrayek(id) {
+    async loadTrayek() {
       try {
         await this.$store.dispatch("trayek/getTrayekById", {
-          id: id,
+          id: this.trayekid,
         });
         const trayek = this.$store.getters["trayek/getTrayek"];
-        this.trayek.id = trayek.id;
         this.trayek.kode_trayek = trayek.kode_trayek;
         this.trayek.titik_awal = trayek.titik_awal;
         this.trayek.titik_akhir = trayek.titik_akhir;
@@ -80,10 +79,9 @@ export default {
     },
   },
   created() {
-    this.loadTrayek(this.$route.params.trayekid);
+    this.loadTrayek();
     if (this.$route.params.id) {
       this.mode = "updateHalteVirtual";
-      this.id = this.$route.params.id;
     } else if (this.$route.name == "create halte virtual") {
       this.mode = "createHalteVirtual";
     }

@@ -1,7 +1,10 @@
 <template>
-  <a @click="changeRoute" class="cursor-pointer"
+  <!-- <a @click="changeRoute" class="cursor-pointer"
     ><font-awesome-icon icon="arrow-left"
-  /></a>
+  /></a> -->
+  <router-link :to="path">
+    <font-awesome-icon icon="arrow-left" />
+  </router-link>
   <span class="text-xl ml-1">
     <slot />
   </span>
@@ -13,19 +16,13 @@
 <script>
 export default {
   props: {
-    parentRoute: {
-      type: Boolean,
+    path: {
+      type: Object,
       required: false,
-      default: false,
-    },
-  },
-  methods: {
-    changeRoute() {
-      if (this.parentRoute) {
-        this.$router.push("/");
-      } else {
-        this.$router.go(-1);
+      default() {
+        return { path: '/' };
       }
+
     },
   },
 };

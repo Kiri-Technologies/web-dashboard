@@ -1,98 +1,28 @@
 <template>
-  <section class="flex justify-center mt-4">
+  <div class="p-5 flex justify-center" v-if="isLoading">
+    <button class="btn bg-transparent loading text-black border-none">
+      Loading data...
+    </button>
+  </div>
+  <section class="flex justify-center mt-4" v-else>
     <card class="shadow-lg w-11/12">
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title>
+          <menu-title :path="{ path: '/' }">
             <template v-slot:default> Trayek </template>
             <template v-slot:menuName> List Trayek yang Tersedia </template>
           </menu-title>
         </p>
         <div class="flex flex-row justify-end">
-          <button-primary
-            :link="true"
-            :to="{ name: 'create new trayek' }"
-            size="sm"
-          >
+          <button-primary :link="true" :to="{ name: 'create new trayek' }" size="sm">
             Tambah Trayek
           </button-primary>
         </div>
-        <base-alert
-          v-if="alert.turn"
-          :mode="alert.mode"
-          :message="alert.message"
-        ></base-alert>
+        <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
         <div class="overflow-x-auto mt-2">
-          <table class="table w-full" id="myTable">
-            <!-- head -->
-            <thead>
-              <tr>
-                <th>Kode Trayek</th>
-                <th>Titik Awal</th>
-                <th>Titik Akhir</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="emptyTrayek">
-                <td colspan="100%" class="text-center text-gray-500">
-                  Tidak ada trayek yang tersedia
-                </td>
-              </tr>
-              <tr v-else v-for="trayek in allTrayek" :key="trayek.id">
-                <td>{{ trayek.kode_trayek }}</td>
-                <td>{{ trayek.titik_awal }}</td>
-                <td>{{ trayek.titik_akhir }}</td>
-                <td>
-                  <router-link
-                    :to="{
-                      name: 'detail trayek',
-                      params: {
-                        id: trayek.id,
-                      },
-                    }"
-                  >
-                    <font-awesome-icon
-                      icon="info-circle"
-                      class="text-lg text-yellow-500"
-                    />
-                  </router-link>
-
-                  <router-link
-                    :to="{
-                      name: 'update trayek',
-                      params: {
-                        id: trayek.id,
-                      },
-                    }"
-                  >
-                    <font-awesome-icon
-                      icon="pen-square"
-                      class="text-lg text-blue-600 ml-2"
-                    />
-                  </router-link>
-
-                  <delete-modal
-                    :id="trayek.id"
-                    @deleteButtonClicked="deleteButtonClicked"
-                  >
-                    <template v-slot:default>
-                      <font-awesome-icon
-                        icon="trash"
-                        class="text-lg text-red-600 ml-2"
-                      />
-                    </template>
-                    <template v-slot:title> Hapus Trayek? </template>
-                    <template v-slot:body>
-                      Anda yakin untuk menghapus Trayek yang dipilih?
-                    </template>
-                  </delete-modal>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <trayek-data-table :entries="updatedTrayek" @deleteButtonClicked="deleteButtonClicked"></trayek-data-table>
         </div>
       </card-body>
     </card>
@@ -100,9 +30,15 @@
 </template>
 
 <script>
+import TrayekDataTable from '../../../components/molecules/datatable/TrayekDataTable.vue';
+
 export default {
+  components: {
+    TrayekDataTable
+  },
   data() {
     return {
+      isLoading: false,
       menuName: "List akun yang tersedia",
       alert: {
         turn: false,
@@ -122,9 +58,9 @@ export default {
     };
   },
   computed: {
-    emptyTrayek() {
-      return this.allTrayek.length < 1 ? true : false;
-    },
+    updatedTrayek(){
+      return this.allTrayek;
+    }
   },
   methods: {
     async loadAllTrayek() {
@@ -137,20 +73,14 @@ export default {
         this.turnOnAlert("error", this.errorMessage);
       }
     },
-    async deleteButtonClicked(id) {
-      try {
-        await this.$store.dispatch("trayek/deleteTrayekById", {
-          id: id,
-        });
-        this.loadAllTrayek();
-        this.turnOnAlert("delete", "true");
-      } catch (error) {
-        this.turnOnAlert("delete", "false");
+    async deleteButtonClicked(mode, isSucceed) {
+      if (isSucceed) {
+        await this.loadAllTrayek();
       }
+      this.turnOnAlert(mode, isSucceed);
     },
     turnOnAlert(operation, isSucceed) {
       this.alert.turn = true;
-
       if (isSucceed) {
         this.alert.mode = "success";
         if (operation == "create") {
@@ -183,9 +113,15 @@ export default {
       }
     },
   },
-  created() {
-    this.loadAllTrayek();
-    this.setAlert();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.loadAllTrayek();
+      this.setAlert();
+    } catch (error) {
+      console.log(error.message);
+    }
+    this.isLoading = false;
   },
 };
 </script>

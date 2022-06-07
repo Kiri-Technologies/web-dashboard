@@ -1,10 +1,15 @@
 <template>
-  <section class="flex justify-center mt-4">
+  <div class="p-5 flex justify-center" v-if="isLoading">
+    <button class="btn bg-transparent loading text-black border-none">
+      Loading data...
+    </button>
+  </div>
+  <section class="flex justify-center mt-4" v-else>
     <card class="shadow-lg w-11/12">
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title>
+          <menu-title :path="{ path: '/' }">
             <template v-slot:default> Approval Angkot </template>
             <template v-slot:menuName>
               Menampilkan list angkot yang akan disetujui untuk beroperasi
@@ -13,67 +18,19 @@
         </p>
 
         <div class="tabs mt-5">
-          <a
-            v-for="tab in tabs"
-            :key="tab"
-            class="tab tab-bordered"
-            :class="{ 'tab-active': currentTab == tab }"
-            @click="currentTab = tab"
-            >{{ capitalizeFirstLetter(tab) }}</a
-          >
+          <a v-for="tab in tabs" :key="tab" class="tab tab-bordered" :class="{ 'tab-active': currentTab == tab }"
+            @click="currentTab = tab">{{ capitalizeFirstLetter(tab) }}</a>
         </div>
 
-        <base-alert
-          v-if="alert.turn"
-          :mode="alert.mode"
-          :message="alert.message"
-        ></base-alert>
+        <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
         <div class="overflow-x-auto mt-4">
-          <table class="table w-full">
-            <!-- head -->
-            <thead>
-              <tr>
-                <td>Nama Pemilik</td>
-                <td>Plat Nomor</td>
-                <td>Nomor HP Owner</td>
-                <td>Trayek Angkot</td>
-                <td>Email</td>
-                <td v-if="currentTab == 'pending'">Action</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-if="filteredAngkot.length < 1">
-                <td colspan="100%" class="text-center text-gray-500">
-                  Angkot {{ currentTab }} tidak ditemukan
-                </td>
-              </tr>
-              <tr v-else v-for="angkot in filteredAngkot" :key="angkot.id">
-                <td>{{ angkot.user_owner.name }}</td>
-                <td>{{ angkot.plat_nomor }}</td>
-                <td>{{ angkot.user_owner.phone_number }}</td>
-                <td>
-                  {{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}
-                </td>
-                <td>{{ angkot.user_owner.email }}</td>
-                <td v-if="currentTab == 'pending'">
-                  <button @click="updateStatusAngkot(angkot.id, 'approved')">
-                    <font-awesome-icon
-                      icon="check-square"
-                      class="text-lg text-green-600"
-                    />
-                  </button>
-
-                  <button @click="updateStatusAngkot(angkot.id, 'declined')">
-                    <font-awesome-icon
-                      icon="window-close"
-                      class="text-lg text-red-600 ml-2"
-                    />
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
+          <approve-angkot-data-table :entries="filteredAngkot" :currentTab="currentTab" v-if="currentTab == 'pending'"
+            @updateStatusAngkot="updateStatusAngkot"></approve-angkot-data-table>
+          <approve-angkot-data-table :entries="filteredAngkot" :currentTab="currentTab" v-if="currentTab == 'approved'">
+          </approve-angkot-data-table>
+          <approve-angkot-data-table :entries="filteredAngkot" :currentTab="currentTab" v-if="currentTab == 'declined'">
+          </approve-angkot-data-table>
         </div>
       </card-body>
     </card>
@@ -81,7 +38,11 @@
 </template>
 
 <script>
+import ApproveAngkotDataTable from '../../../components/molecules/datatable/ApproveAngkotDataTable.vue';
 export default {
+  components: {
+    ApproveAngkotDataTable,
+  },
   data() {
     return {
       currentTab: "pending",
@@ -108,7 +69,7 @@ export default {
       return this.allAngkot.filter((angkot) => {
         return angkot.status == this.currentTab;
       });
-    },
+    }
   },
   methods: {
     async getAllAngkot() {
@@ -119,14 +80,10 @@ export default {
         this.turnOnAlert(error.message, false);
       }
     },
-    async updateStatusAngkot(id, status) {
+    async updateStatusAngkot(message, isSuccess) {
       try {
-        await this.$store.dispatch("angkot/updateStatusAngkot", { id, status });
-        this.getAllAngkot();
-        this.turnOnAlert(
-          `Berhasil update status angkot menjadi ${status}`,
-          true
-        );
+        await this.getAllAngkot();
+        this.turnOnAlert(message, isSuccess)
       } catch (error) {
         this.turnOnAlert(error.message, false);
       }
@@ -148,8 +105,14 @@ export default {
       }, 5000);
     },
   },
-  created() {
-    this.getAllAngkot();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.getAllAngkot();
+    } catch (error) {
+      this.turnOnAlert(error.message, false);
+    }
+    this.isLoading = false;
   },
 };
 </script>

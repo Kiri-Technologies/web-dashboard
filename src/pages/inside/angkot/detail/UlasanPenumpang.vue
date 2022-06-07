@@ -21,9 +21,9 @@
       </div>
     </div>
     <div class="overflow-x-auto mt-4">
-      <table class="table w-full">
-        <!-- head -->
-        <thead>
+      <!-- <table class="table w-full"> -->
+      <!-- head -->
+      <!-- <thead>
           <tr>
             <th>Tanggal</th>
             <th>Nama</th>
@@ -33,32 +33,37 @@
           </tr>
         </thead>
         <tbody>
+          <tr v-if="allPerjalanan.length < 1">
+            <td colspan="100%" class="text-center text-gray-500">
+              Ulasan penumpang kosong
+            </td>
+          </tr>
           <tr v-for="p in allPerjalanan" :key="p.id">
             <td>{{ changeDateFormat(p.feedback.created_at) }}</td>
             <td>{{ p.user_penumpang.name }}</td>
             <td>
-              <font-awesome-icon
-                icon="star"
-                class="text-lg text-yellow-400"
-                v-for="i in Number(p.feedback.rating)"
-                :key="i"
-              />
+              <font-awesome-icon icon="star" class="text-lg text-yellow-400" v-for="i in Number(p.feedback.rating)"
+                :key="i" />
             </td>
             <td>{{ p.feedback.review }}</td>
             <td>{{ p.feedback.komentar }}</td>
           </tr>
         </tbody>
-      </table>
+      </table> -->
+      <ulasan-penumpang-data-table :entries="allPerjalanan"></ulasan-penumpang-data-table>
     </div>
   </section>
 </template>
 
 <script>
-import moment from "moment";
-
+import UlasanPenumpangDataTable from '../../../../components/molecules/datatable/UlasanPenumpangDataTable.vue';
 export default {
+  components: {
+    UlasanPenumpangDataTable
+  },
   data() {
     return {
+      isLoading: false,
       angkot: {
         route: {
           kode_angkot: "",
@@ -95,13 +100,16 @@ export default {
         console.log(error.message);
       }
     },
-    changeDateFormat(date) {
-      return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY HH:MM");
-    },
   },
-  created() {
-    this.getAngkot();
-    this.getAllPerjalananByAngkotId();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.getAngkot();
+      await this.getAllPerjalananByAngkotId();
+    }catch(error){
+      console.log(error.message);
+    }
+    this.isLoading = false;
   },
 };
 </script>
