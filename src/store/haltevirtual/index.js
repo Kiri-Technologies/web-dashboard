@@ -11,6 +11,7 @@ export default {
             nama_lokasi: "",
             lat: null,
             lng: null,
+            arah: "",
             allHalteVirtual: [],
         };
     },

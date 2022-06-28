@@ -156,11 +156,13 @@ export default {
                 await this.$store.dispatch("trayek/deleteTrayekById", {
                     id: id,
                 });
-                // this.loadAllTrayek();
-                // this.turnOnAlert("delete", "true");
+
+                await this.$store.dispatch("trayek/getAllTrayek");
+                const trayek = this.$store.getters["trayek/getAllTrayek"];
+
+                this.filteredEntries = $array.paginate(trayek, this.currentPage, this.showedEntries);
                 this.$emit('deleteButtonClicked', 'delete', true);
             } catch (error) {
-                // this.turnOnAlert("delete", "false");
                 this.$emit('deleteButtonClicked', 'delete', false);
             }
         },

@@ -1,0 +1,85 @@
+{
+  "angkot": {
+    "route_1": {
+      "angkot_1": {
+        "angkot_id": 1,
+        "lat": -6.958266465026101,
+        "long": 107.63954295477431,
+        "arah": "Bojongsoang",
+        "is_beroperasi": true,
+        "is_waiting_passengers": false,
+        "is_full": false,
+        "owner_id": "owner-123456"
+      },
+      "angkot_3": {
+        "angkot_id": 3,
+        "lat": -6.96808665994272,
+        "long": 107.63740774727555,
+        "arah": "Bojongsoang",
+        "is_beroperasi": true,
+        "is_waiting_passengers": false,
+        "is_full": false,
+        "owner_id": "owner-123456"
+      }
+    },
+    "route_2": {
+      "angkot_2": {
+        "angkot_id": 2,
+        "lat": -6.940323662649389,
+        "long": 107.6579952230079,
+        "arah": "Kiaracondong",
+        "is_beroperasi": true,
+        "is_waiting_passengers": false,
+        "is_full": false,
+        "owner_id": "owner-123456"
+      }
+    }
+  },
+  "jarak_antar_angkot": {
+    "angkot_1": {
+      "angkot_id": 1,
+      "angkot_id_didepan": 3,
+      "jarak_antar_angkot_waktu": "4 min",
+      "jarak_antar_angkot_km": "1.5 km"
+    }
+  },
+  "setpoints": {
+    "setpoint_1": {
+      "setpoint_id": 1,
+      "nama_lokasi": "Transmart Buah Batu",
+      "route_id": 1,
+      "lat": -6.96670545019899,
+      "long": 107.6377486264246,
+      "arah": "Bojongsoang",
+      "prioritas": {
+        "angkot_2": {
+          "angkot_id": 2,
+          "lat": -6.96808665994272,
+          "long": 107.63740774727555,
+          "arah": "Bojongsoang",
+          "is_beroperasi": true,
+          "is_waiting_passengers": false,
+          "is_full": false,
+          "owner_id": "owner-123456",
+          "timestamp": "2022-05-31 12:00:00"
+        }
+      }
+    }
+  },
+  "penumpang_naik_turun": {
+    "angkot_1": {
+      "naik": {},
+      "turun": {
+        "perjalanan_3": {
+          "angkot_id": 3,
+          "id_perjalanan": 3,
+          "id_user": "user-123456",
+          "id_titik_naik": 1,
+          "id_titik_turun": 3,
+          "titik_naik": "Pasar Kordon",
+          "titik_turun": "Depan PBB"
+        }
+      }
+    }
+  }
+}

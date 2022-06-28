@@ -76,9 +76,9 @@ export default {
         this.errorMessage = error.message;
       }
     },
-    deleteButtonClicked(mode, isSucceed) {
+    async deleteButtonClicked(mode, isSucceed) {
       if (isSucceed) {
-        this.loadAllAccount();
+        await this.loadAllAccount();
       }
       this.turnOnAlert(mode, isSucceed);
     },
@@ -118,14 +118,14 @@ export default {
     },
   },
   async created() {
-    this.isLoading = true;
+    // this.isLoading = true;
     try {
       await this.loadAllAccount();
       this.setAlert();
     } catch (error) {
       console.log(error.message)
     }
-    this.isLoading = false;
+    // this.isLoading = false;
   },
 };
 </script>

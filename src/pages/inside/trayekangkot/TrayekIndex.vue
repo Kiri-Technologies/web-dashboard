@@ -22,7 +22,7 @@
         <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
         <div class="overflow-x-auto mt-2">
-          <trayek-data-table :entries="updatedTrayek" @deleteButtonClicked="deleteButtonClicked"></trayek-data-table>
+          <trayek-data-table :entries="allTrayek" @deleteButtonClicked="deleteButtonClicked"></trayek-data-table>
         </div>
       </card-body>
     </card>
@@ -57,11 +57,6 @@ export default {
       ],
     };
   },
-  computed: {
-    updatedTrayek(){
-      return this.allTrayek;
-    }
-  },
   methods: {
     async loadAllTrayek() {
       try {
@@ -74,9 +69,6 @@ export default {
       }
     },
     async deleteButtonClicked(mode, isSucceed) {
-      if (isSucceed) {
-        await this.loadAllTrayek();
-      }
       this.turnOnAlert(mode, isSucceed);
     },
     turnOnAlert(operation, isSucceed) {

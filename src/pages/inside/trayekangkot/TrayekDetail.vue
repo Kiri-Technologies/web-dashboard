@@ -12,13 +12,9 @@
           </menu-title>
         </p>
         <div class="flex flex-row justify-end">
-          <button-primary
-            :link="true"
-            :to="{
-              name: 'update trayek',
-            }"
-            size="sm"
-          >
+          <button-primary :link="true" :to="{
+            name: 'update trayek',
+          }" size="sm">
             Edit Trayek
           </button-primary>
         </div>
@@ -46,67 +42,49 @@
         </div>
 
         <!-- maps & halte virtual -->
-        <div
-          class="
+        <div class="
             grid grid-cols-3
             mt-5
             border-solid border border-gray-300
             rounded-md
-          "
-        >
+          ">
           <div class="grid grid-flow-row auto-rows-max p-2">
-            <base-alert
-              v-if="alert.turn"
-              :mode="alert.mode"
-              :message="alert.message"
-            ></base-alert>
+            <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
             <div class="grid grid-cols-3 p-2 bg-gray-200">
               <div class="col-span-2 grid content-center">
                 <h1 class="font-bold">Titik Halte Virtual</h1>
               </div>
-              <button-primary
-                :link="true"
-                size="sm"
-                :to="{ name: 'create halte virtual', params: { trayekid: id } }"
-                >Tambah</button-primary
-              >
+              <button-primary :link="true" size="sm" :to="{ name: 'create halte virtual', params: { trayekid: id } }">
+                Tambah</button-primary>
             </div>
             <div class="border-solid border border-gray-300 rounded-b-md">
-              <div
-                class="grid grid-cols-3 p-2 cursor-pointer"
-                v-for="halteVirtual in allHalteVirtual"
-                :key="halteVirtual.id"
-                :class="{
+              <div>
+                <div class="tabs justify-center">
+                  <a class="tab tab-bordered" :class="{ 'tab-active': currentTab == this.titik_awal }" @click="currentTab = this.titik_awal">{{ this.titik_awal }}</a>
+                  <a class="tab tab-bordered" :class="{ 'tab-active': currentTab == this.titik_akhir }" @click="currentTab = this.titik_akhir">{{ this.titik_akhir }}</a>
+                </div>
+              </div>
+
+
+              <div class="grid grid-cols-3 p-2 cursor-pointer" v-for="halteVirtual in filteredHalteVirtual"
+                :key="halteVirtual.id" :class="{
                   'bg-gray-200': selectedHalteVirtual == halteVirtual.id,
-                }"
-                @click="selectHalteVirtual(halteVirtual.id)"
-              >
+                }" @click="selectHalteVirtual(halteVirtual.id)">
                 <div class="col-span-2">{{ halteVirtual.nama_lokasi }}</div>
                 <div class="flex justify-end">
-                  <router-link
-                    :to="{
-                      name: 'update halte virtual',
-                      params: {
-                        trayekid: id,
-                        id: halteVirtual.id,
-                      },
-                    }"
-                  >
-                    <font-awesome-icon
-                      icon="pen-square"
-                      class="text-lg text-blue-600 ml-2"
-                    />
+                  <router-link :to="{
+                    name: 'update halte virtual',
+                    params: {
+                      trayekid: id,
+                      id: halteVirtual.id,
+                    },
+                  }">
+                    <font-awesome-icon icon="pen-square" class="text-lg text-blue-600 ml-2" />
                   </router-link>
-                  <delete-modal
-                    :id="halteVirtual.id"
-                    @deleteButtonClicked="deleteButtonClicked"
-                  >
+                  <delete-modal :id="halteVirtual.id" @deleteButtonClicked="deleteButtonClicked">
                     <template v-slot:default>
-                      <font-awesome-icon
-                        icon="trash"
-                        class="text-lg text-red-600 ml-2"
-                      />
+                      <font-awesome-icon icon="trash" class="text-lg text-red-600 ml-2" />
                     </template>
                     <template v-slot:title> Hapus Halte Virtual? </template>
                     <template v-slot:body>
@@ -118,10 +96,7 @@
             </div>
           </div>
           <div class="col-span-2">
-            <google-map
-              :allHalteVirtual="allHalteVirtual"
-              :center="centerHalteVirtual"
-            ></google-map>
+            <google-map :allHalteVirtual="filteredHalteVirtual" :center="centerHalteVirtual"></google-map>
           </div>
         </div>
       </card-body>
@@ -138,6 +113,7 @@ export default {
       kode_trayek: "",
       titik_awal: "",
       titik_akhir: "",
+      currentTab: "",
       allHalteVirtual: [],
       selectedHalteVirtual: "",
       alert: {
@@ -182,6 +158,9 @@ export default {
         )[0];
       }
     },
+    filteredHalteVirtual(){
+      return this.allHalteVirtual.filter(hv => hv.arah == this.currentTab);
+    }
   },
   components: {
     GoogleMap,
@@ -196,6 +175,7 @@ export default {
         this.kode_trayek = trayek.kode_trayek;
         this.titik_awal = trayek.titik_awal;
         this.titik_akhir = trayek.titik_akhir;
+        this.currentTab = trayek.titik_awal;
       } catch (error) {
         console.log(error);
       }

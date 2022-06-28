@@ -1,6 +1,6 @@
 import axios from "axios";
 export default {
-    async createHalteVirtual(context, { trayekid, nama_lokasi, lat, lng }) {
+    async createHalteVirtual(context, { trayekid, nama_lokasi, lat, lng, arah }) {
         const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/create`;
 
         const access_token = localStorage.getItem('access_token');
@@ -18,7 +18,8 @@ export default {
                     route_id: trayekid,
                     nama_lokasi: nama_lokasi,
                     lat,
-                    long: lng
+                    long: lng,
+                    arah
                 }
             });
         } catch (error) {
@@ -64,6 +65,7 @@ export default {
                 nama_lokasi: item.nama_lokasi,
                 lat: Number(item.lat),
                 lng: Number(item.long),
+                arah: item.arah,
             }
         })
 
@@ -98,10 +100,11 @@ export default {
             route_id: response.data.data.route_id,
             nama_lokasi: response.data.data.nama_lokasi,
             lat: Number(response.data.data.lat),
-            lng: Number(response.data.data.long)
+            lng: Number(response.data.data.long),
+            arah: response.data.data.arah,
         });
     },
-    async updateHalteVirtual(context, { id, route_id, nama_lokasi, lat, lng }) {
+    async updateHalteVirtual(context, { id, route_id, nama_lokasi, lat, lng, arah }) {
         const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/update`;
 
         const access_token = localStorage.getItem('access_token');
@@ -119,7 +122,8 @@ export default {
                     nama_lokasi,
                     route_id,
                     lat,
-                    long: lng
+                    long: lng,
+                    arah
                 }
             });
         } catch (error) {

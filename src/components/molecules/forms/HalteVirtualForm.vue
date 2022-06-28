@@ -24,6 +24,23 @@
       </div>
       <div class="form-control mb-2">
         <label class="label">
+          <span class="label-text">Arah</span>
+        </label>
+        <select class="select select-bordered" :class="{ 'input-error': validation.arah == 'invalid' }" v-model="arah"
+          required @blur="validateArah">
+          <option disabled>Pilih arah...</option>
+          <option>{{ this.trayek.titik_awal }}</option>
+          <option>{{ this.trayek.titik_akhir }}</option>
+        </select>
+        <label class="label">
+          <span class="label-text-alt text-gray-500">Tentukan arah sesuai titik awal atau titik</span>
+          <span class="label-text-alt text-red-500" v-if="validation.arah == 'invalid'">{{
+              formMessage.arah
+          }}</span>
+        </label>
+      </div>
+      <div class="form-control mb-2">
+        <label class="label">
           <span class="label-text">Titik Latitude</span>
         </label>
         <input type="text" placeholder="Titik Latitude" class="input input-bordered"
@@ -79,11 +96,16 @@ export default {
       route_id: "",
       lat: "",
       lng: "",
+      arah: "Pilih arah...",
       trayek: {
         id: "",
         kode_trayek: "",
         titik_awal: "",
         titik_akhir: "",
+        lat_titik_awal: "",
+        long_titik_awal: "",
+        lat_titik_akhir: "",
+        long_titik_akhir: "",
       },
       alert: {
         turn: false,
@@ -94,11 +116,13 @@ export default {
         nama_lokasi: "pending",
         lat: "pending",
         lng: "pending",
+        arah: "pending",
       },
       formMessage: {
         nama_lokasi: "",
         lat: "",
         lng: "",
+        arah: "",
       },
       isLoading: false,
       formIsInvalid: false,
@@ -127,35 +151,35 @@ export default {
     },
     async createHalteVirtual() {
       this.isLoading = true;
-      if (this.formIsInvalid) {
-        this.isLoading = false;
+      if (this.formIsInvalid || !this.validateNamaLokasi() || !this.validateLatitude() || !this.validateLongitude() || !this.validateArah()) {
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
-        return;
-      }
+        console.log(this.arah);
+      } else {
+        try {
+          await this.$store.dispatch("halteVirtual/createHalteVirtual", {
+            trayekid: this.trayekid,
+            nama_lokasi: this.nama_lokasi,
+            lat: this.lat,
+            lng: this.lng,
+            arah: this.arah,
+          });
 
-      try {
-        await this.$store.dispatch("halteVirtual/createHalteVirtual", {
-          trayekid: this.trayekid,
-          nama_lokasi: this.nama_lokasi,
-          lat: this.lat,
-          lng: this.lng,
-        });
+          this.$store.commit("alert/setAlert", {
+            operation: "create",
+            isSucceed: true,
+          });
 
-        this.$store.commit("alert/setAlert", {
-          operation: "create",
-          isSucceed: true,
-        });
-
-        this.$router.push({
-          name: "detail trayek",
-          params: {
-            id: this.trayekid,
-          },
-        });
-      } catch (error) {
-        this.formIsInvalid = true;
-        this.errorMessage = error.message;
-        this.turnOnAlert("error", this.errorMessage);
+          this.$router.push({
+            name: "detail trayek",
+            params: {
+              id: this.trayekid,
+            },
+          });
+        } catch (error) {
+          this.formIsInvalid = true;
+          this.errorMessage = error.message;
+          this.turnOnAlert("error", this.errorMessage);
+        }
       }
       this.isLoading = false;
     },
@@ -169,6 +193,10 @@ export default {
         this.trayek.kode_trayek = trayek.kode_trayek;
         this.trayek.titik_awal = trayek.titik_awal;
         this.trayek.titik_akhir = trayek.titik_akhir;
+        this.trayek.lat_titik_awal = trayek.lat_titik_awal;
+        this.trayek.long_titik_awal = trayek.long_titik_awal;
+        this.trayek.lat_titik_akhir = trayek.lat_titik_akhir;
+        this.trayek.long_titik_akhir = trayek.long_titik_akhir;
       } catch (error) {
         this.formIsInvalid = true;
         this.errorMessage = error.message;
@@ -187,6 +215,7 @@ export default {
         this.nama_lokasi = halteVirtual.nama_lokasi;
         this.lat = halteVirtual.lat;
         this.lng = halteVirtual.lng;
+        this.arah = halteVirtual.arah;
       } catch (error) {
         this.formIsInvalid = true;
         this.errorMessage = error.message;
@@ -208,6 +237,7 @@ export default {
           route_id: this.route_id,
           lat: this.lat,
           lng: this.lng,
+          arah: this.arah,
         });
 
         this.$store.commit("alert/setAlert", {
@@ -237,33 +267,52 @@ export default {
       if (this.nama_lokasi == "") {
         this.validation.nama_lokasi = "invalid";
         this.formIsInvalid = true;
-        this.formMessage.nama_lokasi = "Please enter a halte virtual name";
+        this.formMessage.nama_lokasi = "Please enter a correct halte virtual name";
+        return false;
       } else {
         this.formIsInvalid = false;
         this.formMessage.nama_lokasi = "";
         this.validation.nama_lokasi = "valid";
+        return true;
+      }
+    },
+    validateArah() {
+      if (this.arah == "") {
+        this.validation.arah = "invalid";
+        this.formIsInvalid = true;
+        this.formMessage.arah = "Please enter a correct direction";
+        return false;
+      } else {
+        this.formIsInvalid = false;
+        this.formMessage.arah = "";
+        this.validation.arah = "valid";
+        return true;
       }
     },
     validateLatitude() {
-      if (this.lat == "") {
+      if (this.lat == "" || !isFinite(this.lat) && !Math.abs(this.lat) <= 90) {
         this.validation.lat = "invalid";
         this.formIsInvalid = true;
-        this.formMessage.lat = "Please enter a latitude";
+        this.formMessage.lat = "Please enter a correct latitude";
+        return false;
       } else {
         this.formMessage.lat = "";
         this.formIsInvalid = false;
         this.validation.lat = "valid";
+        return true;
       }
     },
     validateLongitude() {
-      if (this.lng == "") {
+      if (this.lng == "" || !isFinite(this.lng) && !Math.abs(this.lng) <= 180) {
         this.validation.lng = "invalid";
         this.formIsInvalid = true;
-        this.formMessage.lng = "Please enter a longitude";
+        this.formMessage.lng = "Please enter a correct longitude";
+        return false;
       } else {
         this.formMessage.lng = "";
         this.formIsInvalid = false;
         this.validation.lng = "valid";
+        return true;
       }
     },
   },

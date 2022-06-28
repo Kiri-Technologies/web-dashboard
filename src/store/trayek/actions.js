@@ -1,6 +1,6 @@
 import axios from "axios";
 export default {
-    async createTrayek(context, { kode_trayek, titik_awal, titik_akhir }) {
+    async createTrayek(context, { kode_trayek, titik_awal, titik_akhir, lat_titik_awal, long_titik_awal, lat_titik_akhir, long_titik_akhir }) {
         const url = `https://kiri.mfaiztriputra.id/api/admin/routes/create`;
 
         const access_token = localStorage.getItem('access_token');
@@ -17,7 +17,11 @@ export default {
                 data: {
                     kode_trayek,
                     titik_awal,
-                    titik_akhir
+                    titik_akhir,
+                    lat_titik_awal,
+                    long_titik_awal,
+                    lat_titik_akhir,
+                    long_titik_akhir
                 }
             });
         } catch (error) {
@@ -84,9 +88,13 @@ export default {
             kode_trayek: response.data.data.kode_trayek,
             titik_awal: response.data.data.titik_awal,
             titik_akhir: response.data.data.titik_akhir,
+            lat_titik_awal: response.data.data.lat_titik_awal,
+            long_titik_awal: response.data.data.long_titik_awal,
+            lat_titik_akhir: response.data.data.lat_titik_akhir,
+            long_titik_akhir: response.data.data.long_titik_akhir,
         });
     },
-    async updateTrayekById(context, { id, kode_trayek, titik_awal, titik_akhir }) {
+    async updateTrayekById(context, { id, kode_trayek, titik_awal, titik_akhir, lat_titik_awal, long_titik_awal, lat_titik_akhir, long_titik_akhir }) {
         const url = `https://kiri.mfaiztriputra.id/api/admin/routes/${id}/update`;
 
         const access_token = localStorage.getItem('access_token');
@@ -103,7 +111,11 @@ export default {
                 data: {
                     kode_trayek,
                     titik_awal,
-                    titik_akhir
+                    titik_akhir,
+                    lat_titik_awal,
+                    long_titik_awal,
+                    lat_titik_akhir,
+                    long_titik_akhir
                 }
             });
         } catch (error) {

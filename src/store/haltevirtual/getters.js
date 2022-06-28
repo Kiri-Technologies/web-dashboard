@@ -9,6 +9,7 @@ export default {
             nama_lokasi: state.nama_lokasi,
             lat: state.lat,
             lng: state.lng,
+            arah: state.arah
         }
     }
 }

@@ -73,7 +73,7 @@ export default {
     filteredPerjalanan() {
       return this.perjalanan.map(perjalanan => {
         perjalanan.waktu = this.changeDateFormat(perjalanan.created_at);
-        perjalanan.nama_supir = perjalanan.user_supir.name;
+        perjalanan.nama_supir = perjalanan.user_supir == null ? 'supir' : perjalanan.user_supir.name;
         perjalanan.plat_nomor =
           perjalanan.vehicle == null
             ? "B 4466 US"

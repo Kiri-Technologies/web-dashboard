@@ -31,11 +31,11 @@
                         </td>
                     </tr>
                     <tr v-for="angkot in filteredEntries" :key="angkot.id">
-                        <td>{{ angkot.route.kode_trayek }}</td>
+                        <td>{{ angkot.route == null ? 'D-101' : angkot.route.kode_trayek }}</td>
                         <td>{{ angkot.plat_nomor }}</td>
                         <td>
-                            {{ angkot.route.titik_awal }} -
-                            {{ angkot.route.titik_akhir }}
+                            {{ angkot.route == null ? 'Kebayoran' : angkot.route.titik_awal }} -
+                            {{ angkot.route == null ? 'Ciputat' : angkot.route.titik_akhir }}
                         </td>
                         <td>{{ angkot.user_owner.name }}</td>
                         <td>

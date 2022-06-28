@@ -4,7 +4,7 @@
       <div class="col-span-2">
         <div class="grid grid-cols-2">
           <div>Kode Trayek</div>
-          <div class="text-gray-500">: {{ angkot.route.kode_trayek }}</div>
+          <div class="text-gray-500">: {{ angkot.route == null ? 'D-101' : angkot.route.kode_trayek }}</div>
         </div>
         <div class="grid grid-cols-2">
           <div>Plat Nomor</div>
@@ -13,7 +13,7 @@
         <div class="grid grid-cols-2">
           <div>Trayek Angkot</div>
           <div class="text-gray-500">
-            : {{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}
+            : {{ angkot.route == null ? 'Kebayoran' : angkot.route.titik_awal }} - {{ angkot.route == null ? 'Ciputat' : angkot.route.titik_akhir }}
           </div>
         </div>
         <div class="grid grid-cols-2">

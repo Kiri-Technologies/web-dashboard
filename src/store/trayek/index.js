@@ -10,6 +10,10 @@ export default {
             kode_trayek: "d01",
             titik_awal: "Buah Batu",
             titik_akhir: "Dipatiukur",
+            lat_titik_awal: "",
+            long_titik_awal: "",
+            lat_titik_akhir: "",
+            long_titik_akhir: "",      
             allTrayek: [],
         };
     },
