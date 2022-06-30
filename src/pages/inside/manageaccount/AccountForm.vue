@@ -44,7 +44,7 @@ export default {
           link: {
             path: this.id
               ? `/manageaccount/${this.id}/update`
-              : "/maangeaccount/create",
+              : "/manageaccount/create",
           },
         },
       ],

@@ -1,207 +1,62 @@
 <template>
-  <form @submit.prevent="submitMethod">
+  <div class="p-5 flex justify-center" v-if="pageLoading">
+    <button class="btn bg-transparent loading text-black border-none">
+      Loading data...
+    </button>
+  </div>
+  <form @submit.prevent="submitMethod" v-else>
     <div class="w-4/5 mx-auto">
-      <base-alert
-        v-if="alert.turn"
-        :mode="alert.mode"
-        :message="alert.message"
-      ></base-alert>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Email</span>
-        </label>
-        <input
-          type="email"
-          placeholder="email"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.email == 'invalid' }"
-          ref="email"
-          v-model.trim="email"
-          readonly
-          required
-          @blur="validateEmail"
-        />
-        <label class="label" v-if="validation.email == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-            formMessage.email
-          }}</span>
-        </label>
-      </div>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Nama Lengkap</span>
-        </label>
-        <input
-          type="text"
-          placeholder="name"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.name == 'invalid' }"
-          ref="name"
-          v-model.trim="name"
-          readonly
-          required
-          @blur="validateName"
-        />
-        <label class="label" v-if="validation.name == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-            formMessage.name
-          }}</span>
-        </label>
-      </div>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Nomor Hp</span>
-        </label>
-        <input
-          type="number"
-          placeholder="Nomor Hp"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.phone_number == 'invalid' }"
-          ref="nohp"
-          v-model.trim="phone_number"
-          readonly
-          required
-          @blur="validateNoHp"
-        />
-        <label class="label" v-if="validation.phone_number == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-            formMessage.phone_number
-          }}</span>
-        </label>
-      </div>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Tanggal Lahir</span>
-        </label>
-        <input
-          type="date"
-          placeholder="birthdate"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.birthdate == 'invalid' }"
-          ref="birthdate"
-          v-model.trim="birthdate"
-          readonly
-          required
-          @blur="validateBirthdate"
-        />
-        <label class="label" v-if="validation.birthdate == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-            formMessage.birthdate
-          }}</span>
-        </label>
-      </div>
+      <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-      <!-- Password -->
-      <!-- <div class="form-control mb-2" v-if="isUpdate">
-        <label class="label">
-          <span class="label-text">Password lama</span>
-        </label>
-        <input
-          type="password"
-          placeholder="Password lama"
-          class="input input-bordered"
-          v-model.trim="oldPassword"
-        />
-      </div> -->
-      <div class="form-control mb-2" v-if="isUpdate">
-        <label class="label">
-          <span class="label-text">{{
-            this.mode == "createNewAccount" ? "Password" : "Password baru"
-          }}</span>
-        </label>
-        <input
-          type="password"
-          placeholder="Password baru"
-          class="input input-bordered"
-          :class="{ 'input-error': validation.password == 'invalid' }"
-          v-model.trim="password"
-          @blur="validatePassword"
-        />
-        <label class="label" v-if="validation.password == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-            formMessage.password
-          }}</span>
-        </label>
-      </div>
-      <div class="form-control mb-2" v-if="isUpdate">
-        <label class="label">
-          <span class="label-text">{{
-            this.mode == "createNewAccount"
-              ? "Ulangi password"
-              : "Ulangi password baru"
-          }}</span>
-        </label>
-        <input
-          type="password"
-          placeholder="Ulangi password baru"
-          class="input input-bordered"
-          :class="{
-            'input-error': validation.password_confirmation == 'invalid',
-          }"
-          v-model.trim="password_confirmation"
-          @blur="validatePasswordConfirmation"
-        />
-        <label
-          class="label"
-          v-if="validation.password_confirmation == 'invalid'"
-        >
-          <span class="label-text-alt text-red-500">{{
-            formMessage.password_confirmation
-          }}</span>
-        </label>
-      </div>
+      <form-input @formChange="setEmail" type="email" label="Email" :isReadonly="isReadonly" formName="email"
+        placeholder="Email" :isRequired="true" :defaultValue="email" :mode="mode">
+      </form-input>
+
+      <!-- <form-input @formChange="setEmail" type="email" label="Email" :isReadonly="isReadonly" formName="email"
+        placeholder="Email" :isRequired="true" v-if="this.mode == 'createNewAccount'"></form-input> -->
+
+      <form-input @formChange="setName" type="name" label="Nama Lengkap" :isReadonly="isReadonly" formName="name"
+        placeholder="Nama Lengkap" :isRequired="true" :defaultValue="name" :mode="mode"></form-input>
+
+      <form-input @formChange="setPhoneNumber" type="number" label="Nomor Hp" :isReadonly="isReadonly"
+        formName="phone number" placeholder="Nomor Hp" :isRequired="true" :defaultValue="phone_number" :mode="mode"></form-input>
+
+      <form-input @formChange="setBirthdate" type="date" label="Tanggal Lahir" :isReadonly="isReadonly"
+        formName="birthdate" placeholder="Tanggal Lahir" :isRequired="true" :defaultValue="birthdate" :mode="mode"></form-input>
+
+      <form-input v-if="isUpdate" @formChange="setNewPassword" type="password"
+        :label="this.mode == 'createNewAccount' ? 'Password' : 'Password baru'" :isReadonly="isReadonly"
+        formName="new password" placeholder="Password baru" :isRequired="requiredByMode" :mode="mode"></form-input>
+
+      <form-input v-if="isUpdate" @formChange="setConfirmNewPassword" type="password"
+        :label="this.mode == 'createNewAccount' ? 'Ulangi password' : 'Ulangi password baru'" :isReadonly="isReadonly"
+        formName="confirm new password" placeholder="Ulangi password baru" :isRequired="requiredByMode" :mode="mode"></form-input>
 
       <div class="flex justify-end mt-7">
-        <button-primary
-          @click="changeFormMode('update'), changeIsUpdate()"
-          type="button"
-          v-if="!isUpdate"
-          size="sm"
-        >
+        <button-primary @click="changeFormMode('update'), changeIsUpdate()" type="button" v-if="!isUpdate" size="sm">
           Update
         </button-primary>
 
-        <button-danger
-          v-if="
-            isUpdate &&
-            (this.mode == 'createNewAccount' || this.mode == 'updateAccount')
-          "
-          size="sm"
-          :link="true"
-          :to="{ name: 'manage account' }"
-        >
+        <button-danger v-if="
+          isUpdate &&
+          (this.mode == 'createNewAccount' || this.mode == 'updateAccount')
+        " size="sm" :link="true" :to="{ name: 'manage account' }">
           Batal
         </button-danger>
 
-        <button-danger
-          v-if="isUpdate && this.mode == null"
-          type="button"
-          @click="changeFormMode('batal'), changeIsUpdate()"
-          size="sm"
-        >
+        <button-danger v-if="isUpdate && this.mode == undefined" type="button"
+          @click="changeFormMode('batal'), changeIsUpdate()" size="sm">
           Batal
         </button-danger>
 
-        <button-primary
-          class="ml-1"
-          :class="loadingState"
-          v-if="
-            isUpdate &&
-            (this.mode == 'createNewAccount' || this.mode == 'updateAccount')
-          "
-          size="sm"
-          type="submit"
-        >
+        <button-primary class="ml-1" :class="loadingState" v-if="
+          isUpdate &&
+          (this.mode == 'createNewAccount' || this.mode == 'updateAccount')
+        " size="sm" type="submit">
           Simpan
         </button-primary>
 
-        <button-primary
-          class="ml-1"
-          :class="loadingState"
-          v-if="isUpdate && this.mode == null"
-          type="submit"
-          size="sm"
-        >
+        <button-primary class="ml-1" :class="loadingState" v-if="isUpdate && this.mode == null" type="submit" size="sm">
           Simpan
         </button-primary>
       </div>
@@ -222,6 +77,8 @@ export default {
   data() {
     return {
       isUpdate: false,
+      isReadonly: true,
+      pageLoading: false,
       id: "",
       email: "",
       name: "",
@@ -233,34 +90,15 @@ export default {
         birthdate: "",
         phone_number: "",
       },
-      formIsInvalid: false,
-      errorMessage: true,
       isLoading: false,
       oldPassword: "",
       password: "",
       password_confirmation: "",
-      validation: {
-        email: "pending",
-        name: "pending",
-        phone_number: "pending",
-        birthdate: "pending",
-        password: "pending",
-        password_confirmation: "pending",
-      },
-      formMessage: {
-        email: "",
-        name: "",
-        phone_number: "",
-        birthdate: "",
-        password: "",
-        password_confirmation: "",
-      },
       alert: {
         turn: false,
         mode: "",
         message: "",
       },
-      reg: /^(([^<>()\]\\.,;:\s@"]+(\.[^<>()\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
     };
   },
   computed: {
@@ -275,10 +113,16 @@ export default {
         };
       }
     },
+    requiredByMode(){
+      if (this.mode == 'createNewAccount' || this.$route.params.id) {
+        return true;
+      }
+
+      return false
+    }
   },
   methods: {
     changeFormMode(mode) {
-      this.setInputValidation();
       this.setReadonlyAttribute(mode);
 
       if (mode === "update") {
@@ -314,6 +158,10 @@ export default {
         this.name = user.name;
         this.phone_number = user.phone_number;
         this.birthdate = user.birthdate;
+        this.dataBeforeUpdate.email = user.email;
+        this.dataBeforeUpdate.name = user.name;
+        this.dataBeforeUpdate.phone_number = user.phone_number;
+        this.dataBeforeUpdate.birthdate = user.birthdate;
       } catch (error) {
         this.formIsInvalid = true;
         this.errorMessage = error.message;
@@ -343,17 +191,12 @@ export default {
 
         this.password = this.password_confirmation = "";
 
-        this.$refs.email.setAttribute("readonly", "");
-        this.$refs.name.setAttribute("readonly", "");
-        this.$refs.nohp.setAttribute("readonly", "");
-        this.$refs.birthdate.setAttribute("readonly", "");
+        this.isReadonly = true;
         this.isUpdate = false;
         this.changeIsUpdate();
         this.turnOnAlert("success", "Berhasil mengubah profil");
       } catch (error) {
-        this.formIsInvalid = true;
-        this.errorMessage = error.message;
-        this.turnOnAlert("error", this.errorMessage);
+        this.turnOnAlert("error", error.message);
       }
       this.isLoading = false;
     },
@@ -385,9 +228,7 @@ export default {
           name: "manage account",
         });
       } catch (error) {
-        this.formIsInvalid = true;
-        this.errorMessage = error.message;
-        this.turnOnAlert("error", this.errorMessage);
+        this.turnOnAlert("error", error.message);
       }
       this.isLoading = false;
     },
@@ -435,9 +276,7 @@ export default {
           name: "manage account",
         });
       } catch (error) {
-        this.formIsInvalid = true;
-        this.errorMessage = error.message;
-        this.turnOnAlert("error", this.errorMessage);
+        this.turnOnAlert("error", error.message);
       }
       this.isLoading = false;
     },
@@ -451,25 +290,10 @@ export default {
     },
     setReadonlyAttribute(mode) {
       if (mode == "update") {
-        this.$refs.email.removeAttribute("readonly");
-        this.$refs.name.removeAttribute("readonly");
-        this.$refs.nohp.removeAttribute("readonly");
-        this.$refs.birthdate.removeAttribute("readonly");
+        this.isReadonly = false;
       } else if (mode == "batal") {
-        this.$refs.email.setAttribute("readonly", "");
-        this.$refs.name.setAttribute("readonly", "");
-        this.$refs.nohp.setAttribute("readonly", "");
-        this.$refs.birthdate.setAttribute("readonly", "");
+        this.isReadonly = true;
       }
-    },
-    setInputValidation() {
-      this.validation.email =
-        this.validation.name =
-        this.validation.phone_number =
-        this.validation.birthdate =
-        this.validation.password =
-        this.validation.password_confirmation =
-          "pending";
     },
     revokeAllData() {
       this.email =
@@ -478,7 +302,7 @@ export default {
         this.birthdate =
         this.password =
         this.password_confirmation =
-          "";
+        "";
     },
     submitFormValidation() {
       if (
@@ -486,9 +310,6 @@ export default {
         this.name == "" ||
         this.birthdate == "" ||
         this.phone_number == ""
-        // this.password == "" ||
-        // this.password_confirmation == "" ||
-        // this.password !== this.password_confirmation
       ) {
         let message = "Pastikan input sudah sesuai";
         if (
@@ -507,72 +328,29 @@ export default {
         return true;
       }
     },
-    validateEmail() {
-      if (this.email == "") {
-        this.validation.email = "invalid";
-        this.formMessage.email = "Please enter an email";
-      } else if (!this.reg.test(this.email)) {
-        this.validation.email = "invalid";
-        this.formMessage.email = "Please enter a valid email address";
-      } else {
-        this.formMessage.email = "";
-        this.validation.email = "valid";
-      }
+    setEmail(email) {
+      this.email = email;
     },
-    validateName() {
-      if (this.name == "") {
-        this.validation.name = "invalid";
-        this.formMessage.name = "Please enter a name";
-      } else {
-        this.formMessage.name = "";
-        this.validation.name = "valid";
-      }
+    setName(name) {
+      this.name = name;
     },
-    validateNoHp() {
-      if (this.phone_number == "") {
-        this.validation.phone_number = "invalid";
-        this.formMessage.phone_number = "Please enter a phone number";
-      } else {
-        this.formMessage.phone_number = "";
-        this.validation.phone_number = "valid";
-      }
+    setPhoneNumber(phone_number) {
+      this.phone_number = phone_number;
     },
-    validateBirthdate() {
-      if (this.birthdate == "") {
-        this.validation.birthdate = "invalid";
-        this.formMessage.birthdate = "Please enter a birthdate";
-      } else {
-        this.formMessage.birthdate = "";
-        this.validation.birthdate = "valid";
-      }
+    setBirthdate(birthdate) {
+      this.birthdate = birthdate;
     },
-    validatePassword() {
-      if (this.$route.name !== "account") {
-        if (this.password == "") {
-          this.validation.password = "invalid";
-          this.formMessage.password = "Please enter a password";
-        } else {
-          this.formMessage.password = "";
-          this.validation.password = "valid";
-        }
-      }
+    setNewPassword(newPassword) {
+      this.password = newPassword;
     },
-    validatePasswordConfirmation() {
-      if (this.$route.name !== "account") {
-        if (this.password_confirmation == "") {
-          this.validation.password_confirmation = "invalid";
-          this.formMessage.password_confirmation =
-            "Please enter a password confirmation";
-        } else {
-          this.formMessage.password_confirmation = "";
-          this.validation.password_confirmation = "valid";
-        }
-      }
+    setConfirmNewPassword(confirmNewPassword) {
+      this.password_confirmation = confirmNewPassword;
     },
   },
-  mounted() {
-    if (this.mode == null) {
-      this.loadProfile();
+  async created() {
+    this.pageLoading = true;
+    if (this.mode == undefined) {
+      await this.loadProfile();
     } else if (this.mode == "updateAccount") {
       this.isUpdate = true;
       this.setReadonlyAttribute("update");
@@ -583,6 +361,7 @@ export default {
       this.isUpdate = true;
       this.setReadonlyAttribute("update");
     }
+    this.pageLoading = false;
   },
 };
 </script>

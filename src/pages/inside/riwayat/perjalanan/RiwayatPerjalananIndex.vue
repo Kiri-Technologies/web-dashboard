@@ -86,7 +86,7 @@ export default {
           perjalanan.vehicle == null
             ? "B 4466 US"
             : perjalanan.vehicle.plat_nomor;
-        perjalanan.penumpang = perjalanan.user_penumpang.name;
+        perjalanan.penumpang = perjalanan.user_penumpang ? perjalanan.user_penumpang.name : 'penumpang';
         perjalanan.tempat_naik = perjalanan.nama_tempat_naik;
         perjalanan.tempat_turun = perjalanan.nama_tempat_turun;
         return perjalanan;

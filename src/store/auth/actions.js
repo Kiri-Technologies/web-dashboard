@@ -293,13 +293,12 @@ export default {
                 }
             });
         } catch (error) {
-            let message;
+            let message = 'Failed to store data!';
             if (error.response.status == 400) {
+                message = "Pastikan form sudah sesuai"
                 if (error.response.data.message.email) {
                     message = "Email sudah diambil";
                 }
-            } else {
-                message = 'Failed to store data!';
             }
             const errorMessage = new Error(message);
             throw errorMessage;

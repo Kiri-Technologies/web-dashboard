@@ -23,6 +23,7 @@
         </div>
         <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
         <div class="overflow-x-auto mt-2">
+
           <manage-account-data-table :entries="allAccount" @deleteButtonClicked="deleteButtonClicked">
           </manage-account-data-table>
         </div>
@@ -40,6 +41,7 @@ export default {
   },
   data() {
     return {
+      isLoading: false,
       menuName: "List akun yang tersedia",
       alert: {
         turn: false,
@@ -58,14 +60,6 @@ export default {
       ],
     };
   },
-  // computed: {
-  //   filteredAccount() {
-  //     return this.allAccount.filter(account => {
-  //       console.log(account);
-  //       return account.email != this.$store.getters["auth/profileEmail"];
-  //     });
-  //   }
-  // },
   methods: {
     async loadAllAccount() {
       try {
@@ -118,14 +112,15 @@ export default {
     },
   },
   async created() {
-    // this.isLoading = true;
+    this.isLoading = true;
     try {
       await this.loadAllAccount();
+      console.log(this.allAccount);
       this.setAlert();
     } catch (error) {
       console.log(error.message)
     }
-    // this.isLoading = false;
+    this.isLoading = false;
   },
 };
 </script>
