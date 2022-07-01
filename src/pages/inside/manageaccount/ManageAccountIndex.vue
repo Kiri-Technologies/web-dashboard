@@ -115,7 +115,6 @@ export default {
     this.isLoading = true;
     try {
       await this.loadAllAccount();
-      console.log(this.allAccount);
       this.setAlert();
     } catch (error) {
       console.log(error.message)

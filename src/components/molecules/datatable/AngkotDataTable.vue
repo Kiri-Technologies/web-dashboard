@@ -123,7 +123,6 @@ export default {
                 this.filteredEntries = $array.paginate(this.searchEntries, this.currentPage, this.showedEntries);
             } else {
                 this.searchEntries = [];
-                console.log(this.entries);
                 this.filteredEntries = $array.paginate(this.entries, this.currentPage, this.showedEntries);
             }
         },

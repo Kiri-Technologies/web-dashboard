@@ -90,8 +90,7 @@ export default {
           this.$store.getters["feedbackApp/getAllFeedbackApp"];
         this.allFeedbackApp = allFeedbackApp;
 
-        let processed = this.allFeedbackApp.filter(fa => fa.status == "processed" || fa.status == "process");
-        console.log(processed);
+        this.allFeedbackApp.filter(fa => fa.status == "processed" || fa.status == "process");
       } catch (error) {
         this.turnOnAlert(false);
       }

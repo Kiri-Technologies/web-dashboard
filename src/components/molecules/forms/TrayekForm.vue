@@ -2,6 +2,7 @@
   <form @submit.prevent="submitMethod">
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
+      
       <div class="form-control mb-2">
         <label class="label">
           <span class="label-text">Kode Trayek</span>

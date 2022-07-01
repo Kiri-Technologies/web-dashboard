@@ -14,7 +14,7 @@
 
 <script>
 export default {
-    emits: ['formChange'],
+    emits: ['formChange', 'formIsValid'],
     props: {
         label: {
             type: String,
@@ -66,6 +66,10 @@ export default {
         validateForm() {
             if (this.type == 'email') {
                 this.validateEmail();
+            } else if (this.mode == 'lat') {
+                this.validateLatitude();
+            } else if (this.mode == 'long') {
+                this.validateLongitude();
             } else {
                 this.validateFormInput();
             }
@@ -85,8 +89,25 @@ export default {
         validateFormInput() {
             if (this.formInput == "") {
                 this.formValidity = "invalid";
-                console.log(this.formInput);
                 this.formMessage = `Please enter a correct ${this.formName}`;
+            } else {
+                this.formMessage = "";
+                this.formValidity = "valid";
+            }
+        },
+        validateLatitude() {
+            if (this.formInput == "" || !isFinite(this.formInput) && !Math.abs(this.formInput) <= 90) {
+                this.formValidity = "invalid";
+                this.formMessage = "Please enter a correct latitude";
+            } else {
+                this.formMessage = "";
+                this.formValidity = "valid";
+            }
+        },
+        validateLongitude() {
+            if (this.formInput == "" || !isFinite(this.formInput) && !Math.abs(this.formInput) <= 180) {
+                this.formValidity = "invalid";
+                this.formMessage = "Please enter a correct longitude";
             } else {
                 this.formMessage = "";
                 this.formValidity = "valid";
@@ -96,17 +117,18 @@ export default {
             let textValue = event.target.value;
             this.formInput = textValue;
             this.$emit("formChange", textValue);
+            this.$emit("formIsValid", this.formValidity == 'invalid' ? false : true);
         }
     },
     mounted() {
-        if (this.defaultValue !== undefined && this.mode !== 'createNewAccount') {
+        if (this.defaultValue !== undefined && this.defaultValue !== "" && this.mode !== 'createNewAccount') {
             this.formInput = this.defaultValue;
             this.validateForm();
         }
         this.readonly = this.isReadonly;
     },
     updated() {
-        if (this.defaultValue !== undefined && this.mode !== 'createNewAccount') {
+        if (this.defaultValue !== undefined && this.defaultValue !== "" && this.mode !== 'createNewAccount') {
             this.formInput = this.defaultValue;
             this.validateForm();
         }

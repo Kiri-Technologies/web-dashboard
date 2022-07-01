@@ -2,65 +2,27 @@
   <form @submit.prevent="submitMethod">
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Trayek</span>
-        </label>
-        <input type="text" placeholder="Kode Trayek" :value="trayek.kode_trayek" class="input input-bordered"
-          readonly />
-      </div>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Nama Halte Virtual</span>
-        </label>
-        <input type="text" placeholder="Nama Halte Virtual" class="input input-bordered"
-          :class="{ 'input-error': validation.nama_lokasi == 'invalid' }" v-model.trim="nama_lokasi" required
-          @blur="validateNamaLokasi" />
-        <label class="label" v-if="validation.nama_lokasi == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-              formMessage.nama_lokasi
-          }}</span>
-        </label>
-      </div>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Arah</span>
-        </label>
-        <select class="select select-bordered" :class="{ 'input-error': validation.arah == 'invalid' }" v-model="arah"
-          required @blur="validateArah">
-          <option disabled>Pilih arah...</option>
-          <option>{{ this.trayek.titik_awal }}</option>
-          <option>{{ this.trayek.titik_akhir }}</option>
-        </select>
-        <label class="label">
-          <span class="label-text-alt text-gray-500">Tentukan arah sesuai titik awal atau titik</span>
-          <span class="label-text-alt text-red-500" v-if="validation.arah == 'invalid'">{{
-              formMessage.arah
-          }}</span>
-        </label>
-      </div>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Titik Latitude</span>
-        </label>
-        <input type="text" placeholder="Titik Latitude" class="input input-bordered"
-          :class="{ 'input-error': validation.lat == 'invalid' }" v-model.trim="lat" required
-          @blur="validateLatitude" />
-        <label class="label" v-if="validation.lat == 'invalid'">
-          <span class="label-text-alt text-red-500">{{ formMessage.lat }}</span>
-        </label>
-      </div>
-      <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Titik Longitude</span>
-        </label>
-        <input type="text" placeholder="Titik Longitude" class="input input-bordered"
-          :class="{ 'input-error': validation.lng == 'invalid' }" v-model.trim="lng" required
-          @blur="validateLongitude" />
-        <label class="label" v-if="validation.lng == 'invalid'">
-          <span class="label-text-alt text-red-500">{{ formMessage.lng }}</span>
-        </label>
-      </div>
+
+      <form-input type="text" label="Trayek" :isReadonly="false" formName="trayek" placeholder="Trayek"
+        :isRequired="true" :defaultValue="trayek.kode_trayek"></form-input>
+
+      <form-input @formChange="setHalteVirtualName" @formIsValid="setFormValidity" type="text"
+        label="Nama Halte Virtual" :isReadonly="false" formName="halte virtual name" placeholder="Nama Halte Virtual"
+        :isRequired="true" :defaultValue="nama_lokasi">
+      </form-input>
+
+      <select-input @formChange="setArah" @formIsValid="setFormValidity" label="Arah" :isReadonly="false"
+        formName="arah" :isRequired="true" :defaultValue="arah" disabledOption="Pilih arah..." :options="options">
+      </select-input>
+
+      <form-input @formChange="setLat" @formIsValid="setFormValidity" type="text" label="Titik Latitude"
+        :isReadonly="false" formName="latitude" placeholder="Titik Latitude" :isRequired="true" :defaultValue="lat"
+        mode="lat"></form-input>
+
+      <form-input @formChange="setLong" @formIsValid="setFormValidity" type="text" label="Titik Longitude"
+        :isReadonly="false" formName="longitude" placeholder="Titik Longitude" :isRequired="true" :defaultValue="lng"
+        mode="long"></form-input>
+
       <div class="flex justify-end mt-7">
         <button-danger :link="true" :to="{ name: 'detail trayek', params: { id: trayekid } }" size="sm">
           Batal
@@ -96,7 +58,7 @@ export default {
       route_id: "",
       lat: "",
       lng: "",
-      arah: "Pilih arah...",
+      arah: "",
       trayek: {
         id: "",
         kode_trayek: "",
@@ -112,20 +74,8 @@ export default {
         mode: "",
         message: "",
       },
-      validation: {
-        nama_lokasi: "pending",
-        lat: "pending",
-        lng: "pending",
-        arah: "pending",
-      },
-      formMessage: {
-        nama_lokasi: "",
-        lat: "",
-        lng: "",
-        arah: "",
-      },
       isLoading: false,
-      formIsInvalid: false,
+      formIsValid: true,
     };
   },
   computed: {
@@ -140,6 +90,18 @@ export default {
         };
       }
     },
+    options() {
+      return [
+        {
+          value: this.trayek.titik_awal,
+          name: this.trayek.titik_awal,
+        },
+        {
+          value: this.trayek.titik_akhir,
+          name: this.trayek.titik_akhir,
+        },
+      ]
+    }
   },
   methods: {
     submitMethod() {
@@ -151,9 +113,8 @@ export default {
     },
     async createHalteVirtual() {
       this.isLoading = true;
-      if (this.formIsInvalid || !this.validateNamaLokasi() || !this.validateLatitude() || !this.validateLongitude() || !this.validateArah()) {
+      if (this.formIsValid) {
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
-        console.log(this.arah);
       } else {
         try {
           await this.$store.dispatch("halteVirtual/createHalteVirtual", {
@@ -176,9 +137,7 @@ export default {
             },
           });
         } catch (error) {
-          this.formIsInvalid = true;
-          this.errorMessage = error.message;
-          this.turnOnAlert("error", this.errorMessage);
+          this.turnOnAlert("error", error.message);
         }
       }
       this.isLoading = false;
@@ -198,9 +157,7 @@ export default {
         this.trayek.lat_titik_akhir = trayek.lat_titik_akhir;
         this.trayek.long_titik_akhir = trayek.long_titik_akhir;
       } catch (error) {
-        this.formIsInvalid = true;
-        this.errorMessage = error.message;
-        this.turnOnAlert("error", this.errorMessage);
+        this.turnOnAlert("error", error.message);
       }
     },
     async loadHalteVirtual(id) {
@@ -217,14 +174,12 @@ export default {
         this.lng = halteVirtual.lng;
         this.arah = halteVirtual.arah;
       } catch (error) {
-        this.formIsInvalid = true;
-        this.errorMessage = error.message;
-        this.turnOnAlert("error", this.errorMessage);
+        this.turnOnAlert("error", error.message);
       }
     },
     async updateHalteVirtual() {
       this.isLoading = true;
-      if (this.formIsInvalid) {
+      if (this.formIsValid) {
         this.isLoading = false;
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
         return;
@@ -252,9 +207,7 @@ export default {
           },
         });
       } catch (error) {
-        this.formIsInvalid = true;
-        this.errorMessage = error.message;
-        this.turnOnAlert("error", this.errorMessage);
+        this.turnOnAlert("error", error.message);
       }
       this.isLoading = false;
     },
@@ -263,57 +216,20 @@ export default {
       this.alert.mode = mode;
       this.alert.message = message;
     },
-    validateNamaLokasi() {
-      if (this.nama_lokasi == "") {
-        this.validation.nama_lokasi = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.nama_lokasi = "Please enter a correct halte virtual name";
-        return false;
-      } else {
-        this.formIsInvalid = false;
-        this.formMessage.nama_lokasi = "";
-        this.validation.nama_lokasi = "valid";
-        return true;
-      }
+    setFormValidity(formIsValid) {
+      this.formIsValid = formIsValid;
     },
-    validateArah() {
-      if (this.arah == "") {
-        this.validation.arah = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.arah = "Please enter a correct direction";
-        return false;
-      } else {
-        this.formIsInvalid = false;
-        this.formMessage.arah = "";
-        this.validation.arah = "valid";
-        return true;
-      }
+    setHalteVirtualName(name) {
+      this.nama_lokasi = name;
     },
-    validateLatitude() {
-      if (this.lat == "" || !isFinite(this.lat) && !Math.abs(this.lat) <= 90) {
-        this.validation.lat = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.lat = "Please enter a correct latitude";
-        return false;
-      } else {
-        this.formMessage.lat = "";
-        this.formIsInvalid = false;
-        this.validation.lat = "valid";
-        return true;
-      }
+    setLat(lat) {
+      this.lat = lat;
     },
-    validateLongitude() {
-      if (this.lng == "" || !isFinite(this.lng) && !Math.abs(this.lng) <= 180) {
-        this.validation.lng = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.lng = "Please enter a correct longitude";
-        return false;
-      } else {
-        this.formMessage.lng = "";
-        this.formIsInvalid = false;
-        this.validation.lng = "valid";
-        return true;
-      }
+    setLong(lng) {
+      this.lng = lng;
+    },
+    setArah(arah) {
+      this.arah = arah;
     },
   },
   created() {

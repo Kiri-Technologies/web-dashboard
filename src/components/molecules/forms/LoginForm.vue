@@ -3,7 +3,7 @@
     <div class="form">
       <form-input @formChange="setEmail" type="email" label="Email" :isReadonly="false" formName="email" placeholder="Email" :isRequired="true"></form-input>
       <form-input @formChange="setPassword" type="password" label="Password" :isReadonly="false" formName="password" placeholder="Password" :isRequired="true"></form-input>
-      <checkbox-form @checkboxChange="setRememberMe" label="Remember me"></checkbox-form>
+      <checkbox-input @checkboxChange="setRememberMe" label="Remember me"></checkbox-input>
       <button-primary class="w-full" :class="loadingState" type="submit">
         Masuk
       </button-primary>

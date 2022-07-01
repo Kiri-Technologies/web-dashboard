@@ -34,11 +34,9 @@ import BarChart from "./components/atoms/chart/BarChart.vue";
 import DataTable from "./components/molecules/datatable/DataTable.vue";
 
 // component forms
-import EmailForm from "./components/atoms/forms/EmailForm.vue";
-import PasswordForm from "./components/atoms/forms/PasswordForm.vue";
-import Checkbox from "./components/atoms/forms/Checkbox.vue";
-import Text from "./components/atoms/forms/Text.vue";
 import FormInput from "./components/atoms/forms/FormInput.vue";
+import CheckboxInput from "./components/atoms/forms/Checkbox.vue";
+import SelectInput from "./components/atoms/forms/Select.vue";
 
 library.add(faArrowLeft);
 library.add(faPenSquare);
@@ -69,11 +67,9 @@ app.component("bar-chart", BarChart);
 app.component("data-table", DataTable);
 
 // forms
-app.component("email-form", EmailForm);
-app.component("password-form", PasswordForm);
-app.component("checkbox-form", Checkbox);
-app.component("text-form", Text);
 app.component("form-input", FormInput);
+app.component("select-input", SelectInput);
+app.component("checkbox-input", CheckboxInput);
 
 app.use(store);
 app.use(router);

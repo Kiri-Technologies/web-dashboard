@@ -61,13 +61,18 @@
             <div class="border-solid border border-gray-300 rounded-b-md">
               <div>
                 <div class="tabs justify-center">
-                  <a class="tab tab-bordered" :class="{ 'tab-active': currentTab == this.titik_awal }" @click="currentTab = this.titik_awal">{{ this.titik_awal }}</a>
-                  <a class="tab tab-bordered" :class="{ 'tab-active': currentTab == this.titik_akhir }" @click="currentTab = this.titik_akhir">{{ this.titik_akhir }}</a>
+                  <a class="tab tab-bordered" :class="{ 'tab-active': currentTab == this.titik_awal }"
+                    @click="currentTab = this.titik_awal">{{ this.titik_awal }}</a>
+                  <a class="tab tab-bordered" :class="{ 'tab-active': currentTab == this.titik_akhir }"
+                    @click="currentTab = this.titik_akhir">{{ this.titik_akhir }}</a>
                 </div>
               </div>
 
+              <div class="text-center text-gray-500 my-5" v-if="filteredHalteVirtual.length < 1">
+                Data is empty
+              </div>
 
-              <div class="grid grid-cols-3 p-2 cursor-pointer" v-for="halteVirtual in filteredHalteVirtual"
+              <div class="grid grid-cols-3 p-2 cursor-pointer" v-else v-for="halteVirtual in filteredHalteVirtual"
                 :key="halteVirtual.id" :class="{
                   'bg-gray-200': selectedHalteVirtual == halteVirtual.id,
                 }" @click="selectHalteVirtual(halteVirtual.id)">
@@ -158,7 +163,7 @@ export default {
         )[0];
       }
     },
-    filteredHalteVirtual(){
+    filteredHalteVirtual() {
       return this.allHalteVirtual.filter(hv => hv.arah == this.currentTab);
     }
   },
