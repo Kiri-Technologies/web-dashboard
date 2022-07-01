@@ -1,10 +1,5 @@
 <template>
-  <div class="p-5 flex justify-center" v-if="isLoading">
-    <!-- <progress class="progress w-100"></progress> -->
-    <button class="btn bg-transparent loading text-black border-none">
-      Loading data...
-    </button>
-  </div>
+  <loading v-if="isLoading"></loading>
   <div class="p-5" v-else>
     <div class="grid grid-flow-row auto-rows-auto gap-4">
       <div class="grid grid-cols-2 gap-4">

@@ -3,53 +3,16 @@
     <div>
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <div class="grid grid-cols-2">
-            <div>Kode Trayek</div>
-            <div class="text-gray-500">: {{ angkot.route.kode_trayek }}</div>
-          </div>
-          <div class="grid grid-cols-2">
-            <div>Plat Nomor</div>
-            <div class="text-gray-500">: {{ angkot.plat_nomor }}</div>
-          </div>
+          <information-section label="Kode Trayek" :data="angkot.route.kode_trayek"></information-section>
+          <information-section label="Plat Nomor" :data="angkot.plat_nomor"></information-section>
         </div>
         <div>
-          <div class="grid grid-cols-2">
-            <div>Trayek Angkot</div>
-            <div class="text-gray-500">: {{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}</div>
-          </div>
+          <information-section label="Trayek Angkot" :data="`${angkot.route.titik_awal} - ${angkot.route.titik_akhir}`">
+          </information-section>
         </div>
       </div>
     </div>
     <div class="overflow-x-auto mt-4">
-      <!-- <table class="table w-full"> -->
-      <!-- head -->
-      <!-- <thead>
-          <tr>
-            <th>Tanggal</th>
-            <th>Nama</th>
-            <th>Rating</th>
-            <th>Review</th>
-            <th>Komentar</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-if="allPerjalanan.length < 1">
-            <td colspan="100%" class="text-center text-gray-500">
-              Ulasan penumpang kosong
-            </td>
-          </tr>
-          <tr v-for="p in allPerjalanan" :key="p.id">
-            <td>{{ changeDateFormat(p.feedback.created_at) }}</td>
-            <td>{{ p.user_penumpang.name }}</td>
-            <td>
-              <font-awesome-icon icon="star" class="text-lg text-yellow-400" v-for="i in Number(p.feedback.rating)"
-                :key="i" />
-            </td>
-            <td>{{ p.feedback.review }}</td>
-            <td>{{ p.feedback.komentar }}</td>
-          </tr>
-        </tbody>
-      </table> -->
       <ulasan-penumpang-data-table :entries="allPerjalanan"></ulasan-penumpang-data-table>
     </div>
   </section>
@@ -106,7 +69,7 @@ export default {
     try {
       await this.getAngkot();
       await this.getAllPerjalananByAngkotId();
-    }catch(error){
+    } catch (error) {
       console.log(error.message);
     }
     this.isLoading = false;

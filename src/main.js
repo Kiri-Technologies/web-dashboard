@@ -32,6 +32,8 @@ import SideToSideStat from "./components/molecules/chart/SideToSideStat.vue";
 import BaseStatCard from "./components/atoms/chart/BaseStatCard.vue";
 import BarChart from "./components/atoms/chart/BarChart.vue";
 import DataTable from "./components/molecules/datatable/DataTable.vue";
+import Loading from "./components/atoms/loading/Loading.vue";
+import InformationSection from "./components/atoms/information/InformationSection.vue";
 
 // component forms
 import FormInput from "./components/atoms/forms/FormInput.vue";
@@ -65,6 +67,8 @@ app.component("side-to-side-stat", SideToSideStat);
 app.component("base-stat-card", BaseStatCard);
 app.component("bar-chart", BarChart);
 app.component("data-table", DataTable);
+app.component("loading", Loading);
+app.component("information-section", InformationSection);
 
 // forms
 app.component("form-input", FormInput);

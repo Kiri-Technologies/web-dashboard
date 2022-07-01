@@ -113,7 +113,7 @@ export default {
     },
     async createHalteVirtual() {
       this.isLoading = true;
-      if (this.formIsValid) {
+      if (!this.formIsValid) {
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
         try {
@@ -179,8 +179,9 @@ export default {
     },
     async updateHalteVirtual() {
       this.isLoading = true;
-      if (this.formIsValid) {
+      if (!this.formIsValid) {
         this.isLoading = false;
+        console.log("error", this.formIsValid, this.nama_lokasi, this.route_id, this.lat, this.lng, this.arah)
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
         return;
       }

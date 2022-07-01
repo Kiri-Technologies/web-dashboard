@@ -2,8 +2,8 @@
   <form @submit.prevent="submitMethod">
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
-      
-      <div class="form-control mb-2">
+
+      <!-- <div class="form-control mb-2">
         <label class="label">
           <span class="label-text">Kode Trayek</span>
         </label>
@@ -15,13 +15,15 @@
               formMessage.kode_trayek
           }}</span>
         </label>
-      </div>
+      </div> -->
 
+      <form-input @formchange="setKodeTrayek" @formIsValid="setFormValidity" type="text" label="Kode Trayek" :isReadonly="false" formName="kode trayek" placeholder="Kode Trayek"
+        :isRequired="true" :defaultValue="kode_trayek"></form-input>
 
       <div class="grid grid-flow-col auto-cols-auto gap-4">
         <div>
 
-          <div class="form-control mb-2">
+          <!-- <div class="form-control mb-2">
             <label class="label">
               <span class="label-text">Titik Awal</span>
             </label>
@@ -33,9 +35,12 @@
                   formMessage.titik_awal
               }}</span>
             </label>
-          </div>
+          </div> -->
 
-          <div class="form-control mb-2">
+          <form-input @formchange="setTitikAwal" @formIsValid="setFormValidity" type="text" label="Titik Awal" :isReadonly="false" formName="titik awal" placeholder="Titik Awal"
+            :isRequired="true" :defaultValue="titik_awal"></form-input>
+
+          <!-- <div class="form-control mb-2">
             <label class="label">
               <span class="label-text">Latitude Titik Awal</span>
             </label>
@@ -45,9 +50,13 @@
             <label class="label" v-if="validation.lat_titik_awal == 'invalid'">
               <span class="label-text-alt text-red-500">{{ formMessage.lat_titik_awal }}</span>
             </label>
-          </div>
+          </div> -->
 
-          <div class="form-control mb-2">
+          <form-input @formChange="setLatTitikAwal" @formIsValid="setFormValidity" type="text" label="Latitude Titik Awal"
+            :isReadonly="false" formName="latitude titik awal" placeholder="Latitude Titik Awal" :isRequired="true" :defaultValue="lat_titik_awal"
+            mode="lat"></form-input>
+
+          <!-- <div class="form-control mb-2">
             <label class="label">
               <span class="label-text">Longitude Titik Awal</span>
             </label>
@@ -57,13 +66,17 @@
             <label class="label" v-if="validation.long_titik_awal == 'invalid'">
               <span class="label-text-alt text-red-500">{{ formMessage.long_titik_awal }}</span>
             </label>
-          </div>
+          </div> -->
+
+          <form-input @formChange="setLongTitikAwal" @formIsValid="setFormValidity" type="text" label="Longitude Titik Awal"
+            :isReadonly="false" formName="longitude titik awal" placeholder="Longitude Titik Awal" :isRequired="true" :defaultValue="long_titik_awal"
+            mode="long"></form-input>
 
         </div>
 
         <div>
 
-          <div class="grid grid-flow-col auto-cols-auto">
+          <!-- <div class="grid grid-flow-col auto-cols-auto">
             <div class="form-control mb-2">
               <label class="label">
                 <span class="label-text">Titik Akhir</span>
@@ -77,9 +90,12 @@
                 }}</span>
               </label>
             </div>
-          </div>
+          </div> -->
 
-          <div class="form-control mb-2">
+          <form-input @formchange="setTitikAkhir" @formIsValid="setFormValidity" type="text" label="Titik Akhir" :isReadonly="false" formName="titik akhir" placeholder="Titik Akhir"
+            :isRequired="true" :defaultValue="titik_akhir"></form-input>
+
+          <!-- <div class="form-control mb-2">
             <label class="label">
               <span class="label-text">Latitude Titik Akhir</span>
             </label>
@@ -89,9 +105,13 @@
             <label class="label" v-if="validation.lat_titik_akhir == 'invalid'">
               <span class="label-text-alt text-red-500">{{ formMessage.lat_titik_akhir }}</span>
             </label>
-          </div>
+          </div> -->
 
-          <div class="form-control mb-2">
+          <form-input @formChange="setLatTitikAkhir" @formIsValid="setFormValidity" type="text" label="Latitude Titik Akhir"
+            :isReadonly="false" formName="latitude titik akhir" placeholder="Latitude Titik Akhir" :isRequired="true" :defaultValue="lat_titik_akhir"
+            mode="lat"></form-input>
+
+          <!-- <div class="form-control mb-2">
             <label class="label">
               <span class="label-text">Longitude Titik Akhir</span>
             </label>
@@ -101,7 +121,11 @@
             <label class="label" v-if="validation.long_titik_akhir == 'invalid'">
               <span class="label-text-alt text-red-500">{{ formMessage.long_titik_akhir }}</span>
             </label>
-          </div>
+          </div> -->
+
+          <form-input @formChange="setLongTitikAkhir" @formIsValid="setFormValidity" type="text" label="Longitude Titik Akhir"
+            :isReadonly="false" formName="latitude titik akhir" placeholder="Longitude Titik Akhir" :isRequired="true" :defaultValue="long_titik_akhir"
+            mode="long"></form-input>
 
         </div>
 
@@ -143,26 +167,8 @@ export default {
         mode: "",
         message: "",
       },
-      validation: {
-        kode_trayek: "pending",
-        titik_awal: "pending",
-        titik_akhir: "pending",
-        lat_titik_awal: "pending",
-        long_titik_awal: "pending",
-        lat_titik_akhir: "pending",
-        long_titik_akhir: "pending",
-      },
-      formMessage: {
-        kode_trayek: "",
-        titik_awal: "",
-        titik_akhir: "",
-        lat_titik_awal: "",
-        long_titik_awal: "",
-        lat_titik_akhir: "",
-        long_titik_akhir: "",
-      },
       isLoading: false,
-      formIsInvalid: false,
+      formIsValid: false,
     };
   },
   computed: {
@@ -188,8 +194,7 @@ export default {
     },
     async createTrayek() {
       this.isLoading = true;
-      if (this.formIsInvalid  || !this.validateKodeTrayek() || !this.validateTitikAwal() || !this.validateTitikAkhir() || !this.validateLatTitikAwal() || !this.validateLongTitikAwal() || !this.validateLatTitikAkhir() || !this.validateLongTitikAkhir()) {
-        this.isLoading = false;
+      if (!this.formIsValid) {
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
         try {
@@ -241,7 +246,7 @@ export default {
     },
     async updateTrayek() {
       this.isLoading = true;
-      if (this.formIsInvalid || !this.validateKodeTrayek() || !this.validateTitikAwal() || !this.validateTitikAkhir() || !this.validateLatTitikAwal() || !this.validateLongTitikAwal() || !this.validateLatTitikAkhir() || !this.validateLongTitikAkhir()) {
+      if (!this.formIsValid) {
         this.isLoading = false;
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
@@ -278,97 +283,29 @@ export default {
       this.alert.mode = mode;
       this.alert.message = message;
     },
-    validateKodeTrayek() {
-      if (this.kode_trayek == "") {
-        this.validation.kode_trayek = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.kode_trayek = "Please enter a correct kode trayek";
-        return false;
-      } else {
-        this.formIsInvalid = false;
-        this.formMessage.kode_trayek = "";
-        this.validation.kode_trayek = "valid";
-        return true;
-      }
+    setFormValidity(formIsValid) {
+      this.formIsValid = formIsValid;
     },
-    validateTitikAwal() {
-      if (this.titik_awal == "") {
-        this.validation.titik_awal = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.titik_awal = "Please enter a correct titik awal";
-        return false;
-      } else {
-        this.formMessage.titik_awal = "";
-        this.formIsInvalid = false;
-        this.validation.titik_awal = "valid";
-        return true;
-      }
+    setKodeTrayek(kode_trayek) {
+      this.kode_trayek = kode_trayek;
     },
-    validateTitikAkhir() {
-      if (this.titik_akhir == "") {
-        this.validation.titik_akhir = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.titik_akhir = "Please enter a correct titik awal";
-        return false;
-      } else {
-        this.formMessage.titik_akhir = "";
-        this.formIsInvalid = false;
-        this.validation.titik_akhir = "valid";
-        return true;
-      }
+    setTitikAwal(titik_awal) {
+      this.titik_awal = titik_awal;
     },
-    validateLatTitikAwal() {
-      if (this.lat_titik_awal == "" || !isFinite(this.lat_titik_awal) && !Math.abs(this.lat_titik_awal) <= 90) {
-        this.validation.lat_titik_awal = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.lat_titik_awal = "Please enter a correct latitude";
-        return false;
-      } else {
-        this.formMessage.lat_titik_awal = "";
-        this.formIsInvalid = false;
-        this.validation.lat_titik_awal = "valid";
-        return true;
-      }
+    setLatTitikAwal(lat_titik_awal) {
+      this.lat_titik_awal = lat_titik_awal;
     },
-    validateLongTitikAwal() {
-      if (this.long_titik_awal == "" || !isFinite(this.long_titik_awal) && !Math.abs(this.long_titik_awal) <= 180) {
-        this.validation.long_titik_awal = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.long_titik_awal = "Please enter a correct longitude";
-        return false;
-      } else {
-        this.formMessage.long_titik_awal = "";
-        this.formIsInvalid = false;
-        this.validation.long_titik_awal = "valid";
-        return true;
-      }
+    setLongTitikAwal(long_titik_awal) {
+      this.long_titik_awal = long_titik_awal;
     },
-    validateLatTitikAkhir() {
-      if (this.lat_titik_akhir == "" || !isFinite(this.lat_titik_akhir) && !Math.abs(this.lat_titik_akhir) <= 90) {
-        this.validation.lat_titik_akhir = "invalid";
-        this.formIsInvalid = true;
-        console.log(this.validation.lat_titik_akhir);
-        this.formMessage.lat_titik_akhir = "Please enter a correct latitude";
-        return false;
-      } else {
-        this.formMessage.lat_titik_akhir = "";
-        this.formIsInvalid = false;
-        this.validation.lat_titik_akhir = "valid";
-        return true;
-      }
+    setTitikAkhir(titik_akhir) {
+      this.titik_akhir = titik_akhir;
     },
-    validateLongTitikAkhir() {
-      if (this.long_titik_akhir == "" || !isFinite(this.long_titik_akhir) && !Math.abs(this.long_titik_akhir) <= 180) {
-        this.validation.long_titik_akhir = "invalid";
-        this.formIsInvalid = true;
-        this.formMessage.long_titik_akhir = "Please enter a correct longitude";
-        return false;
-      } else {
-        this.formMessage.long_titik_akhir = "";
-        this.formIsInvalid = false;
-        this.validation.long_titik_akhir = "valid";
-        return true;
-      }
+    setLatTitikAkhir(lat_titik_akhir) {
+      this.lat_titik_akhir = lat_titik_akhir;
+    },
+    setLongTitikAkhir(long_titik_akhir) {
+      this.long_titik_akhir = long_titik_akhir;
     },
   },
   created() {

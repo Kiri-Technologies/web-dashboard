@@ -1,9 +1,5 @@
 <template>
-  <div class="p-5 flex justify-center" v-if="isLoading">
-    <button class="btn bg-transparent loading text-black border-none">
-      Loading data...
-    </button>
-  </div>
+  <loading v-if="isLoading"></loading>
   <section class="mt-4" v-else>
     <section class="flex justify-center">
       <side-to-side-stat :title1="'Total Perjalanan Bulan Ini'" :title2="'Total Perjalanan Bulan Lalu'"

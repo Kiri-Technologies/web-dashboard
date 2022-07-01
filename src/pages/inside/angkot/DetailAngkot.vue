@@ -18,7 +18,6 @@
             {{ tabName(tab) }}
           </a>
         </div>
-
         <component :is="currentTab"></component>
       </card-body>
     </card>

@@ -57,8 +57,6 @@ export default {
             throw errorMessage;
         }
 
-        console.log(response.data.data);
-
         let data = response.data.data.map((item) => {
             return {
                 id: item.id,

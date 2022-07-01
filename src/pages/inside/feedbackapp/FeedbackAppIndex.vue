@@ -1,9 +1,5 @@
 <template>
-  <div class="p-5 flex justify-center" v-if="isLoading">
-    <button class="btn bg-transparent loading text-black border-none">
-      Loading data...
-    </button>
-  </div>
+  <loading v-if="isLoading"></loading>
   <section class="flex justify-center mt-4" v-else>
     <card class="shadow-lg w-11/12">
       <card-body>

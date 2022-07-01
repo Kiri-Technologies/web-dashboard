@@ -2,62 +2,23 @@
   <section class="mt-4">
     <div class="grid grid-cols-5 gap-1">
       <div class="col-span-2">
-        <div class="grid grid-cols-2">
-          <div>Kode Trayek</div>
-          <div class="text-gray-500">: {{ angkot.route == null ? 'D-101' : angkot.route.kode_trayek }}</div>
-        </div>
-        <div class="grid grid-cols-2">
-          <div>Plat Nomor</div>
-          <div class="text-gray-500">: {{ angkot.plat_nomor }}</div>
-        </div>
-        <div class="grid grid-cols-2">
-          <div>Trayek Angkot</div>
-          <div class="text-gray-500">
-            : {{ angkot.route == null ? 'Kebayoran' : angkot.route.titik_awal }} - {{ angkot.route == null ? 'Ciputat' : angkot.route.titik_akhir }}
-          </div>
-        </div>
-        <div class="grid grid-cols-2">
-          <div>Pemilik Angkot</div>
-          <div class="text-gray-500">: {{ angkot.user_owner.name }}</div>
-        </div>
-        <div class="grid grid-cols-2">
-          <div>Status Angkot</div>
-          <div class="text-gray-500">
-            :
-            {{
-                angkot.is_beroperasi == null || angkot.is_beroperasi == false
-                  ? "Tidak beroperasi"
-                  : "sedang beroperasi"
-            }}
-          </div>
-        </div>
+        <information-section label="Kode Trayek" :data="angkot.route == null ? 'D-101' : angkot.route.kode_trayek"></information-section>
+        <information-section label="Plat Nomor" :data="angkot.plat_nomor"></information-section>
+        <information-section label="Trayek Angkot" :data="angkot.route == null ? 'Kebayoran - Ciputat' : `${angkot.route.titik_awal} - ${angkot.route.titik_akhir}`"></information-section>
+        <information-section label="Pemilik Angkot" :data="angkot.user_owner.name"></information-section>
+        <information-section label="Status Angkot" :data="angkot.is_beroperasi == null || angkot.is_beroperasi == false ? 'Tidak beroperasi' : 'sedang beroperasi'"></information-section>
       </div>
       <div class="col-span-2">
-        <div class="grid grid-cols-2">
-          <div>Pajak STNK</div>
-          <div class="text-gray-500">
-            : {{ changeDateFormat(angkot.pajak_stnk) }}
-          </div>
-        </div>
-        <div class="grid grid-cols-2">
-          <div>Plat Tahunan</div>
-          <div class="text-gray-500">
-            : {{ changeDateFormat(angkot.pajak_tahunan) }}
-          </div>
-        </div>
-        <div class="grid grid-cols-2">
-          <div>KIR</div>
-          <div class="text-gray-500">
-            : {{ changeDateFormat(angkot.kir_bulanan) }}
-          </div>
-        </div>
+        <information-section label="Pajak STNK" :data="changeDateFormat(angkot.pajak_stnk)"></information-section>
+        <information-section label="Plat Tahunan" :data="changeDateFormat(angkot.pajak_tahunan)"></information-section>
+        <information-section label="KIR" :data="changeDateFormat(angkot.kir_bulanan)"></information-section>
       </div>
       <div>
         <img :src="angkot.qr_code" class="w-36 h-36" />
       </div>
     </div>
 
-    <div class="grid grid-cols-2 mt-4">
+    <div class="grid grid-cols-2 mt-4 gap-4">
       <div>
         <div>
           <p class="font-semibold">List Supir</p>
@@ -69,7 +30,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr v-if="emptyListSupir">
+                <tr v-if="listSupir.length < 1">
                   <td colspan="100%" class="text-center text-gray-500">
                     Tidak ada supir di angkot ini
                   </td>
@@ -158,11 +119,6 @@ export default {
         message: "",
       },
     };
-  },
-  computed: {
-    emptyListSupir() {
-      return this.listSupir.length < 1 ? true : false;
-    },
   },
   methods: {
     async getAngkot() {

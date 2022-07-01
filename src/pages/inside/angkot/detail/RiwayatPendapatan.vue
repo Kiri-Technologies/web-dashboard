@@ -3,29 +3,16 @@
     <div>
       <div class="grid grid-cols-2 gap-4">
         <div>
-          <div class="grid grid-cols-2">
-            <div>Kode Trayek</div>
-            <div class="text-gray-500">: {{ angkot.route.kode_trayek }}</div>
-          </div>
-          <div class="grid grid-cols-2">
-            <div>Plat Nomor</div>
-            <div class="text-gray-500">: {{ angkot.plat_nomor }}</div>
-          </div>
+          <information-section label="Kode Trayek" :data="angkot.route.kode_trayek"></information-section>
+          <information-section label="Plat Nomor" :data="angkot.plat_nomor"></information-section>
         </div>
         <div>
-          <div class="grid grid-cols-2">
-            <div>Trayek Angkot</div>
-            <div class="text-gray-500">: {{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}</div>
-          </div>
+          <information-section label="Trayek Angkot" :data="`${angkot.route.titik_awal} - ${angkot.route.titik_akhir}`"></information-section>
         </div>
       </div>
     </div>
     <div class="overflow-x-auto mt-4">
-      <div class="p-5 flex justify-center" v-if="isLoading">
-        <button class="btn bg-transparent loading text-black border-none">
-          Loading data...
-        </button>
-      </div>
+      <loading v-if="isLoading"></loading>
       <data-table :columns="columns" :entries="filteredListRiwayatSupirNarik" v-else></data-table>
     </div>
   </section>
