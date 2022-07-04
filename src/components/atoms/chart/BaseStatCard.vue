@@ -14,7 +14,7 @@
         >
           {{ title }}
         </div>
-        <div class="font-bold text-5xl py-4 text-center text-kiri-green">
+        <div class="font-bold text-5xl py-4 text-center text-kiri-green" style="color: #39ac00">
           {{ data }}
         </div>
       </div>
@@ -27,9 +27,3 @@ export default {
   props: ["title", "data"],
 };
 </script>
-
-<style scoped>
-.text-kiri-green {
-  color: #39ac00;
-}
-</style>

@@ -106,9 +106,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.text-kiri-green {
-  color: #39ac00;
-}
-</style>
