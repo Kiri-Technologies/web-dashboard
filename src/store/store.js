@@ -9,6 +9,7 @@ import listSupirModule from "./listsupir/index.js";
 import riwayatSupirNarikModule from "./riwayatsupirnarik/index.js";
 import perjalananModule from "./perjalanan/index.js";
 import chartModule from "./chart/index.js";
+import premiumUserModule from "./premiumuser/index.js";
 
 const store = createStore({
     modules: {
@@ -21,7 +22,8 @@ const store = createStore({
         listSupir: listSupirModule,
         riwayatSupirNarik: riwayatSupirNarikModule,
         perjalanan: perjalananModule,
-        chart: chartModule
+        chart: chartModule,
+        premiumUser: premiumUserModule,
     }
 });
 

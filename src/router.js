@@ -17,6 +17,8 @@ import RiwayatPendapatanIndex from "./pages/inside/riwayat/pendapatan/RiwayatPen
 import RiwayatPerjalananIndex from "./pages/inside/riwayat/perjalanan/RiwayatPerjalananIndex.vue";
 import ApproveAngkotIndex from "./pages/inside/approveangkot/ApproveAngkotIndex.vue";
 import CobaDatatable from "./pages/CobaDatatable.vue";
+import PremiumUserIndex from "./pages/inside/premiumuser/PremiumUserIndex.vue";
+import WritePremiumUser from "./pages/inside/premiumuser/WritePremiumUser.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -179,6 +181,31 @@ const router = createRouter({
           path: "/approveangkot",
           name: "approve angkot",
           component: ApproveAngkotIndex,
+          meta: {
+            auth: true,
+          },
+        },
+        {
+          path: "/premiumuser",
+          name: "premium user",
+          component: PremiumUserIndex,
+          meta: {
+            auth: true,
+          },
+        },
+        {
+          path: "/premiumuser/create",
+          name: "create premium user",
+          component: WritePremiumUser,
+          meta: {
+            auth: true,
+          },
+        },
+        {
+          path: "/premiumuser/:id/update",
+          name: "update premium user",
+          component: WritePremiumUser,
+          props: true,
           meta: {
             auth: true,
           },

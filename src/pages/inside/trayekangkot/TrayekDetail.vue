@@ -23,20 +23,11 @@
         <div class="mt-5">
           <div class="grid grid-cols-2 gap-4">
             <div>
-              <div class="grid grid-cols-2">
-                <div>Kode Trayek</div>
-                <div class="text-gray-500">: {{ kode_trayek }}</div>
-              </div>
-              <div class="grid grid-cols-2">
-                <div>Titik Awal</div>
-                <div class="text-gray-500">: {{ titik_awal }}</div>
-              </div>
+              <information-section label="Kode Trayek" :data="kode_trayek"></information-section>
+              <information-section label="Titik Awal" :data="titik_awal"></information-section>
             </div>
             <div>
-              <div class="grid grid-cols-2">
-                <div>Titik Akhir</div>
-                <div class="text-gray-500">: {{ titik_akhir }}</div>
-              </div>
+              <information-section label="Titik Akhir" :data="titik_akhir"></information-section>
             </div>
           </div>
         </div>

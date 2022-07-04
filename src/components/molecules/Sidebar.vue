@@ -82,6 +82,11 @@
                   Feedback Aplikasi
                 </router-link>
               </li>
+              <li>
+                <router-link :to="{ name: 'premium user' }">
+                  Premium User
+                </router-link>
+              </li>
             </ul>
           </transition>
         </li>

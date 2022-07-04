@@ -3,70 +3,17 @@
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-      <!-- <div class="form-control mb-2">
-        <label class="label">
-          <span class="label-text">Kode Trayek</span>
-        </label>
-        <input type="text" placeholder="Kode Trayek" class="input input-bordered"
-          :class="{ 'input-error': validation.kode_trayek == 'invalid' }" v-model.trim="kode_trayek" required
-          @blur="validateKodeTrayek" />
-        <label class="label" v-if="validation.kode_trayek == 'invalid'">
-          <span class="label-text-alt text-red-500">{{
-              formMessage.kode_trayek
-          }}</span>
-        </label>
-      </div> -->
-
-      <form-input @formchange="setKodeTrayek" @formIsValid="setFormValidity" type="text" label="Kode Trayek" :isReadonly="false" formName="kode trayek" placeholder="Kode Trayek"
+      <form-input @formChange="setKodeTrayek" @formIsValid="setFormValidity" type="text" label="Kode Trayek" :isReadonly="false" formName="kode trayek" placeholder="Kode Trayek"
         :isRequired="true" :defaultValue="kode_trayek"></form-input>
 
       <div class="grid grid-flow-col auto-cols-auto gap-4">
         <div>
-
-          <!-- <div class="form-control mb-2">
-            <label class="label">
-              <span class="label-text">Titik Awal</span>
-            </label>
-            <input type="text" placeholder="Titik Awal" class="input input-bordered"
-              :class="{ 'input-error': validation.titik_awal == 'invalid' }" v-model.trim="titik_awal" required
-              @blur="validateTitikAwal" />
-            <label class="label" v-if="validation.titik_awal == 'invalid'">
-              <span class="label-text-alt text-red-500">{{
-                  formMessage.titik_awal
-              }}</span>
-            </label>
-          </div> -->
-
-          <form-input @formchange="setTitikAwal" @formIsValid="setFormValidity" type="text" label="Titik Awal" :isReadonly="false" formName="titik awal" placeholder="Titik Awal"
+          <form-input @formChange="setTitikAwal" @formIsValid="setFormValidity" type="text" label="Titik Awal" :isReadonly="false" formName="titik awal" placeholder="Titik Awal"
             :isRequired="true" :defaultValue="titik_awal"></form-input>
-
-          <!-- <div class="form-control mb-2">
-            <label class="label">
-              <span class="label-text">Latitude Titik Awal</span>
-            </label>
-            <input type="text" placeholder="Latitude Titik Awal" class="input input-bordered"
-              :class="{ 'input-error': validation.lat_titik_awal == 'invalid' }" v-model.trim="lat_titik_awal" required
-              @blur="validateLatTitikAwal" />
-            <label class="label" v-if="validation.lat_titik_awal == 'invalid'">
-              <span class="label-text-alt text-red-500">{{ formMessage.lat_titik_awal }}</span>
-            </label>
-          </div> -->
 
           <form-input @formChange="setLatTitikAwal" @formIsValid="setFormValidity" type="text" label="Latitude Titik Awal"
             :isReadonly="false" formName="latitude titik awal" placeholder="Latitude Titik Awal" :isRequired="true" :defaultValue="lat_titik_awal"
             mode="lat"></form-input>
-
-          <!-- <div class="form-control mb-2">
-            <label class="label">
-              <span class="label-text">Longitude Titik Awal</span>
-            </label>
-            <input type="text" placeholder="Longitude Titik Awal" class="input input-bordered"
-              :class="{ 'input-error': validation.long_titik_awal == 'invalid' }" v-model.trim="long_titik_awal"
-              required @blur="validateLongTitikAwal" />
-            <label class="label" v-if="validation.long_titik_awal == 'invalid'">
-              <span class="label-text-alt text-red-500">{{ formMessage.long_titik_awal }}</span>
-            </label>
-          </div> -->
 
           <form-input @formChange="setLongTitikAwal" @formIsValid="setFormValidity" type="text" label="Longitude Titik Awal"
             :isReadonly="false" formName="longitude titik awal" placeholder="Longitude Titik Awal" :isRequired="true" :defaultValue="long_titik_awal"
@@ -75,53 +22,12 @@
         </div>
 
         <div>
-
-          <!-- <div class="grid grid-flow-col auto-cols-auto">
-            <div class="form-control mb-2">
-              <label class="label">
-                <span class="label-text">Titik Akhir</span>
-              </label>
-              <input type="text" placeholder="Titik Akhir" class="input input-bordered"
-                :class="{ 'input-error': validation.titik_akhir == 'invalid' }" v-model.trim="titik_akhir" required
-                @blur="validateTitikAkhir" />
-              <label class="label" v-if="validation.titik_akhir == 'invalid'">
-                <span class="label-text-alt text-red-500">{{
-                    formMessage.titik_akhir
-                }}</span>
-              </label>
-            </div>
-          </div> -->
-
-          <form-input @formchange="setTitikAkhir" @formIsValid="setFormValidity" type="text" label="Titik Akhir" :isReadonly="false" formName="titik akhir" placeholder="Titik Akhir"
+          <form-input @formChange="setTitikAkhir" @formIsValid="setFormValidity" type="text" label="Titik Akhir" :isReadonly="false" formName="titik akhir" placeholder="Titik Akhir"
             :isRequired="true" :defaultValue="titik_akhir"></form-input>
-
-          <!-- <div class="form-control mb-2">
-            <label class="label">
-              <span class="label-text">Latitude Titik Akhir</span>
-            </label>
-            <input type="text" placeholder="Latitude Titik Akhir" class="input input-bordered"
-              :class="{ 'input-error': validation.lat_titik_akhir == 'invalid' }" v-model.trim="lat_titik_akhir"
-              required />
-            <label class="label" v-if="validation.lat_titik_akhir == 'invalid'">
-              <span class="label-text-alt text-red-500">{{ formMessage.lat_titik_akhir }}</span>
-            </label>
-          </div> -->
 
           <form-input @formChange="setLatTitikAkhir" @formIsValid="setFormValidity" type="text" label="Latitude Titik Akhir"
             :isReadonly="false" formName="latitude titik akhir" placeholder="Latitude Titik Akhir" :isRequired="true" :defaultValue="lat_titik_akhir"
             mode="lat"></form-input>
-
-          <!-- <div class="form-control mb-2">
-            <label class="label">
-              <span class="label-text">Longitude Titik Akhir</span>
-            </label>
-            <input type="text" placeholder="Longitude Titik Akhir" class="input input-bordered"
-              :class="{ 'input-error': validation.long_titik_akhir == 'invalid' }" v-model.trim="long_titik_akhir"
-              required @blur="validateLongTitikAkhir" />
-            <label class="label" v-if="validation.long_titik_akhir == 'invalid'">
-              <span class="label-text-alt text-red-500">{{ formMessage.long_titik_akhir }}</span>
-            </label>
-          </div> -->
 
           <form-input @formChange="setLongTitikAkhir" @formIsValid="setFormValidity" type="text" label="Longitude Titik Akhir"
             :isReadonly="false" formName="latitude titik akhir" placeholder="Longitude Titik Akhir" :isRequired="true" :defaultValue="long_titik_akhir"
