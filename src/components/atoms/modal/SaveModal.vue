@@ -41,7 +41,6 @@ export default {
   emits: ["saveButtonClicked"],
   props: {
     id: {
-      type: String,
       required: true,
     },
   },

@@ -19,6 +19,8 @@ import ApproveAngkotIndex from "./pages/inside/approveangkot/ApproveAngkotIndex.
 import CobaDatatable from "./pages/CobaDatatable.vue";
 import PremiumUserIndex from "./pages/inside/premiumuser/PremiumUserIndex.vue";
 import WritePremiumUser from "./pages/inside/premiumuser/WritePremiumUser.vue";
+import ChangeTargetIndex from "./pages/inside/changetarget/ChangeTargetIndex.vue";
+import WriteTarget from "./pages/inside/changetarget/WriteTarget.vue";
 
 const router = createRouter({
   history: createWebHistory(),
@@ -205,6 +207,31 @@ const router = createRouter({
           path: "/premiumuser/:id/update",
           name: "update premium user",
           component: WritePremiumUser,
+          props: true,
+          meta: {
+            auth: true,
+          },
+        },
+        {
+          path: "/changetarget",
+          name: "change target",
+          component: ChangeTargetIndex,
+          meta: {
+            auth: true,
+          },
+        },
+        {
+          path: "/changetarget/create",
+          name: "create target",
+          component: WriteTarget,
+          meta: {
+            auth: true,
+          },
+        },
+        {
+          path: "/changetarget/:id/update",
+          name: "update target",
+          component: WriteTarget,
           props: true,
           meta: {
             auth: true,

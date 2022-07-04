@@ -32,6 +32,11 @@
           </router-link>
         </li>
         <li>
+          <router-link :to="{ name: 'change target' }">
+            Change Target
+          </router-link>
+        </li>
+        <li>
           <a @click="showRiwayatMenu">
             Riwayat
             <span class="ml-2" ref="caret1">

@@ -66,6 +66,8 @@ export default {
         validateForm() {
             if (this.type == 'email') {
                 this.validateEmail();
+            } else if (this.type == 'number') {
+                this.validateNumber();
             } else if (this.mode == 'lat') {
                 this.validateLatitude();
             } else if (this.mode == 'long') {
@@ -91,6 +93,12 @@ export default {
                 this.formValidity = "invalid";
                 this.formMessage = `Please enter a correct ${this.formName}`;
             } else {
+                this.formMessage = "";
+                this.formValidity = "valid";
+            }
+        },
+        validateNumber() {
+            if (this.formInput == 0) {
                 this.formMessage = "";
                 this.formValidity = "valid";
             }

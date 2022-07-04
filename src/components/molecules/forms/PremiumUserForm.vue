@@ -156,7 +156,6 @@ export default {
       this.formIsValid = formIsValid;
     },
     setUserId(user_id) {
-        console.log(user_id);
       this.user_id = user_id;
     },
     setPaymentDate(payment_date) {

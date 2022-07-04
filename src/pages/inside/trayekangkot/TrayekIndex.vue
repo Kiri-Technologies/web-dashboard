@@ -35,7 +35,6 @@ export default {
   data() {
     return {
       isLoading: false,
-      menuName: "List akun yang tersedia",
       alert: {
         turn: false,
         mode: "",
