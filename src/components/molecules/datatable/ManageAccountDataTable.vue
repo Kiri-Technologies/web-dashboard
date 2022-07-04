@@ -152,8 +152,12 @@ export default {
                 await this.$store.dispatch("auth/deleteAdminAccount", {
                     id: id,
                 });
-                // this.loadAllAccount();
-                // this.turnOnAlert("delete", "true");
+
+                await this.$store.dispatch("auth/getAllAccount");
+                const user = this.$store.getters["auth/getAllAccount"];
+
+                this.filteredEntries = $array.paginate(user, this.currentPage, this.showedEntries);
+
                 this.$emit('deleteButtonClicked', 'delete', true);
             } catch (error) {
                 this.$emit('deleteButtonClicked', 'delete', false);

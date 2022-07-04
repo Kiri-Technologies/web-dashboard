@@ -1,6 +1,5 @@
 <template>
-  <loading v-if="isLoading"></loading>
-  <section class="flex justify-center mt-4" v-else>
+  <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
@@ -20,7 +19,9 @@
 
         <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-        <div class="overflow-x-auto mt-4">
+        <loading v-if="isLoading"></loading>
+
+        <div class="overflow-x-auto mt-4" v-else>
           <approve-angkot-data-table :entries="filteredAngkot" :currentTab="currentTab" v-if="currentTab == 'pending'"
             @updateStatusAngkot="updateStatusAngkot"></approve-angkot-data-table>
           <approve-angkot-data-table :entries="filteredAngkot" :currentTab="currentTab" v-if="currentTab == 'approved'">
@@ -77,12 +78,14 @@ export default {
       }
     },
     async updateStatusAngkot(message, isSuccess) {
+      this.isLoading = true;
       try {
         await this.getAllAngkot();
         this.turnOnAlert(message, isSuccess)
       } catch (error) {
         this.turnOnAlert(error.message, false);
       }
+      this.isLoading = false;
     },
     capitalizeFirstLetter(string) {
       return string.charAt(0).toUpperCase() + string.slice(1);

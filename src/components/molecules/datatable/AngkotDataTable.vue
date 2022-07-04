@@ -137,7 +137,7 @@ export default {
                 await this.$store.dispatch("angkot/updateStatusAngkot", { id, status });
                 this.$emit('updateStatusAngkot', `Berhasil update status angkot menjadi ${status}`, true);
             } catch (error) {
-                this.turnOnAlert(error.message, false);
+                this.$emit('updateStatusAngkot', `Berhasil update status angkot menjadi ${status}`, true);
             }
         },
     },

@@ -1,6 +1,5 @@
 <template>
-  <loading v-if="isLoading"></loading>
-  <section class="flex justify-center mt-4" v-else>
+  <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
@@ -20,7 +19,8 @@
 
         <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-        <div class="overflow-x-auto mt-4">
+        <loading v-if="isLoading"></loading>
+        <div class="overflow-x-auto mt-4" v-else>
           <feedback-app-data-table :entries="filteredFeedbackApp" :currentTab="currentTab"
             v-if="currentTab == 'All Feedback'" @changeStatus="changeStatus"></feedback-app-data-table>
           <feedback-app-data-table :entries="filteredFeedbackApp" :currentTab="currentTab"
@@ -92,12 +92,14 @@ export default {
       }
     },
     async changeStatus(isSucceed) {
+      this.isLoading = true;
       if (isSucceed) {
         await this.loadAllFeedbackApp();
         this.turnOnAlert(true);
       } else {
         this.turnOnAlert(false);
       }
+        this.isLoading = false;
     },
     turnOnAlert(isSucceed) {
       this.alert.turn = true;
