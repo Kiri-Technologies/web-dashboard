@@ -4,11 +4,7 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/' }">
-            <template v-slot:default> Feedback </template>
-            <template v-slot:menuName>
-              Menampilkan list feedback untuk aplikasi
-            </template>
+          <menu-title :path="{ path: '/' }" heading="Feedback" subHeading="Menampilkan list feedback untuk aplikasi">
           </menu-title>
         </p>
 
@@ -99,7 +95,7 @@ export default {
       } else {
         this.turnOnAlert(false);
       }
-        this.isLoading = false;
+      this.isLoading = false;
     },
     turnOnAlert(isSucceed) {
       this.alert.turn = true;

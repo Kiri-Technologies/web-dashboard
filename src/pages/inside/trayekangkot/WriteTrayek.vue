@@ -16,6 +16,11 @@
               }}
             </template>
           </menu-title>
+          <menu-title :path="{ path: '/trayekangkot' }"
+            :heading="mode == 'createTrayek' ? 'Tambah Trayek' : 'Update Trayek'" :subHeading="mode == 'createTrayek'
+            ? 'Menambahkan Trayek Baru'
+            : 'Memperbarui Trayek Terpilih'">
+          </menu-title>
         </p>
         <trayek-form :mode="mode"></trayek-form>
       </card-body>

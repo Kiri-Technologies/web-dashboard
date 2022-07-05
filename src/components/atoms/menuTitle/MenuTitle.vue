@@ -1,15 +1,12 @@
 <template>
-  <!-- <a @click="changeRoute" class="cursor-pointer"
-    ><font-awesome-icon icon="arrow-left"
-  /></a> -->
   <router-link :to="path">
     <font-awesome-icon icon="arrow-left" />
   </router-link>
   <span class="text-xl ml-1">
-    <slot />
+    {{ heading }}
   </span>
   <span class="text-gray-400 text-sm ml-1">
-    <slot name="menuName" />
+    {{ subHeading }}
   </span>
 </template>
 
@@ -22,8 +19,15 @@ export default {
       default() {
         return { path: '/' };
       }
-
     },
+    heading: {
+      type: String,
+      required: true
+    },
+    subHeading: {
+      type: String,
+      required: true
+    }
   },
 };
 </script>

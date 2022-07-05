@@ -5,11 +5,8 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/' }">
-            <template v-slot:default> Akun </template>
-            <template v-slot:menuName>
-              {{ menuName }}
-            </template>
+          <menu-title :path="{ path: '/' }"
+            heading="Akun" :subHeading="menuName">
           </menu-title>
         </p>
         <div class="flex flex-row justify-end">

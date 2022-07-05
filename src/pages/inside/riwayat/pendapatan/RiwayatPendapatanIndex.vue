@@ -11,11 +11,8 @@
         <card-body>
           <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
           <p>
-            <menu-title :path="{ path: '/' }">
-              <template v-slot:default> Riwayat Pendapatan </template>
-              <template v-slot:menuName>
-                Daftar pendapatan yang telah dicatat
-              </template>
+            <menu-title :path="{ path: '/' }" heading="Riwayat Pendapatan"
+              subHeading="Daftar pendapatan yang telah dicatat">
             </menu-title>
           </p>
 
@@ -139,7 +136,7 @@ export default {
       await this.getAllRiwayatSupirNarik();
       await this.getTotalPendapatanBulanIni();
       await this.getTotalPendapatanBulanLalu();
-    }catch(error){
+    } catch (error) {
       console.log(error.message);
     }
     this.isLoading = false;

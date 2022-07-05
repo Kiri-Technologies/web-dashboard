@@ -1,8 +1,8 @@
 import { mount } from "@vue/test-utils";
 import FormInput from "@/components/atoms/forms/FormInput.vue";
 
-// check apakah form terisi dari props
 describe("FormInput.vue", () => {
+  // check apakah form terisi dari props
   it("renders default text form", async () => {
     const props = {
       label: "Name",
@@ -21,12 +21,14 @@ describe("FormInput.vue", () => {
 
     await input.setValue("John Doe");
 
+    expect(wrapper.html()).toContain('Name');
+    expect(input.element.placeholder).toBe("name");
+    expect(input.element.readOnly).toBe(false);
+    expect(input.element.required).toBe(true);
     expect(input.element.value).toBe("John Doe");
   });
-});
 
-// check apakah pesan error muncul saat form kosong
-describe("FormInput.vue", () => {
+  // check apakah pesan error muncul saat form kosong
   it("renders error message when form is empty", async () => {
     const props = {
       label: "Name",
@@ -47,15 +49,14 @@ describe("FormInput.vue", () => {
 
     await input.trigger('blur')
 
+    expect(input.element.classList.contains("input-error")).toBe(true);
     expect(input.element.value).toBe("");
     expect(wrapper.html()).toContain(
       `Please enter a correct ${props.formName}`
     );
   });
-});
 
-// check validasi email
-describe("FormInput.vue", () => {
+  // check validasi email
   it("renders error message when email is incorrect", async () => {
     const props = {
       label: "Email",
@@ -76,15 +77,14 @@ describe("FormInput.vue", () => {
 
     await input.trigger('blur')
 
+    expect(input.element.classList.contains("input-error")).toBe(true);
     expect(input.element.value).toBe("johndoe");
     expect(wrapper.html()).toContain(
       `Please enter a valid email address`
     );
   });
-});
 
-// check validasi latitude
-describe("FormInput.vue", () => {
+  // check validasi latitude
   it("renders error message when latitude is incorrect", async () => {
     const props = {
       label: "Latitude",
@@ -106,15 +106,14 @@ describe("FormInput.vue", () => {
 
     await input.trigger('blur')
 
+    expect(input.element.classList.contains("input-error")).toBe(true);
     expect(input.element.value).toBe("this is not a latitude");
     expect(wrapper.html()).toContain(
       `Please enter a correct latitude`
     );
   });
-});
 
-// check validasi longitude
-describe("FormInput.vue", () => {
+  // check validasi longitude
   it("renders error message when latitude is incorrect", async () => {
     const props = {
       label: "Latitude",
@@ -136,15 +135,14 @@ describe("FormInput.vue", () => {
 
     await input.trigger('blur')
 
+    expect(input.element.classList.contains("input-error")).toBe(true);
     expect(input.element.value).toBe("this is not a longitude");
     expect(wrapper.html()).toContain(
       `Please enter a correct longitude`
     );
   });
-});
 
-// check emit
-describe("FormInput.vue", () => {
+  // check emit
   it("check does the component emits after filling up the form", async () => {
     const props = {
       label: "Name",

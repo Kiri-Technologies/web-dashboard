@@ -25,6 +25,7 @@
 
         <!-- <slot name="button" /> -->
         <a
+          :id="`save-button-${id}`"
           href="#"
           class="btn btn-success bg-green-500 border-none hover:bg-green-600"
           @click="saveButtonClicked"
@@ -46,10 +47,10 @@ export default {
   },
   computed: {
     modalId() {
-      return `my-modal-${this.id}`;
+      return `save-modal-${this.id}`;
     },
     modalHref() {
-      return `#my-modal-${this.id}`;
+      return `#save-modal-${this.id}`;
     },
   },
   methods: {

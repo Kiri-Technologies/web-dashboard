@@ -4,7 +4,7 @@
             <span class="label-text">{{ label }}</span>
         </label>
         <select class="select select-bordered" :class="{ 'input-error': formValidity == 'invalid' }" :value="formInput"
-            @blur="validateForm" :required="isRequired" :readonly="isReadonly" @input="setFormInput">
+            @blur="validateForm" :required="isRequired" @change="setFormInput">
             <option disabled>{{ disabledOption }}</option>
             <option v-for="(item, index) in options" :key="index" :value="item.value">{{ item.name }}</option>
         </select>
@@ -39,10 +39,6 @@ export default {
         message: {
             type: String,
             required: false,
-        },
-        isReadonly: {
-            type: Boolean,
-            required: true,
         },
         isRequired: {
             type: Boolean,

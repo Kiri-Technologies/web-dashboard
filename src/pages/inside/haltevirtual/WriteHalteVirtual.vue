@@ -8,21 +8,11 @@
             name: 'detail trayek', params: {
               id: trayekid
             }
-          }">
-            <template v-slot:default>
-              {{
-                  mode == "createHalteVirtual"
-                    ? `Tambah Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
-                    : `Update Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
-              }}
-            </template>
-            <template v-slot:menuName>
-              {{
-                  mode == "createHalteVirtual"
-                    ? "Menambahkan Halte Virtual"
-                    : "Memperbarui Halte Virtual Terpilih"
-              }}
-            </template>
+          }" :heading="mode == 'createHalteVirtual'
+? `Tambah Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`
+: `Update Halte Virtual Trayek ${trayek.titik_awal} - ${trayek.titik_akhir}`" :subHeading="mode == 'createHalteVirtual'
+  ? 'Menambahkan Halte Virtual'
+  : 'Memperbarui Halte Virtual Terpilih'">
           </menu-title>
         </p>
         <halte-virtual-form :mode="mode" :trayekid="trayekid" :id="id"></halte-virtual-form>

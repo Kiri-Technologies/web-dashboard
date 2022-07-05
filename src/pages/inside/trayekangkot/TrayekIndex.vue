@@ -5,9 +5,7 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/' }">
-            <template v-slot:default> Trayek </template>
-            <template v-slot:menuName> List Trayek yang Tersedia </template>
+          <menu-title :path="{ path: '/' }" heading="Trayek" subHeading="List Trayek yang Tersedia">
           </menu-title>
         </p>
         <div class="flex flex-row justify-end">

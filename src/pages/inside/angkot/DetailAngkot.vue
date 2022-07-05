@@ -4,11 +4,7 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/angkot' }">
-            <template v-slot:default> Detail Angkot </template>
-            <template v-slot:menuName>
-              Menampilkan data angkot terpilih
-            </template>
+          <menu-title :path="{ path: '/angkot' }" heading="Detail Angkot" subHeading="Menampilkan data angkot terpilih">
           </menu-title>
         </p>
 

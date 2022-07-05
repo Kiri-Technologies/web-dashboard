@@ -10,11 +10,8 @@
         <card-body>
           <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
           <p>
-            <menu-title :path="{ path: '/' }">
-              <template v-slot:default> Riwayat Perjalanan </template>
-              <template v-slot:menuName>
-                Daftar riwayat perjalanan angkot
-              </template>
+            <menu-title :path="{ path: '/' }" heading="Riwayat Perjalanan"
+              subHeading="Daftar riwayat perjalanan angkot">
             </menu-title>
           </p>
 

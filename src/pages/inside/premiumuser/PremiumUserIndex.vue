@@ -5,9 +5,8 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/' }">
-            <template v-slot:default> User Premium </template>
-            <template v-slot:menuName> List User Premium yang Terdaftar </template>
+          <menu-title :path="{ path: '/' }"
+            heading="User Premium" subHeading="List User Premium yang Terdaftar">
           </menu-title>
         </p>
         <div class="flex flex-row justify-end">

@@ -4,11 +4,7 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/' }">
-            <template v-slot:default> Approval Angkot </template>
-            <template v-slot:menuName>
-              Menampilkan list angkot yang akan disetujui untuk beroperasi
-            </template>
+          <menu-title :path="{ path: '/' }" heading="Approval Angkot" subHeading="Menampilkan list angkot yang akan disetujui untuk beroperasi">
           </menu-title>
         </p>
 

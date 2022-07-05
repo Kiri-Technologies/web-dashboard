@@ -25,6 +25,7 @@
 
         <!-- <slot name="button" /> -->
         <a
+          :id="`delete-button-${id}`"
           href="#"
           class="btn btn-delete bg-red-500 border-none hover:bg-red-600"
           @click="deleteButtonClicked"
@@ -46,10 +47,10 @@ export default {
   },
   computed: {
     modalId() {
-      return `my-modal-${this.id}`;
+      return `delete-modal-${this.id}`;
     },
     modalHref() {
-      return `#my-modal-${this.id}`;
+      return `#delete-modal-${this.id}`;
     },
   },
   methods: {

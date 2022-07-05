@@ -11,8 +11,8 @@
         :isRequired="true" :defaultValue="nama_lokasi">
       </form-input>
 
-      <select-input @formChange="setArah" @formIsValid="setFormValidity" label="Arah" :isReadonly="false"
-        formName="arah" :isRequired="true" :defaultValue="arah" disabledOption="Pilih arah..." :options="options">
+      <select-input @formChange="setArah" @formIsValid="setFormValidity" label="Arah" formName="arah" :isRequired="true"
+        :defaultValue="arah" disabledOption="Pilih arah..." :options="options">
       </select-input>
 
       <form-input @formChange="setLat" @formIsValid="setFormValidity" type="text" label="Titik Latitude"

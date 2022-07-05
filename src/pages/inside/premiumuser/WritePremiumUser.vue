@@ -4,17 +4,10 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p class="mb-5">
-          <menu-title :path="{ path: '/premiumuser' }">
-            <template v-slot:default>
-              {{ mode == "create" ? "Tambah Premium User" : "Update Premium User" }}
-            </template>
-            <template v-slot:menuName>
-              {{
-                  mode == "create"
-                    ? "Menambahkan Premium User"
-                    : "Memperbarui Premium User"
-              }}
-            </template>
+          <menu-title :path="{ path: '/premiumuser' }"
+            :heading="mode == 'create' ? 'Tambah Premium User' : 'Update Premium User'" :subHeading="mode == 'create'
+            ? 'Menambahkan Premium User'
+            : 'Memperbarui Premium User'">
           </menu-title>
         </p>
         <premium-user-form :mode="mode"></premium-user-form>

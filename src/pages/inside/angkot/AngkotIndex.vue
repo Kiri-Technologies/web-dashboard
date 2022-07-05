@@ -10,10 +10,7 @@
         <card-body>
           <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
           <p>
-            <menu-title :path="{ path: '/' }">
-              <template v-slot:default> Angkot </template>
-              <template v-slot:menuName> List Angkot yang Tersedia </template>
-            </menu-title>
+            <menu-title :path="{ path: '/' }" heading="Angkot" subHeading="List Angkot yang Tersedia"></menu-title>
           </p>
 
           <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>

@@ -5,9 +5,8 @@
             <card-body>
                 <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
                 <p>
-                    <menu-title :path="{ path: '/' }">
-                        <template v-slot:default> Change Target </template>
-                        <template v-slot:menuName> Mengubah Target yang Telah Ditentukan </template>
+                    <menu-title :path="{ path: '/' }" heading="Change Target"
+                        subHeading="Mengubah Target yang Telah Ditentukan">
                     </menu-title>
                 </p>
                 <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>

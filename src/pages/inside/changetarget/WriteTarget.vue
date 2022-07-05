@@ -4,17 +4,10 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p class="mb-5">
-          <menu-title :path="{ path: '/changetarget' }">
-            <template v-slot:default>
-              {{ mode == "create" ? "Tambah Target" : "Update Target" }}
-            </template>
-            <template v-slot:menuName>
-              {{
-                  mode == "create"
-                    ? "Menambahkan Target"
-                    : "Memperbarui Target"
-              }}
-            </template>
+          <menu-title :path="{ path: '/changetarget' }" :heading="mode == 'create' ? 'Tambah Target' : 'Update Target'"
+            :subHeading="mode == 'create'
+            ? 'Menambahkan Target'
+            : 'Memperbarui Target'">
           </menu-title>
         </p>
         <target-form :mode="mode"></target-form>
