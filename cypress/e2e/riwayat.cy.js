@@ -1,5 +1,5 @@
 describe("View riwayat test", () => {
-  it("Successfully access the riwayat pendapatan page", async () => {
+  it("Successfully access the riwayat pendapatan page", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -12,7 +12,7 @@ describe("View riwayat test", () => {
     cy.url().should("to.equal", "http://localhost:8080/riwayatpendapatan");
   });
 
-  it("Successfully access the riwayat perjalanan page", async () => {
+  it("Successfully access the riwayat perjalanan page", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");

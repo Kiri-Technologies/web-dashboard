@@ -20,6 +20,6 @@ describe("Login test", () => {
     cy.get("#password").type("password");
     cy.get("button").click();
 
-    cy.contains('Email atau password tidak sesuai');
+    cy.get('span').should("to.contain", "Email atau password tidak sesuai");
   });
 });

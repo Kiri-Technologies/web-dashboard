@@ -87,7 +87,7 @@ export default {
             }
         },
         validateEmail() {
-            if (this.formInput == "") {
+            if (this.formInput == "" || /^\s*$/.test(this.formInput)) {
                 this.formValidity = "invalid";
                 this.formMessage = "Please enter an email";
             } else if (!this.reg.test(this.formInput)) {
@@ -99,7 +99,7 @@ export default {
             }
         },
         validateFormInput() {
-            if (this.formInput == "") {
+            if (this.formInput == "" || /^\s*$/.test(this.formInput)) {
                 this.formValidity = "invalid";
                 this.formMessage = `Please enter a correct ${this.formName}`;
             } else {
@@ -108,13 +108,13 @@ export default {
             }
         },
         validateNumber() {
-            if (this.formInput == 0) {
+            if (this.formInput == 0 || /^\s*$/.test(this.formInput)) {
                 this.formMessage = "";
                 this.formValidity = "valid";
             }
         },
         validateLatitude() {
-            if (this.formInput == "" || !isFinite(this.formInput) && !Math.abs(this.formInput) <= 90) {
+            if (this.formInput == "" || !isFinite(this.formInput) && !Math.abs(this.formInput) <= 90 || /^\s*$/.test(this.formInput)) {
                 this.formValidity = "invalid";
                 this.formMessage = "Please enter a correct latitude";
             } else {
@@ -123,7 +123,7 @@ export default {
             }
         },
         validateLongitude() {
-            if (this.formInput == "" || !isFinite(this.formInput) && !Math.abs(this.formInput) <= 180) {
+            if (this.formInput == "" || !isFinite(this.formInput) && !Math.abs(this.formInput) <= 180 || /^\s*$/.test(this.formInput)) {
                 this.formValidity = "invalid";
                 this.formMessage = "Please enter a correct longitude";
             } else {
@@ -132,8 +132,9 @@ export default {
             }
         },
         setFormInput(event) {
-            let textValue = event.target.value;
+            let textValue = event.target.value.replace(/^\s+|\s+$/gm,'');
             this.formInput = textValue;
+            this.validateForm();
             this.$emit("formChange", textValue);
             this.$emit("formIsValid", this.formValidity == 'invalid' ? false : true);
         }

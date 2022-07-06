@@ -87,25 +87,25 @@ export default {
         this.turnOnAlert(false);
       }
     },
-    async changeStatus(isSucceed) {
+    async changeStatus(isSucceed, status) {
       this.isLoading = true;
       if (isSucceed) {
         await this.loadAllFeedbackApp();
-        this.turnOnAlert(true);
+        this.turnOnAlert(true, status);
       } else {
-        this.turnOnAlert(false);
+        this.turnOnAlert(false, status);
       }
       this.isLoading = false;
     },
-    turnOnAlert(isSucceed) {
+    turnOnAlert(isSucceed, status) {
       this.alert.turn = true;
 
       if (isSucceed) {
         this.alert.mode = "success";
-        this.alert.message = "Berhasil mengubah status";
+        this.alert.message = `Berhasil mengubah status menjadi ${status}`;
       } else if (!isSucceed) {
         this.alert.mode = "error";
-        this.alert.message = "Gagal mengubah status";
+        this.alert.message = `Gagal mengubah status menjadi ${status}`;
       }
 
       setTimeout(() => {

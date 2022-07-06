@@ -4,18 +4,6 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p class="mb-5">
-          <menu-title :path="{ path: '/trayekangkot' }">
-            <template v-slot:default>
-              {{ mode == "createTrayek" ? "Tambah Trayek" : "Update Trayek" }}
-            </template>
-            <template v-slot:menuName>
-              {{
-                  mode == "createTrayek"
-                    ? "Menambahkan Trayek Baru"
-                    : "Memperbarui Trayek Terpilih"
-              }}
-            </template>
-          </menu-title>
           <menu-title :path="{ path: '/trayekangkot' }"
             :heading="mode == 'createTrayek' ? 'Tambah Trayek' : 'Update Trayek'" :subHeading="mode == 'createTrayek'
             ? 'Menambahkan Trayek Baru'

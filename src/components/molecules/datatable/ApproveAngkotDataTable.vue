@@ -40,13 +40,39 @@
                         </td>
                         <td>{{ angkot.user_owner.email }}</td>
                         <td v-if="currentTab == 'pending'">
-                            <button @click="updateStatusAngkot(angkot.id, 'approved')" :id="`approve`">
+                            <!-- <button @click="updateStatusAngkot(angkot.id, 'approved')" :id="`approve`">
                                 <font-awesome-icon icon="check-square" class="text-lg text-green-600" />
-                            </button>
+                            </button> -->
 
-                            <button @click="updateStatusAngkot(angkot.id, 'declined')" :id="`decline`">
+                            <save-modal :id="angkot.id + 'approve'" @saveButtonClicked="updateStatusAngkotToApproved">
+                                <template v-slot:default>
+                                    <button>
+                                        <font-awesome-icon icon="check-square" class="text-lg text-green-600" />
+                                    </button>
+                                </template>
+                                <template v-slot:title> Approve Angkot </template>
+                                <template v-slot:body>
+                                    Anda yakin untuk mengubah status menjadi
+                                    <span class="text-green-600">Approved</span>?
+                                </template>
+                            </save-modal>
+
+                            <save-modal :id="angkot.id + 'decline'" @saveButtonClicked="updateStatusAngkotToDeclined">
+                                <template v-slot:default>
+                                    <button>
+                                        <font-awesome-icon icon="window-close" class="text-lg text-red-600 ml-2" />
+                                    </button>
+                                </template>
+                                <template v-slot:title> Decline Angkot </template>
+                                <template v-slot:body>
+                                    Anda yakin untuk mengubah status menjadi
+                                    <span class="text-red-600">Declined</span>?
+                                </template>
+                            </save-modal>
+
+                            <!-- <button @click="updateStatusAngkot(angkot.id, 'declined')" :id="`decline`">
                                 <font-awesome-icon icon="window-close" class="text-lg text-red-600 ml-2" />
-                            </button>
+                            </button> -->
                         </td>
                     </tr>
                 </tbody>
@@ -140,6 +166,12 @@ export default {
         },
         searchEvent() {
             this.paginateEntries(1);
+        },
+        updateStatusAngkotToApproved(id){
+            this.updateStatusAngkot(id, 'approved');
+        },
+        updateStatusAngkotToDeclined(id){
+            this.updateStatusAngkot(id, 'declined');
         },
         async updateStatusAngkot(id, status) {
             try {

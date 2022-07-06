@@ -3,12 +3,12 @@
         <div class="w-4/5 mx-auto">
             <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-            <form-input @formChange="setName" @formIsValid="setFormValidity" type="text" label="Name" :isReadonly="true"
+            <form-input @formChange="setName" @formIsValid="setNameValidity" type="text" label="Name" :isReadonly="true"
                 formName="name" placeholder="Name" :isRequired="true" :defaultValue="name"  idCode="name"></form-input>
-            <form-input @formChange="setInput" @formIsValid="setFormValidity" type="number" label="Input"
+            <form-input @formChange="setInput" @formIsValid="setInputValidity" type="number" label="Input"
                 :isReadonly="false" formName="input" placeholder="Input" :isRequired="true"
                 :defaultValue="input" idCode="input"></form-input>
-            <form-input @formChange="setTarget" @formIsValid="setFormValidity" type="number" label="Target"
+            <form-input @formChange="setTarget" @formIsValid="setTargetValidity" type="number" label="Target"
                 :isReadonly="false" formName="target" placeholder="Target" :isRequired="true"
                 :defaultValue="target" idCode="target"></form-input>
 
@@ -46,7 +46,9 @@ export default {
                 message: "",
             },
             isLoading: false,
-            formIsValid: false,
+            nameIsValid: true,
+            inputIsValid: true,
+            targetIsValid: true,
         };
     },
     computed: {
@@ -84,7 +86,7 @@ export default {
         },
         async updateTarget() {
             this.isLoading = true;
-            if (!this.formIsValid) {
+            if (!this.nameIsValid || !this.inputIsValid || !this.targetIsValid) {
                 this.isLoading = false;
                 this.turnOnAlert("error", "Pastikan form terisi dengan benar");
             } else {
@@ -114,8 +116,14 @@ export default {
             this.alert.mode = mode;
             this.alert.message = message;
         },
-        setFormValidity(formIsValid) {
-            this.formIsValid = formIsValid;
+        setNameValidity(formIsValid) {
+            this.nameIsValid = formIsValid;
+        },
+        setInputValidity(formIsValid) {
+            this.inputIsValid = formIsValid;
+        },
+        setTargetValidity(formIsValid) {
+            this.targetIsValid = formIsValid;
         },
         setName(name) {
             this.name = name;

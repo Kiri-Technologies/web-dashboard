@@ -3,33 +3,33 @@
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-      <form-input @formChange="setKodeTrayek" @formIsValid="setFormValidity" type="text" label="Kode Trayek" :isReadonly="false" formName="kode trayek" placeholder="Kode Trayek"
-        :isRequired="true" :defaultValue="kode_trayek"></form-input>
+      <form-input @formChange="setKodeTrayek" @formIsValid="setKodeTrayekValidity" type="text" label="Kode Trayek" :isReadonly="false" formName="kode trayek" placeholder="Kode Trayek"
+        :isRequired="true" :defaultValue="kode_trayek" idCode="kodeTrayek"></form-input>
 
       <div class="grid grid-flow-col auto-cols-auto gap-4">
         <div>
-          <form-input @formChange="setTitikAwal" @formIsValid="setFormValidity" type="text" label="Titik Awal" :isReadonly="false" formName="titik awal" placeholder="Titik Awal"
+          <form-input @formChange="setTitikAwal" @formIsValid="setTitikAwalValidity" type="text" label="Titik Awal" :isReadonly="false" formName="titik awal" placeholder="Titik Awal"
             :isRequired="true" :defaultValue="titik_awal" idCode="titikAwal"></form-input>
 
-          <form-input @formChange="setLatTitikAwal" @formIsValid="setFormValidity" type="text" label="Latitude Titik Awal"
+          <form-input @formChange="setLatTitikAwal" @formIsValid="setLatTitikAwalValidity" type="text" label="Latitude Titik Awal"
             :isReadonly="false" formName="latitude titik awal" placeholder="Latitude Titik Awal" :isRequired="true" :defaultValue="lat_titik_awal"
             mode="lat" idCode="latTitikAwal"></form-input>
 
-          <form-input @formChange="setLongTitikAwal" @formIsValid="setFormValidity" type="text" label="Longitude Titik Awal"
+          <form-input @formChange="setLongTitikAwal" @formIsValid="setLongTitikAwalValidity" type="text" label="Longitude Titik Awal"
             :isReadonly="false" formName="longitude titik awal" placeholder="Longitude Titik Awal" :isRequired="true" :defaultValue="long_titik_awal"
             mode="long" idCode="longTitikAwal"></form-input>
 
         </div>
 
         <div>
-          <form-input @formChange="setTitikAkhir" @formIsValid="setFormValidity" type="text" label="Titik Akhir" :isReadonly="false" formName="titik akhir" placeholder="Titik Akhir"
+          <form-input @formChange="setTitikAkhir" @formIsValid="setTitikAkhirValidity" type="text" label="Titik Akhir" :isReadonly="false" formName="titik akhir" placeholder="Titik Akhir"
             :isRequired="true" :defaultValue="titik_akhir" idCode="titikAkhir"></form-input>
 
-          <form-input @formChange="setLatTitikAkhir" @formIsValid="setFormValidity" type="text" label="Latitude Titik Akhir"
+          <form-input @formChange="setLatTitikAkhir" @formIsValid="setLatTitikAkhirValidity" type="text" label="Latitude Titik Akhir"
             :isReadonly="false" formName="latitude titik akhir" placeholder="Latitude Titik Akhir" :isRequired="true" :defaultValue="lat_titik_akhir"
             mode="lat" idCode="latTitikAkhir"></form-input>
 
-          <form-input @formChange="setLongTitikAkhir" @formIsValid="setFormValidity" type="text" label="Longitude Titik Akhir"
+          <form-input @formChange="setLongTitikAkhir" @formIsValid="setLongTitikAkhirValidity" type="text" label="Longitude Titik Akhir"
             :isReadonly="false" formName="latitude titik akhir" placeholder="Longitude Titik Akhir" :isRequired="true" :defaultValue="long_titik_akhir"
             mode="long" idCode="longTitikAkhir"></form-input>
 
@@ -74,7 +74,13 @@ export default {
         message: "",
       },
       isLoading: false,
-      formIsValid: false,
+      kodeTrayekIsValid: true,
+      titikAwalIsValid: true,
+      latTitikAwalIsValid: true,
+      longTitikAwalIsValid: true,
+      titikAkhirIsValid: true,
+      latTitikAkhirIsValid: true,
+      longTitikAkhirIsValid: true,
     };
   },
   computed: {
@@ -100,7 +106,7 @@ export default {
     },
     async createTrayek() {
       this.isLoading = true;
-      if (!this.formIsValid) {
+      if (!this.kodeTrayekIsValid || !this.titikAwalIsValid ||!this.latTitikAwalIsValid ||!this.longTitikAwalIsValid || !this.titikAkhirIsValid || !this.latTitikAkhirIsValid ||!this.longTitikAkhirIsValid) {
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
         try {
@@ -152,7 +158,7 @@ export default {
     },
     async updateTrayek() {
       this.isLoading = true;
-      if (!this.formIsValid) {
+      if (!this.kodeTrayekIsValid || !this.titikAwalIsValid ||!this.latTitikAwalIsValid ||!this.longTitikAwalIsValid || !this.titikAkhirIsValid || !this.latTitikAkhirIsValid ||!this.longTitikAkhirIsValid) {
         this.isLoading = false;
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
@@ -189,8 +195,26 @@ export default {
       this.alert.mode = mode;
       this.alert.message = message;
     },
-    setFormValidity(formIsValid) {
-      this.formIsValid = formIsValid;
+    setKodeTrayekValidity(formIsValid) {
+      this.kodeTrayekIsValid = formIsValid;
+    },
+    setTitikAwalValidity(formIsValid) {
+      this.titikAwalIsValid = formIsValid;
+    },
+    setLatTitikAwalValidity(formIsValid) {
+      this.latTitikAwalIsValid = formIsValid;
+    },
+    setLongTitikAwalValidity(formIsValid) {
+      this.longTitikAwalIsValid = formIsValid;
+    },
+    setTitikAkhirValidity(formIsValid) {
+      this.titikAkhirIsValid = formIsValid;
+    },
+    setLatTitikAkhirValidity(formIsValid) {
+      this.latTitikAkhirIsValid = formIsValid;
+    },
+    setLongTitikAkhirValidity(formIsValid) {
+      this.longTitikAkhirIsValid = formIsValid;
     },
     setKodeTrayek(kode_trayek) {
       this.kode_trayek = kode_trayek;

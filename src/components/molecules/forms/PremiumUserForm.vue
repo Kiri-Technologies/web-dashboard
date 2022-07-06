@@ -3,18 +3,18 @@
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-      <form-input @formChange="setUserId" @formIsValid="setFormValidity" type="text" label="User ID" :isReadonly="false"
+      <form-input @formChange="setUserId" @formIsValid="setUserIdValidity" type="text" label="User ID" :isReadonly="false"
         formName="user id" placeholder="User ID" :isRequired="true" :defaultValue="user_id"  idCode="userId"></form-input>
 
-      <form-input @formChange="setPaymentDate" @formIsValid="setFormValidity" type="date" label="Payment Date"
+      <form-input @formChange="setPaymentDate" @formIsValid="setPaymentDateValidity" type="date" label="Payment Date"
         :isReadonly="false" formName="payment date" placeholder="Payment Date" :isRequired="true"
         :defaultValue="payment_date"  idCode="paymentDate"></form-input>
 
-      <form-input @formChange="setFromDate" @formIsValid="setFormValidity" type="date" label="From Date"
+      <form-input @formChange="setFromDate" @formIsValid="setFromValidity" type="date" label="From Date"
         :isReadonly="false" formName="from date" placeholder="From Date" :isRequired="true" :defaultValue="from"  idCode="from">
       </form-input>
 
-      <form-input @formChange="setToDate" @formIsValid="setFormValidity" type="date" label="To Date" :isReadonly="false"
+      <form-input @formChange="setToDate" @formIsValid="setToValidity" type="date" label="To Date" :isReadonly="false"
         formName="to date" placeholder="To Date" :isRequired="true" :defaultValue="to"  idCode="to"></form-input>
 
 
@@ -52,7 +52,10 @@ export default {
         message: "",
       },
       isLoading: false,
-      formIsValid: false,
+      userIdIsValid: true,
+      paymentDateIsValid: true,
+      fromIsValid: true,
+      toIsValid: true,
     };
   },
   computed: {
@@ -78,7 +81,7 @@ export default {
     },
     async createPremiumUser() {
       this.isLoading = true;
-      if (!this.formIsValid) {
+      if (!this.userIdIsValid || !this.paymentDateIsValid ||!this.fromIsValid ||!this.toIsValid) {
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
         try {
@@ -120,7 +123,7 @@ export default {
     },
     async updatePremiumUser() {
       this.isLoading = true;
-      if (!this.formIsValid) {
+      if (!this.userIdIsValid || !this.paymentDateIsValid ||!this.fromIsValid ||!this.toIsValid) {
         this.isLoading = false;
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
@@ -152,8 +155,17 @@ export default {
       this.alert.mode = mode;
       this.alert.message = message;
     },
-    setFormValidity(formIsValid) {
-      this.formIsValid = formIsValid;
+    setUserIdValidity(formIsValid) {
+      this.userIdIsValid = formIsValid;
+    },
+    setPaymentDateValidity(formIsValid) {
+      this.paymentDateIsValid = formIsValid;
+    },
+    setFromValidity(formIsValid) {
+      this.fromIsValid = formIsValid;
+    },
+    setToValidity(formIsValid) {
+      this.toIsValid = formIsValid;
     },
     setUserId(user_id) {
       this.user_id = user_id;

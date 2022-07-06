@@ -1,5 +1,5 @@
 describe("Profile test", () => {
-  it("Successfully access the profile page", async () => {
+  it("Successfully access the profile page", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -15,7 +15,7 @@ describe("Profile test", () => {
     cy.url().should("to.equal", "http://localhost:8080/account");
   });
 
-  it("Successfully change the profile name", async () => {
+  it("Successfully change the profile name", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -34,10 +34,11 @@ describe("Profile test", () => {
       .type("admin 2");
 
     cy.get("button.btn-primary").click();
-    cy.contains("Berhasil mengubah profil");
+    cy.get('span').should("to.contain", "Berhasil mengubah profil");
+
   });
 
-  it("Failed to change the email", async () => {
+  it("Failed to change the email", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -56,10 +57,10 @@ describe("Profile test", () => {
       .type("adul@gmail.com");
 
     cy.get("button.btn-primary").click();
-    cy.contains("Email sudah terdaftar");
+    cy.get('span').should("to.contain", "Email sudah terdaftar");
   });
 
-  it("Successfully change the password", async () => {
+  it("Successfully change the password", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -85,7 +86,7 @@ describe("Profile test", () => {
     cy.url().should("to.equal", "http://localhost:8080/login");
   });
 
-  it("Failed to change the password", async () => {
+  it("Failed to change the password", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -108,6 +109,6 @@ describe("Profile test", () => {
       .type("asdasdasd");
 
     cy.get("button.btn-primary").click();
-    cy.contains("Password dan konfirmasi password harus sesuai");
+    cy.get('span').should("to.contain", "Password dan konfirmasi password harus sesuai");
   });
 });

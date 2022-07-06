@@ -25,6 +25,9 @@ export default {
       let message;
       if (error.response.status == 400) {
         message = "Pastikan form sudah sesuai";
+        if (error.response.data.message == "User tidak ditemukan") {
+          message = error.response.data.message;
+        }
       } else {
         message = "Failed to store data!";
       }

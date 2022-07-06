@@ -8,33 +8,30 @@
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-      <form-input @formIsValid="setFormValidity" @formChange="setEmail" type="email" label="Email"
+      <form-input @formIsValid="setEmailValidity" @formChange="setEmail" type="email" label="Email"
         :isReadonly="isReadonly" formName="email" placeholder="Email" :isRequired="true" :defaultValue="email"
         :mode="mode" idCode="email">
       </form-input>
 
-      <!-- <form-input @formIsValid="setFormValidity" @formChange="setEmail" type="email" label="Email" :isReadonly="isReadonly" formName="email"
-        placeholder="Email" :isRequired="true" v-if="this.mode == 'createNewAccount'"></form-input> -->
-
-      <form-input @formIsValid="setFormValidity" @formChange="setName" type="name" label="Nama Lengkap"
+      <form-input @formIsValid="setNameValidity" @formChange="setName" type="name" label="Nama Lengkap"
         :isReadonly="isReadonly" formName="name" placeholder="Nama Lengkap" :isRequired="true" :defaultValue="name"
         :mode="mode" idCode="name"></form-input>
 
-      <form-input @formIsValid="setFormValidity" @formChange="setPhoneNumber" type="number" label="Nomor Hp"
+      <form-input @formIsValid="setPhoneNumberValidity" @formChange="setPhoneNumber" type="number" label="Nomor Hp"
         :isReadonly="isReadonly" formName="phone number" placeholder="Nomor Hp" :isRequired="true"
         :defaultValue="phone_number" :mode="mode" idCode="phoneNumber"></form-input>
 
-      <form-input @formIsValid="setFormValidity" @formChange="setBirthdate" type="date" label="Tanggal Lahir"
+      <form-input @formIsValid="setBirthdateValidity" @formChange="setBirthdate" type="date" label="Tanggal Lahir"
         :isReadonly="isReadonly" formName="birthdate" placeholder="Tanggal Lahir" :isRequired="true"
         :defaultValue="birthdate" :mode="mode" idCode="birthdate"></form-input>
 
-      <form-input v-if="isUpdate" @formIsValid="setFormValidity" @formChange="setNewPassword" type="password"
+      <form-input v-if="isUpdate" @formIsValid="setPasswordValidity" @formChange="setNewPassword" type="password"
         :label="this.mode == 'createNewAccount' ? 'Password' : 'Password baru'" :isReadonly="isReadonly"
         formName="new password" placeholder="Password baru" :isRequired="requiredByMode" :mode="mode" idCode="password"
         :validation="this.mode == 'createNewAccount' ? true : false">
       </form-input>
 
-      <form-input v-if="isUpdate" @formIsValid="setFormValidity" @formChange="setConfirmNewPassword" type="password"
+      <form-input v-if="isUpdate" @formIsValid="setUlangiPasswordValidity" @formChange="setConfirmNewPassword" type="password"
         :label="this.mode == 'createNewAccount' ? 'Ulangi password' : 'Ulangi password baru'" :isReadonly="isReadonly"
         formName="confirm new password" placeholder="Ulangi password baru" :isRequired="requiredByMode" :mode="mode"
         idCode="ulangiPassword" :validation="this.mode == 'createNewAccount' ? true : false"></form-input>
@@ -91,7 +88,6 @@ export default {
       name: "",
       phone_number: "",
       birthdate: "",
-      formIsValid: true,
       dataBeforeUpdate: {
         email: "",
         name: "",
@@ -107,6 +103,12 @@ export default {
         mode: "",
         message: "",
       },
+      emailIsValid: true,
+      nameIsValid: true,
+      phoneNumberIsValid: true,
+      birthdateIsValid: true,
+      passwordIsValid: true,
+      ulangiPasswordIsValid: true,
     };
   },
   computed: {
@@ -178,7 +180,7 @@ export default {
       this.formIsInvalid = false;
       this.isLoading = true;
 
-      if (!this.formIsValid || this.password !== this.password_confirmation) {
+      if (!this.emailIsValid || !this.nameIsValid ||!this.phoneNumberIsValid ||!this.birthdateIsValid ||!this.passwordIsValid ||!this.ulangiPasswordIsValid || this.password !== this.password_confirmation) {
         let message = "Pastikan input sudah sesuai";
         if (this.password !== this.password_confirmation) {
           message = "Password dan konfirmasi password harus sesuai";
@@ -217,7 +219,7 @@ export default {
       this.formIsInvalid = false;
       this.isLoading = true;
 
-      if (!this.formIsValid || this.password !== this.password_confirmation) {
+      if (!this.emailIsValid || !this.nameIsValid ||!this.phoneNumberIsValid ||!this.birthdateIsValid ||!this.passwordIsValid ||!this.ulangiPasswordIsValid || this.password !== this.password_confirmation) {
         let message = "Pastikan input sudah sesuai";
         if (this.password !== this.password_confirmation) {
           message = "Password dan konfirmasi password harus sesuai";
@@ -270,7 +272,7 @@ export default {
       this.formIsInvalid = false;
       this.isLoading = true;
 
-      if (!this.formIsValid || this.password !== this.password_confirmation) {
+      if (!this.emailIsValid || !this.nameIsValid ||!this.phoneNumberIsValid ||!this.birthdateIsValid ||!this.passwordIsValid ||!this.ulangiPasswordIsValid || this.password !== this.password_confirmation) {
         let message = "Pastikan input sudah sesuai";
         if (this.password !== this.password_confirmation) {
           message = "Password dan konfirmasi password harus sesuai";
@@ -333,29 +335,23 @@ export default {
         this.password_confirmation =
         "";
     },
-    // submitFormValidation() {
-    //   if (
-    //     this.email == "" ||
-    //     this.name == "" ||
-    //     this.birthdate == "" ||
-    //     this.phone_number == ""
-    //   ) {
-    //     let message = "Pastikan input sudah sesuai";
-    //     if (
-    //       this.password !== this.password_confirmation &&
-    //       this.password !== "" &&
-    //       this.$route.name !== "account"
-    //     ) {
-    //       message = "Password dan konfirmasi password harus sesuai";
-    //     }
-    //     this.turnOnAlert("error", message);
-    //     return false;
-    //   } else {
-    //     return true;
-    //   }
-    // },
-    setFormValidity(formIsValid) {
-      this.formIsValid = formIsValid;
+    setEmailValidity(formIsValid) {
+      this.emailIsValid = formIsValid;
+    },
+    setNameValidity(formIsValid) {
+      this.nameIsValid = formIsValid;
+    },
+    setPhoneNumberValidity(formIsValid) {
+      this.phoneNumberIsValid = formIsValid;
+    },
+    setBirthdateValidity(formIsValid) {
+      this.birthdateIsValid = formIsValid;
+    },
+    setPasswordValidity(formIsValid) {
+      this.passwordIsValid = formIsValid;
+    },
+    setUlangiPasswordValidity(formIsValid) {
+      this.ulangiPasswordIsValid = formIsValid;
     },
     setEmail(email) {
       this.email = email;

@@ -1,5 +1,5 @@
 describe("Change target test", () => {
-  it("Successfully access the change target page", async () => {
+  it("Successfully access the change target page", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -12,7 +12,7 @@ describe("Change target test", () => {
     cy.url().should("to.equal", "http://localhost:8080/changetarget");
   });
 
-  it("Successfully change one of the target", async () => {
+  it("Successfully change one of the target", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -36,6 +36,6 @@ describe("Change target test", () => {
     cy.get("button").click();
 
     cy.url().should("to.equal", "http://localhost:8080/changetarget");
-    cy.contains("Berhasil mengubah target");
+    cy.get('span').should("to.contain", "Berhasil mengubah target");
   });
 });

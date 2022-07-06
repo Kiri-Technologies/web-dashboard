@@ -204,10 +204,10 @@ export default {
                 });
                 // await this.loadAllFeedbackApp();
                 // this.turnOnAlert(true);
-                this.$emit('changeStatus', true);
+                this.$emit('changeStatus', true, status);
             } catch (error) {
                 // this.turnOnAlert(false);
-                this.$emit('changeStatus', true);
+                this.$emit('changeStatus', true, status);
             }
         },
     },
