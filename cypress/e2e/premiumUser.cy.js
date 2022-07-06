@@ -38,7 +38,7 @@ describe("Premium user test", () => {
     cy.get("span").should("to.contain", "Berhasil menambahkan premium user");
   });
 
-  it("failed to create new trayek", () => {
+  it("failed to create new premium user", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -60,9 +60,17 @@ describe("Premium user test", () => {
 
     cy.get("button.btn-primary").click();
     cy.get("span").should("to.contain", "User tidak ditemukan");
+
+    cy.get("#userId").clear().type("user-123456");
+    cy.get("#paymentDate").clear().type("2022-07-01");
+    cy.get("#from").clear().type("2022-07-01");
+    cy.get("#to").clear().type("2022-06-01");
+
+    cy.get("button.btn-primary").click();
+    cy.get("span").should("to.contain", "Tanggal To tidak boleh melebihi From");
   });
 
-  it("Successfully update a trayek", () => {
+  it("Successfully update a premium user", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
@@ -88,7 +96,7 @@ describe("Premium user test", () => {
     cy.get("span").should("to.contain", "Berhasil mengubah premium user");
   });
 
-  it("Successfully delete a trayek", () => {
+  it("Successfully delete a premium user", () => {
     // Login
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");

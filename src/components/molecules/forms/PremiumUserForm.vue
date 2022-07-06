@@ -3,19 +3,21 @@
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-      <form-input @formChange="setUserId" @formIsValid="setUserIdValidity" type="text" label="User ID" :isReadonly="false"
-        formName="user id" placeholder="User ID" :isRequired="true" :defaultValue="user_id"  idCode="userId"></form-input>
+      <form-input @formChange="setUserId" @formIsValid="setUserIdValidity" type="text" label="User ID"
+        :isReadonly="false" formName="user id" placeholder="User ID" :isRequired="true" :defaultValue="user_id"
+        idCode="userId"></form-input>
 
       <form-input @formChange="setPaymentDate" @formIsValid="setPaymentDateValidity" type="date" label="Payment Date"
         :isReadonly="false" formName="payment date" placeholder="Payment Date" :isRequired="true"
-        :defaultValue="payment_date"  idCode="paymentDate"></form-input>
+        :defaultValue="payment_date" idCode="paymentDate"></form-input>
 
       <form-input @formChange="setFromDate" @formIsValid="setFromValidity" type="date" label="From Date"
-        :isReadonly="false" formName="from date" placeholder="From Date" :isRequired="true" :defaultValue="from"  idCode="from">
+        :isReadonly="false" formName="from date" placeholder="From Date" :isRequired="true" :defaultValue="from"
+        idCode="from">
       </form-input>
 
       <form-input @formChange="setToDate" @formIsValid="setToValidity" type="date" label="To Date" :isReadonly="false"
-        formName="to date" placeholder="To Date" :isRequired="true" :defaultValue="to"  idCode="to"></form-input>
+        formName="to date" placeholder="To Date" :isRequired="true" :defaultValue="to" idCode="to"></form-input>
 
 
       <div class="flex justify-end mt-7">
@@ -81,8 +83,14 @@ export default {
     },
     async createPremiumUser() {
       this.isLoading = true;
-      if (!this.userIdIsValid || !this.paymentDateIsValid ||!this.fromIsValid ||!this.toIsValid) {
-        this.turnOnAlert("error", "Pastikan form terisi dengan benar");
+      if (!this.userIdIsValid || !this.paymentDateIsValid || !this.fromIsValid || !this.toIsValid || this.from > this.to) {
+        let message = "Pastikan form terisi dengan benar";
+
+        if (this.from > this.to) {
+          message = "Tanggal To tidak boleh melebihi From";
+        }
+
+        this.turnOnAlert("error", message);
       } else {
         try {
           await this.$store.dispatch("premiumUser/createPremiumUser", {
@@ -123,7 +131,7 @@ export default {
     },
     async updatePremiumUser() {
       this.isLoading = true;
-      if (!this.userIdIsValid || !this.paymentDateIsValid ||!this.fromIsValid ||!this.toIsValid) {
+      if (!this.userIdIsValid || !this.paymentDateIsValid || !this.fromIsValid || !this.toIsValid) {
         this.isLoading = false;
         this.turnOnAlert("error", "Pastikan form terisi dengan benar");
       } else {
