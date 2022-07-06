@@ -1,7 +1,7 @@
 <template>
     <div class="form-control my-1">
         <label class="cursor-pointer label justify-start">
-            <input type="checkbox" class="checkbox" v-model="checkbox" @change="checkboxChange" />
+            <input type="checkbox" class="checkbox" v-model="checkbox" @change="checkboxChange" :id="idCode" />
             <span class="label-text ml-2">{{ label }}</span>
         </label>
     </div>
@@ -15,6 +15,9 @@ export default {
             type: String,
             required: true,
             default: "Check box"
+        },
+        idCode: {
+            required: true
         }
     },
     data(){

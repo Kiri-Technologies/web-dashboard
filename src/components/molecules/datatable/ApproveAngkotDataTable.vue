@@ -40,11 +40,11 @@
                         </td>
                         <td>{{ angkot.user_owner.email }}</td>
                         <td v-if="currentTab == 'pending'">
-                            <button @click="updateStatusAngkot(angkot.id, 'approved')">
+                            <button @click="updateStatusAngkot(angkot.id, 'approved')" :id="`approve`">
                                 <font-awesome-icon icon="check-square" class="text-lg text-green-600" />
                             </button>
 
-                            <button @click="updateStatusAngkot(angkot.id, 'declined')">
+                            <button @click="updateStatusAngkot(angkot.id, 'declined')" :id="`decline`">
                                 <font-awesome-icon icon="window-close" class="text-lg text-red-600 ml-2" />
                             </button>
                         </td>

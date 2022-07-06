@@ -5,6 +5,7 @@ describe("Checkbox.vue", () => {
   // Check nampilin label
   it("renders checkbox", async () => {
     const props = {
+      idCode: "rememberMe",
       label: "Remember me",
     };
 
@@ -18,6 +19,7 @@ describe("Checkbox.vue", () => {
   // Check emit
   it("check does the component emits after filling up the form", async () => {
     const props = {
+      idCode: "rememberMe",
       label: "Remember me",
     };
 

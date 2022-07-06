@@ -8,29 +8,36 @@
     <div class="w-4/5 mx-auto">
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
-      <form-input @formChange="setEmail" type="email" label="Email" :isReadonly="isReadonly" formName="email"
-        placeholder="Email" :isRequired="true" :defaultValue="email" :mode="mode">
+      <form-input @formIsValid="setFormValidity" @formChange="setEmail" type="email" label="Email"
+        :isReadonly="isReadonly" formName="email" placeholder="Email" :isRequired="true" :defaultValue="email"
+        :mode="mode" idCode="email">
       </form-input>
 
-      <!-- <form-input @formChange="setEmail" type="email" label="Email" :isReadonly="isReadonly" formName="email"
+      <!-- <form-input @formIsValid="setFormValidity" @formChange="setEmail" type="email" label="Email" :isReadonly="isReadonly" formName="email"
         placeholder="Email" :isRequired="true" v-if="this.mode == 'createNewAccount'"></form-input> -->
 
-      <form-input @formChange="setName" type="name" label="Nama Lengkap" :isReadonly="isReadonly" formName="name"
-        placeholder="Nama Lengkap" :isRequired="true" :defaultValue="name" :mode="mode"></form-input>
+      <form-input @formIsValid="setFormValidity" @formChange="setName" type="name" label="Nama Lengkap"
+        :isReadonly="isReadonly" formName="name" placeholder="Nama Lengkap" :isRequired="true" :defaultValue="name"
+        :mode="mode" idCode="name"></form-input>
 
-      <form-input @formChange="setPhoneNumber" type="number" label="Nomor Hp" :isReadonly="isReadonly"
-        formName="phone number" placeholder="Nomor Hp" :isRequired="true" :defaultValue="phone_number" :mode="mode"></form-input>
+      <form-input @formIsValid="setFormValidity" @formChange="setPhoneNumber" type="number" label="Nomor Hp"
+        :isReadonly="isReadonly" formName="phone number" placeholder="Nomor Hp" :isRequired="true"
+        :defaultValue="phone_number" :mode="mode" idCode="phoneNumber"></form-input>
 
-      <form-input @formChange="setBirthdate" type="date" label="Tanggal Lahir" :isReadonly="isReadonly"
-        formName="birthdate" placeholder="Tanggal Lahir" :isRequired="true" :defaultValue="birthdate" :mode="mode"></form-input>
+      <form-input @formIsValid="setFormValidity" @formChange="setBirthdate" type="date" label="Tanggal Lahir"
+        :isReadonly="isReadonly" formName="birthdate" placeholder="Tanggal Lahir" :isRequired="true"
+        :defaultValue="birthdate" :mode="mode" idCode="birthdate"></form-input>
 
-      <form-input v-if="isUpdate" @formChange="setNewPassword" type="password"
+      <form-input v-if="isUpdate" @formIsValid="setFormValidity" @formChange="setNewPassword" type="password"
         :label="this.mode == 'createNewAccount' ? 'Password' : 'Password baru'" :isReadonly="isReadonly"
-        formName="new password" placeholder="Password baru" :isRequired="requiredByMode" :mode="mode"></form-input>
+        formName="new password" placeholder="Password baru" :isRequired="requiredByMode" :mode="mode" idCode="password"
+        :validation="this.mode == 'createNewAccount' ? true : false">
+      </form-input>
 
-      <form-input v-if="isUpdate" @formChange="setConfirmNewPassword" type="password"
+      <form-input v-if="isUpdate" @formIsValid="setFormValidity" @formChange="setConfirmNewPassword" type="password"
         :label="this.mode == 'createNewAccount' ? 'Ulangi password' : 'Ulangi password baru'" :isReadonly="isReadonly"
-        formName="confirm new password" placeholder="Ulangi password baru" :isRequired="requiredByMode" :mode="mode"></form-input>
+        formName="confirm new password" placeholder="Ulangi password baru" :isRequired="requiredByMode" :mode="mode"
+        idCode="ulangiPassword" :validation="this.mode == 'createNewAccount' ? true : false"></form-input>
 
       <div class="flex justify-end mt-7">
         <button-primary @click="changeFormMode('update'), changeIsUpdate()" type="button" v-if="!isUpdate" size="sm">
@@ -84,6 +91,7 @@ export default {
       name: "",
       phone_number: "",
       birthdate: "",
+      formIsValid: true,
       dataBeforeUpdate: {
         email: "",
         name: "",
@@ -113,11 +121,10 @@ export default {
         };
       }
     },
-    requiredByMode(){
+    requiredByMode() {
       if (this.mode == 'createNewAccount' || this.$route.params.id) {
         return true;
       }
-
       return false
     }
   },
@@ -171,7 +178,13 @@ export default {
       this.formIsInvalid = false;
       this.isLoading = true;
 
-      if (!this.submitFormValidation()) {
+      if (!this.formIsValid || this.password !== this.password_confirmation) {
+        let message = "Pastikan input sudah sesuai";
+        if (this.password !== this.password_confirmation) {
+          message = "Password dan konfirmasi password harus sesuai";
+        }
+        this.turnOnAlert("error", message);
+        this.isLoading = false;
         return;
       }
 
@@ -204,7 +217,13 @@ export default {
       this.formIsInvalid = false;
       this.isLoading = true;
 
-      if (!this.submitFormValidation()) {
+      if (!this.formIsValid || this.password !== this.password_confirmation) {
+        let message = "Pastikan input sudah sesuai";
+        if (this.password !== this.password_confirmation) {
+          message = "Password dan konfirmasi password harus sesuai";
+        }
+        this.turnOnAlert("error", message);
+        this.isLoading = false;
         return;
       }
 
@@ -251,7 +270,13 @@ export default {
       this.formIsInvalid = false;
       this.isLoading = true;
 
-      if (!this.submitFormValidation()) {
+      if (!this.formIsValid || this.password !== this.password_confirmation) {
+        let message = "Pastikan input sudah sesuai";
+        if (this.password !== this.password_confirmation) {
+          message = "Password dan konfirmasi password harus sesuai";
+        }
+        this.turnOnAlert("error", message);
+        this.isLoading = false;
         return;
       }
 
@@ -287,6 +312,10 @@ export default {
       this.alert.turn = true;
       this.alert.mode = mode;
       this.alert.message = message;
+
+      setTimeout(() => {
+        this.alert.turn = false;
+      }, 5000);
     },
     setReadonlyAttribute(mode) {
       if (mode == "update") {
@@ -304,29 +333,29 @@ export default {
         this.password_confirmation =
         "";
     },
-    submitFormValidation() {
-      if (
-        this.email == "" ||
-        this.name == "" ||
-        this.birthdate == "" ||
-        this.phone_number == ""
-      ) {
-        let message = "Pastikan input sudah sesuai";
-        if (
-          this.password !== this.password_confirmation &&
-          this.password !== "" &&
-          this.$route.name !== "account"
-        ) {
-          message = "Password dan konfirmasi password harus sesuai";
-        }
-        this.formIsInvalid = true;
-        this.errorMessage = message;
-        this.isLoading = false;
-        this.turnOnAlert("error", this.errorMessage);
-        return false;
-      } else {
-        return true;
-      }
+    // submitFormValidation() {
+    //   if (
+    //     this.email == "" ||
+    //     this.name == "" ||
+    //     this.birthdate == "" ||
+    //     this.phone_number == ""
+    //   ) {
+    //     let message = "Pastikan input sudah sesuai";
+    //     if (
+    //       this.password !== this.password_confirmation &&
+    //       this.password !== "" &&
+    //       this.$route.name !== "account"
+    //     ) {
+    //       message = "Password dan konfirmasi password harus sesuai";
+    //     }
+    //     this.turnOnAlert("error", message);
+    //     return false;
+    //   } else {
+    //     return true;
+    //   }
+    // },
+    setFormValidity(formIsValid) {
+      this.formIsValid = formIsValid;
     },
     setEmail(email) {
       this.email = email;

@@ -4,13 +4,13 @@
             <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
             <form-input @formChange="setName" @formIsValid="setFormValidity" type="text" label="Name" :isReadonly="true"
-                formName="name" placeholder="Name" :isRequired="true" :defaultValue="name"></form-input>
+                formName="name" placeholder="Name" :isRequired="true" :defaultValue="name"  idCode="name"></form-input>
             <form-input @formChange="setInput" @formIsValid="setFormValidity" type="number" label="Input"
                 :isReadonly="false" formName="input" placeholder="Input" :isRequired="true"
-                :defaultValue="input"></form-input>
+                :defaultValue="input" idCode="input"></form-input>
             <form-input @formChange="setTarget" @formIsValid="setFormValidity" type="number" label="Target"
                 :isReadonly="false" formName="target" placeholder="Target" :isRequired="true"
-                :defaultValue="target"></form-input>
+                :defaultValue="target" idCode="target"></form-input>
 
 
             <div class="flex justify-end mt-7">

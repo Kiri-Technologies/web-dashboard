@@ -4,24 +4,24 @@
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
       <form-input type="text" label="Trayek" :isReadonly="false" formName="trayek" placeholder="Trayek"
-        :isRequired="true" :defaultValue="trayek.kode_trayek"></form-input>
+        :isRequired="true" :defaultValue="trayek.kode_trayek" idCode="trayek"></form-input>
 
       <form-input @formChange="setHalteVirtualName" @formIsValid="setFormValidity" type="text"
         label="Nama Halte Virtual" :isReadonly="false" formName="halte virtual name" placeholder="Nama Halte Virtual"
-        :isRequired="true" :defaultValue="nama_lokasi">
+        :isRequired="true" :defaultValue="nama_lokasi" idCode="halteVirtualName">
       </form-input>
 
       <select-input @formChange="setArah" @formIsValid="setFormValidity" label="Arah" formName="arah" :isRequired="true"
-        :defaultValue="arah" disabledOption="Pilih arah..." :options="options">
+        :defaultValue="arah" disabledOption="Pilih arah..." :options="options" idCode="arah">
       </select-input>
 
       <form-input @formChange="setLat" @formIsValid="setFormValidity" type="text" label="Titik Latitude"
         :isReadonly="false" formName="latitude" placeholder="Titik Latitude" :isRequired="true" :defaultValue="lat"
-        mode="lat"></form-input>
+        mode="lat"  idCode="latitude"></form-input>
 
       <form-input @formChange="setLong" @formIsValid="setFormValidity" type="text" label="Titik Longitude"
         :isReadonly="false" formName="longitude" placeholder="Titik Longitude" :isRequired="true" :defaultValue="lng"
-        mode="long"></form-input>
+        mode="long"  idCode="longitude"></form-input>
 
       <div class="flex justify-end mt-7">
         <button-danger :link="true" :to="{ name: 'detail trayek', params: { id: trayekid } }" size="sm">

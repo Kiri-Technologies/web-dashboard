@@ -5,7 +5,7 @@
         </label>
         <input :type="type" :placeholder="placeholder" class="input input-bordered"
             :class="{ 'input-error': formValidity == 'invalid' }" @blur="validateForm" :readonly="readonly"
-            :required="isRequired" @input="setFormInput" :value="formInput" />
+            :required="isRequired" @input="setFormInput" :value="formInput" :id="idCode" />
         <label class="label" v-if="formValidity == 'invalid'">
             <span class="label-text-alt text-red-500">{{ formMessage }}</span>
         </label>
@@ -51,6 +51,14 @@ export default {
         },
         defaultValue: {
             required: false
+        },
+        idCode: {
+            required: true
+        },
+        validation: {
+            type: Boolean,
+            required: false,
+            default: true
         }
     },
     data() {
@@ -64,16 +72,18 @@ export default {
     },
     methods: {
         validateForm() {
-            if (this.type == 'email') {
-                this.validateEmail();
-            } else if (this.type == 'number') {
-                this.validateNumber();
-            } else if (this.mode == 'lat') {
-                this.validateLatitude();
-            } else if (this.mode == 'long') {
-                this.validateLongitude();
-            } else {
-                this.validateFormInput();
+            if (this.validation) {
+                if (this.type == 'email') {
+                    this.validateEmail();
+                } else if (this.type == 'number') {
+                    this.validateNumber();
+                } else if (this.mode == 'lat') {
+                    this.validateLatitude();
+                } else if (this.mode == 'long') {
+                    this.validateLongitude();
+                } else {
+                    this.validateFormInput();
+                }
             }
         },
         validateEmail() {

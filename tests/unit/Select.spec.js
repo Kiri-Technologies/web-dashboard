@@ -21,6 +21,7 @@ describe("Select.vue", () => {
         },
       ],
       disabledOption: "pilih...",
+      idCode: "arah",
       defaultValue: "",
     };
 
@@ -62,6 +63,7 @@ describe("Select.vue", () => {
         },
       ],
       disabledOption: "pilih...",
+      idCode: "arah",
       defaultValue: "",
     };
 

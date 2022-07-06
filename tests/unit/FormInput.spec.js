@@ -11,6 +11,7 @@ describe("FormInput.vue", () => {
       isReadonly: false,
       isRequired: true,
       type: "text",
+      idCode: "name",
     };
 
     const wrapper = mount(FormInput, {
@@ -37,6 +38,7 @@ describe("FormInput.vue", () => {
       isReadonly: false,
       isRequired: true,
       type: "text",
+      idCode: "name",
     };
 
     const wrapper = mount(FormInput, {
@@ -64,6 +66,7 @@ describe("FormInput.vue", () => {
       formName: "email",
       isReadonly: false,
       isRequired: true,
+      idCode: "email",
       type: "email",
     };
 
@@ -93,6 +96,7 @@ describe("FormInput.vue", () => {
       isReadonly: false,
       isRequired: true,
       type: "text",
+      idCode: "latitude",
       mode: 'lat'
     };
 
@@ -116,12 +120,13 @@ describe("FormInput.vue", () => {
   // check validasi longitude
   it("renders error message when latitude is incorrect", async () => {
     const props = {
-      label: "Latitude",
-      placeholder: "Latitude",
-      formName: "latitude",
+      label: "Longitude",
+      placeholder: "Longitude",
+      formName: "longitude",
       isReadonly: false,
       isRequired: true,
       type: "text",
+      idCode: "longitude",
       mode: 'long'
     };
 
@@ -150,6 +155,7 @@ describe("FormInput.vue", () => {
       formName: "name",
       isReadonly: false,
       isRequired: true,
+      idCode: "name",
       type: "text",
     };
 

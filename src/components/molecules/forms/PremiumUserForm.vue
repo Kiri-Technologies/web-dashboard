@@ -4,18 +4,18 @@
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
       <form-input @formChange="setUserId" @formIsValid="setFormValidity" type="text" label="User ID" :isReadonly="false"
-        formName="user id" placeholder="User ID" :isRequired="true" :defaultValue="user_id"></form-input>
+        formName="user id" placeholder="User ID" :isRequired="true" :defaultValue="user_id"  idCode="userId"></form-input>
 
       <form-input @formChange="setPaymentDate" @formIsValid="setFormValidity" type="date" label="Payment Date"
         :isReadonly="false" formName="payment date" placeholder="Payment Date" :isRequired="true"
-        :defaultValue="payment_date"></form-input>
+        :defaultValue="payment_date"  idCode="paymentDate"></form-input>
 
       <form-input @formChange="setFromDate" @formIsValid="setFormValidity" type="date" label="From Date"
-        :isReadonly="false" formName="from date" placeholder="From Date" :isRequired="true" :defaultValue="from">
+        :isReadonly="false" formName="from date" placeholder="From Date" :isRequired="true" :defaultValue="from"  idCode="from">
       </form-input>
 
       <form-input @formChange="setToDate" @formIsValid="setFormValidity" type="date" label="To Date" :isReadonly="false"
-        formName="to date" placeholder="To Date" :isRequired="true" :defaultValue="to"></form-input>
+        formName="to date" placeholder="To Date" :isRequired="true" :defaultValue="to"  idCode="to"></form-input>
 
 
       <div class="flex justify-end mt-7">

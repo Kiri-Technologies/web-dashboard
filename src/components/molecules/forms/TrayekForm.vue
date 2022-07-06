@@ -9,29 +9,29 @@
       <div class="grid grid-flow-col auto-cols-auto gap-4">
         <div>
           <form-input @formChange="setTitikAwal" @formIsValid="setFormValidity" type="text" label="Titik Awal" :isReadonly="false" formName="titik awal" placeholder="Titik Awal"
-            :isRequired="true" :defaultValue="titik_awal"></form-input>
+            :isRequired="true" :defaultValue="titik_awal" idCode="titikAwal"></form-input>
 
           <form-input @formChange="setLatTitikAwal" @formIsValid="setFormValidity" type="text" label="Latitude Titik Awal"
             :isReadonly="false" formName="latitude titik awal" placeholder="Latitude Titik Awal" :isRequired="true" :defaultValue="lat_titik_awal"
-            mode="lat"></form-input>
+            mode="lat" idCode="latTitikAwal"></form-input>
 
           <form-input @formChange="setLongTitikAwal" @formIsValid="setFormValidity" type="text" label="Longitude Titik Awal"
             :isReadonly="false" formName="longitude titik awal" placeholder="Longitude Titik Awal" :isRequired="true" :defaultValue="long_titik_awal"
-            mode="long"></form-input>
+            mode="long" idCode="longTitikAwal"></form-input>
 
         </div>
 
         <div>
           <form-input @formChange="setTitikAkhir" @formIsValid="setFormValidity" type="text" label="Titik Akhir" :isReadonly="false" formName="titik akhir" placeholder="Titik Akhir"
-            :isRequired="true" :defaultValue="titik_akhir"></form-input>
+            :isRequired="true" :defaultValue="titik_akhir" idCode="titikAkhir"></form-input>
 
           <form-input @formChange="setLatTitikAkhir" @formIsValid="setFormValidity" type="text" label="Latitude Titik Akhir"
             :isReadonly="false" formName="latitude titik akhir" placeholder="Latitude Titik Akhir" :isRequired="true" :defaultValue="lat_titik_akhir"
-            mode="lat"></form-input>
+            mode="lat" idCode="latTitikAkhir"></form-input>
 
           <form-input @formChange="setLongTitikAkhir" @formIsValid="setFormValidity" type="text" label="Longitude Titik Akhir"
             :isReadonly="false" formName="latitude titik akhir" placeholder="Longitude Titik Akhir" :isRequired="true" :defaultValue="long_titik_akhir"
-            mode="long"></form-input>
+            mode="long" idCode="longTitikAkhir"></form-input>
 
         </div>
 
