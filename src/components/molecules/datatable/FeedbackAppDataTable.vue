@@ -33,7 +33,12 @@
                     </tr>
                     <tr v-for="fa in filteredEntries" :key="fa.id">
                         <td>{{ fa.user_id }}</td>
-                        <td>{{ fa.review }}</td>
+                        <td :class="{
+                            'text-red-600': fa.review == 'awful' || fa.review == 'sad',
+                            'font-bold': fa.review == 'awful' || fa.review == 'excellent',
+                            'text-green-600': fa.review == 'excellent' || fa.review == 'happy',
+                            'text-black': fa.review == 'neutral',
+                        }">{{ fa.review }}</td>
                         <td>
                             {{ fa.tanggapan }}
                         </td>

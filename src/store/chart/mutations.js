@@ -32,4 +32,16 @@ export default {
     setTotalPerjalananBulanLalu(state, { totalPerjalananBulanLalu }) {
         state.totalPerjalananBulanLalu = totalPerjalananBulanLalu
     },
+    setTotalUsersThisMonth(state, { totalUsersThisMonth }) {
+        state.totalUsersThisMonth = totalUsersThisMonth
+    },
+    setTotalUsersLastSixMonth(state, { totalUsersLastSixMonth }) {
+        state.totalUsersLastSixMonth = totalUsersLastSixMonth
+    },
+    setTotalPremiumUsersThisMonth(state, { totalPremiumUsersThisMonth }) {
+        state.totalPremiumUsersThisMonth = totalPremiumUsersThisMonth
+    },
+    setTotalPremiumUsersLastSixMonth(state, { totalPremiumUsersLastSixMonth }) {
+        state.totalPremiumUsersLastSixMonth = totalPremiumUsersLastSixMonth
+    },
 }

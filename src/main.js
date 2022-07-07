@@ -34,6 +34,7 @@ import BarChart from "./components/atoms/chart/BarChart.vue";
 import DataTable from "./components/molecules/datatable/DataTable.vue";
 import Loading from "./components/atoms/loading/Loading.vue";
 import InformationSection from "./components/atoms/information/InformationSection.vue";
+import StatDesc from "./components/atoms/chart/StatDesc.vue";
 
 // component forms
 import FormInput from "./components/atoms/forms/FormInput.vue";
@@ -69,6 +70,7 @@ app.component("bar-chart", BarChart);
 app.component("data-table", DataTable);
 app.component("loading", Loading);
 app.component("information-section", InformationSection);
+app.component("stat-desc", StatDesc);
 
 // forms
 app.component("form-input", FormInput);

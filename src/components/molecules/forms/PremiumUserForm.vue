@@ -131,9 +131,14 @@ export default {
     },
     async updatePremiumUser() {
       this.isLoading = true;
-      if (!this.userIdIsValid || !this.paymentDateIsValid || !this.fromIsValid || !this.toIsValid) {
-        this.isLoading = false;
-        this.turnOnAlert("error", "Pastikan form terisi dengan benar");
+      if (!this.userIdIsValid || !this.paymentDateIsValid || !this.fromIsValid || !this.toIsValid || this.from > this.to) {
+        let message = "Pastikan form terisi dengan benar";
+
+        if (this.from > this.to) {
+          message = "Tanggal To tidak boleh melebihi From";
+        }
+
+        this.turnOnAlert("error", message);
       } else {
         try {
           await this.$store.dispatch("premiumUser/updatePremiumUserById", {

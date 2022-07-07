@@ -8,13 +8,43 @@
         <card>
           <card-body class="grid grid-flow-row auto-rows-auto p-3">
             <div>
-              <h1 class="text-lg font-medium text-center">Total Users</h1>
+              <h1 class="text-lg font-medium text-center">Total Users This Month</h1>
             </div>
 
             <stats-container>
-              <single-stat title="Penumpang" :value="totalUsers.penumpang" />
-              <single-stat title="Supir" :value="totalUsers.supir" />
-              <single-stat title="Owner" :value="totalUsers.owner" />
+              <single-stat title="Penumpang" :value="totalUsers.penumpang.this_month" :statDesc="true">
+                <span class="font-bold" :class="{
+                  'text-green-500': usersPercentage.penumpang > userTarget.target,
+                  'text-red-500': usersPercentage.penumpang < userTarget.target,
+                  'text-black': usersPercentage.penumpang == userTarget.target,
+                }">{{ usersPercentage.penumpang }}% <span
+                    v-if="usersPercentage.penumpang > 0">↗︎</span><span
+                    v-if="usersPercentage.penumpang < 0">↘︎</span><span
+                    v-if="usersPercentage.penumpang == 0">~</span></span>
+                than last month
+              </single-stat>
+              <single-stat title="Supir" :value="totalUsers.supir.this_month" :statDesc="true">
+                <span class="font-bold" :class="{
+                  'text-green-500': usersPercentage.supir > userTarget.target,
+                  'text-red-500': usersPercentage.supir < userTarget.target,
+                  'text-black': usersPercentage.supir == userTarget.target,
+                }">{{ usersPercentage.supir }}% <span
+                    v-if="usersPercentage.supir > 0">↗︎</span><span
+                    v-if="usersPercentage.supir < 0">↘︎</span><span
+                    v-if="usersPercentage.supir == 0">~</span></span>
+                than last month
+              </single-stat>
+              <single-stat title="Owner" :value="totalUsers.owner.this_month" :statDesc="true">
+                <span class="font-bold" :class="{
+                  'text-green-500': usersPercentage.owner > userTarget.target,
+                  'text-red-500': usersPercentage.owner < userTarget.target,
+                  'text-black': usersPercentage.owner == userTarget.target,
+                }">{{ usersPercentage.owner }}% <span
+                    v-if="usersPercentage.owner > 0">↗︎</span><span
+                    v-if="usersPercentage.owner < 0">↘︎</span><span
+                    v-if="usersPercentage.owner == 0">~</span></span>
+                than last month
+              </single-stat>
             </stats-container>
           </card-body>
         </card>
@@ -28,26 +58,13 @@
               </h1>
             </div>
             <stats-container>
-              <single-stat
-                title="Submitted"
-                :value="totalFeedbackApp.submitted"
-                :color="{ 'text-blue-500': true }"
-              />
-              <single-stat
-                title="Cancelled"
-                :value="totalFeedbackApp.cancelled"
-                :color="{ 'text-red-500': true }"
-              />
-              <single-stat
-                title="Pending"
-                :value="totalFeedbackApp.pending"
-                :color="{ 'text-yellow-500': true }"
-              />
-              <single-stat
-                title="Processed"
-                :value="totalFeedbackApp.processed"
-                :color="{ 'text-green-500': true }"
-              />
+              <single-stat title="Submitted" :value="totalFeedbackApp.submitted" :color="{ 'text-blue-500': true }" />
+              <single-stat title="Cancelled" :value="totalFeedbackApp.cancelled" :color="{ 'text-red-500': true }" />
+              <single-stat title="Pending" :value="totalFeedbackApp.pending" :color="{ 'text-yellow-500': true }" />
+              <single-stat title="Processed" :value="totalFeedbackApp.processed" :color="{ 'text-green-500': true }" :statDesc="true">
+                <span class="text-red-500" v-if="feedbackUserTarget.target - totalFeedbackApp.processed > 0">{{ feedbackUserTarget.target - totalFeedbackApp.processed }} feedbacks remaining</span>
+                <span class="text-green-500" v-if="feedbackUserTarget.target - totalFeedbackApp.processed < 0 || feedbackUserTarget.target - totalFeedbackApp.processed == 0">feedbacks processed <span v-if="feedbackUserTarget.target - totalFeedbackApp.processed <= 0">>=</span> {{ feedbackUserTarget.target}}</span>
+              </single-stat>
             </stats-container>
           </card-body>
         </card>
@@ -57,77 +74,12 @@
         <!-- pendapatan supir -->
         <card class="col-span-2">
           <card-body class="p-3">
-            <bar-chart
-              :dataProps="pendapatanChart.totalPendapatanHarian"
-              :labelsProps="pendapatanChart.labels"
-              :title="pendapatanChart.title"
-            ></bar-chart>
+            <bar-chart :dataProps="pendapatanChart.totalPendapatanHarian" :labelsProps="pendapatanChart.labels"
+              :title="pendapatanChart.title"></bar-chart>
           </card-body>
         </card>
 
-        <!-- most used trayek -->
-        <card>
-          <card-body class="grid grid-flow-row auto-rows-max p-3">
-            <div>
-              <h1 class="text-md font-medium">
-                Trayek yang paling banyak dinaiki oleh penumpang
-              </h1>
-            </div>
-
-            <div class="overflow-auto max-h-80">
-              <div
-                class="
-                  p-1
-                  grid grid-flow-row
-                  auto-rows-auto
-                  border-solid border border-gray-400
-                  rounded-md
-                  mt-1
-                "
-                v-for="(trayek, index) in mostUsedTrayek"
-                :key="trayek.id"
-              >
-                <div class="grid grid-cols-3">
-                  <div class="col-span-2 font-semibold">
-                    {{ index + 1 }}. {{ trayek.kode_trayek }}
-                  </div>
-                  <div class="text-right">{{ trayek.count }}</div>
-                </div>
-                <div>{{ trayek.titik_awal }} - {{ trayek.titik_akhir }}</div>
-              </div>
-            </div>
-          </card-body>
-        </card>
-
-        <!-- most used halte virtual -->
-        <card>
-          <card-body class="grid grid-flow-row auto-rows-max p-3">
-            <div>
-              <h1 class="font-medium">
-                Halte virtual yang paling banyak digunakan oleh penumpang
-              </h1>
-            </div>
-            <div class="overflow-auto max-h-80">
-              <div
-                class="
-                  p-1
-                  grid grid-cols-6
-                  border-solid border border-gray-400
-                  rounded-md
-                  mt-1
-                "
-                v-for="(hv, index) in mostUsedHalteVirtual"
-                :key="hv.id"
-              >
-                <div class="col-span-5">
-                  <span class="font-semibold">{{ index + 1 }}</span
-                  >. {{ hv.nama_lokasi }}
-                </div>
-                <div class="text-right">{{ hv.count }}</div>
-              </div>
-            </div>
-          </card-body>
-        </card>
+        
       </div>
     </div>
   </div>
@@ -161,9 +113,23 @@ export default {
         ],
       },
       totalUsers: {
+        owner: {
+          this_month: 0,
+          last_month: 0,
+        },
+        admin: {
+          this_month: 0,
+          last_month: 0,
+        },
+        user: {
+          this_month: 0,
+          last_month: 0,
+        },
+      },
+      usersPercentage: {
         owner: 0,
-        penumpang: 0,
         supir: 0,
+        penumpang: 0,
       },
       totalFeedbackApp: {
         submitted: 0,
@@ -171,9 +137,12 @@ export default {
         processed: 0,
         cancelled: 0,
       },
-      mostUsedTrayek: [],
-      mostUsedHalteVirtual: [],
+
       isLoading: false,
+      pengeluaranTarget: {},
+      userTarget: {},
+      premiumUserTarget: {},
+      feedbackUserTarget: {},
     };
   },
   methods: {
@@ -195,29 +164,14 @@ export default {
         console.log(error.message);
       }
     },
-    async getTotalUsers() {
+    async getTotalUsersThisMonth() {
       try {
-        await this.$store.dispatch("chart/getTotalUsers");
-        this.totalUsers = this.$store.getters["chart/getTotalUsers"];
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
-    async getMostUsedTrayek() {
-      try {
-        await this.$store.dispatch("chart/getMostUsedTrayek");
-        this.mostUsedTrayek = this.$store.getters["chart/getMostUsedTrayek"];
-        this.mostUsedTrayek = this.mostUsedTrayek.slice(0, 10);
-      } catch (error) {
-        console.log(error.message);
-      }
-    },
-    async getMostUsedHalteVirtual() {
-      try {
-        await this.$store.dispatch("chart/getMostUsedHalteVirtual");
-        this.mostUsedHalteVirtual =
-          this.$store.getters["chart/getMostUsedHalteVirtual"];
-        this.mostUsedHalteVirtual = this.mostUsedHalteVirtual.slice(0, 10);
+        await this.$store.dispatch("chart/getTotalUsersThisMonth");
+        this.totalUsers = this.$store.getters["chart/getTotalUsersThisMonth"];
+        console.log(this.totalUsers);
+        this.usersPercentage.owner = this.calculatePercentage(this.totalUsers.owner.this_month, this.totalUsers.owner.last_month)
+        this.usersPercentage.supir = this.calculatePercentage(this.totalUsers.supir.this_month, this.totalUsers.supir.last_month)
+        this.usersPercentage.penumpang = this.calculatePercentage(this.totalUsers.penumpang.this_month, this.totalUsers.penumpang.last_month)
       } catch (error) {
         console.log(error.message);
       }
@@ -231,15 +185,32 @@ export default {
         console.log(error.message);
       }
     },
+    async loadAllTarget() {
+      try {
+        await this.$store.dispatch("target/getAllTarget");
+        const target = this.$store.getters["target/getAllTarget"];
+        this.pengeluaranTarget = target.filter(t => t.name == 'pengeluaran')[0];
+        this.userTarget = target.filter(t => t.name == 'user')[0];
+        this.premiumUserTarget = target.filter(t => t.name == 'pengguna berlangganan')[0];
+        this.feedbackUserTarget = target.filter(t => t.name == 'feedback user')[0];
+      } catch (error) {
+        this.turnOnAlert("error", error.message);
+      }
+    },
+    calculatePercentage(thisMonth, lastMonth) {
+      if (lastMonth == 0) {
+        return 100;
+      }
+      return ((thisMonth - lastMonth) / lastMonth) * 100;
+    }
   },
   async created() {
     this.isLoading = true;
     try {
       await this.getTotalPendapatanHarian();
-      await this.getTotalUsers();
-      await this.getMostUsedTrayek();
-      await this.getMostUsedHalteVirtual();
+      await this.getTotalUsersThisMonth();
       await this.getTotalFeedbackApp();
+      await this.loadAllTarget();
     } catch (error) {
       console.log(error.message);
     }

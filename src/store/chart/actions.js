@@ -313,4 +313,109 @@ export default {
             totalPerjalananBulanLalu: response.data.data
         });
     },
+    async getTotalUsersThisMonth(context) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/chart/totalUsersThisMonth`;
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error("Failed to get data");
+            throw errorMessage;
+        }
+
+        context.commit('setTotalUsersThisMonth', {
+            totalUsersThisMonth: response.data.data
+        });
+    },
+    async getTotalUsersLastSixMonth(context) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/chart/totalUsersLastSixMonth`;
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error("Failed to get data");
+            throw errorMessage;
+        }
+
+        context.commit('setTotalUsersLastSixMonth', {
+            totalUsersLastSixMonth: response.data.data
+        });
+    },
+    async getTotalPremiumUsersThisMonth(context) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/chart/totalPremiumUserThisMonth`;
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error("Failed to get data");
+            throw errorMessage;
+        }
+
+        context.commit('setTotalPremiumUsersThisMonth', {
+            totalPremiumUsersThisMonth: response.data.data
+        });
+    },
+
+    async getTotalPremiumUsersLastSixMonth(context) {
+        const url = `https://kiri.mfaiztriputra.id/api/admin/chart/totalPremiumUserLastSixMonth`;
+
+        let response;
+
+        const access_token = localStorage.getItem('access_token');
+        const token_type = localStorage.getItem('token_type');
+        const authHeader = `${token_type} ${access_token}`;
+
+        try {
+            response = await axios({
+                method: 'get',
+                url: url,
+                headers: {
+                    Authorization: authHeader
+                }
+            });
+        } catch (error) {
+            const errorMessage = new Error("Failed to get data");
+            throw errorMessage;
+        }
+
+        context.commit('setTotalPremiumUsersLastSixMonth', {
+            totalPremiumUsersLastSixMonth: response.data.data
+        });
+    },
 }

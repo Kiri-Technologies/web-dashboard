@@ -32,4 +32,16 @@ export default {
     getTotalPerjalananBulanLalu(state){
         return state.totalPerjalananBulanLalu;
     },
+    getTotalUsersThisMonth(state) {
+        return state.totalUsersThisMonth
+    },
+    getTotalUsersLastSixMonth(state) {
+        return state.totalUsersLastSixMonth
+    },
+    getTotalPremiumUsersThisMonth(state) {
+        return state.totalPremiumUsersThisMonth
+    },
+    getTotalPremiumUsersLastSixMonth(state) {
+        return state.totalPremiumUsersLastSixMonth
+    },
 }

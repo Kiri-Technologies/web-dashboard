@@ -17,6 +17,10 @@ export default {
             mostUsedHalteVirtual: [],
             totalPerjalananBulanIni: 0,
             totalPerjalananBulanLalu: 0,
+            totalUsersThisMonth: {},
+            totalUsersLastSixMonth: {},
+            totalPremiumUsersThisMonth: 0,
+            totalPremiumUsersLastSixMonth: {}
         };
     },
     mutations,
