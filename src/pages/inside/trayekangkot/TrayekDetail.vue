@@ -239,6 +239,7 @@ export default {
     },
   },
   created() {
+    document.title = "Detail Trayek";
     if (this.$route.params.id) {
       this.loadTrayekById(this.$route.params.id);
       this.loadHalteVirtual();

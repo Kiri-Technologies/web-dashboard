@@ -49,8 +49,10 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.mode = "updateAccount";
+      document.title = "Update Akun Admin";
     } else if (this.$route.name == "create new account") {
       this.mode = "createNewAccount";
+      document.title = "Create Akun Admin";
     }
   },
   // mounted() {},

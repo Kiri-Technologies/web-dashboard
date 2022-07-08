@@ -91,6 +91,7 @@ export default {
     },
   },
   async created() {
+    document.title = "List Angkot";
     this.isLoading = true;
     try {
       await this.getAllAngkot();

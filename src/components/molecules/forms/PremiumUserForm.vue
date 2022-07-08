@@ -21,7 +21,7 @@
 
 
       <div class="flex justify-end mt-7">
-        <button-danger :link="true" :to="{ name: 'trayek angkot' }" size="sm">
+        <button-danger :link="true" :to="{ name: 'premium user' }" size="sm">
           Batal
         </button-danger>
 

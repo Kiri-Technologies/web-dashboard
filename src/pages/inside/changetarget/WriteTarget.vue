@@ -49,8 +49,10 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.mode = "update";
+        document.title = "Update Target";
     } else if (this.$route.name == "create target") {
       this.mode = "create";
+        document.title = "Create Target";
     }
   },
 };

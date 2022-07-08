@@ -127,6 +127,7 @@ export default {
     },
   },
   async created() {
+    document.title = "Riwayat Perjalanan";
     this.isLoading = true;
     try {
       await this.getAllPerjalanan();

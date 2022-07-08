@@ -49,8 +49,10 @@ export default {
   created() {
     if (this.$route.params.id) {
       this.mode = "update";
+      document.title = "Update Premium User";
     } else if (this.$route.name == "create premium user") {
       this.mode = "create";
+      document.title = "Create Premium User";
     }
   },
 };

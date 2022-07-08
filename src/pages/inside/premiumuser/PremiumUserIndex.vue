@@ -98,6 +98,7 @@ export default {
     },
   },
   async created() {
+    document.title = "List Premium User";
     this.isLoading = true;
     try {
       await this.loadAllPremiumUser();

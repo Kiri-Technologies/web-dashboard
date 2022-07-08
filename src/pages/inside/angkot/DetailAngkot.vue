@@ -71,5 +71,8 @@ export default {
       return "Ulasan Penumpang";
     },
   },
+  created(){
+    document.title = "Detail Angkot";
+  }
 };
 </script>

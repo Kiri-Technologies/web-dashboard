@@ -50,5 +50,8 @@ export default {
       this.mode = mode;
     },
   },
+  created(){
+    document.title = "Login";
+  }
 };
 </script>

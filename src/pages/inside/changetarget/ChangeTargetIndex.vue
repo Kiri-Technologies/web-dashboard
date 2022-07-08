@@ -84,6 +84,7 @@ export default {
         },
     },
     async created() {
+        document.title = "Change Target";
         this.isLoading = true;
         try {
             await this.loadAllTarget();

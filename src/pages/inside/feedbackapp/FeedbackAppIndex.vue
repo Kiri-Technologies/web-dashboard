@@ -114,6 +114,7 @@ export default {
     },
   },
   async created() {
+    document.title = "Feedback Aplikasi";
     this.isLoading = true;
     try {
       await this.loadAllFeedbackApp();

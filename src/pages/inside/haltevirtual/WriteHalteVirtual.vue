@@ -72,8 +72,10 @@ export default {
     this.loadTrayek();
     if (this.$route.params.id) {
       this.mode = "updateHalteVirtual";
+      document.title = "Update Halte Virtual";
     } else if (this.$route.name == "create halte virtual") {
       this.mode = "createHalteVirtual";
+      document.title = "Create Halte Virtual";
     }
   },
 };

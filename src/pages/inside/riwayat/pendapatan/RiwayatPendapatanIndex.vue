@@ -3,7 +3,7 @@
   <section class="mt-4" v-else>
     <section class="flex justify-center">
       <side-to-side-stat title1="Total Pendapatan Bulan Ini" title2="Total Pendapatan Bulan Kemarin"
-        :data1="rupiahFormat(totalPendapatanBulanIni)" :data2="rupiahFormat(totalPendapatanBulanLalu)">
+        :data1="Format(totalPendapatanBulanIni)" :data2="Format(totalPendapatanBulanLalu)">
       </side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
@@ -77,7 +77,7 @@ export default {
           : ls.vehicle.route.titik_awal + " - " + ls.vehicle.route.titik_akhir;
         ls.plat_nomor = ls.vehicle == null ? "B 4433 US" : ls.vehicle.plat_nomor;
         ls.nama_supir = ls.supir.name;
-        ls.jumlah_pendapatan = this.rupiahFormat(ls.jumlah_pendapatan);
+        ls.jumlah_pendapatan = this.Format(ls.jumlah_pendapatan);
         return ls;
       })
     }
@@ -113,7 +113,7 @@ export default {
     changeDateFormat(date) {
       return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");
     },
-    rupiahFormat(number) {
+    Format(number) {
       return new Intl.NumberFormat("id-ID", {
         style: "currency",
         currency: "IDR",
@@ -131,6 +131,7 @@ export default {
     },
   },
   async created() {
+    document.title = "Riwayat Pendapatan";
     this.isLoading = true;
     try {
       await this.getAllRiwayatSupirNarik();

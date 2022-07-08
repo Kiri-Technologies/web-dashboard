@@ -48,6 +48,7 @@ export default {
   },
   created() {
     this.loadProfile();
+    document.title = "Profile";
   },
 };
 </script>

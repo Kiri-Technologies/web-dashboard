@@ -41,6 +41,7 @@ describe("BaseStatCard.vue", () => {
     expect(wrapper.html()).toContain("10");
   });
 });
+
 describe("SingleStat.vue", () => {
   it("renders single stat", () => {
     const props = {
@@ -49,9 +50,46 @@ describe("SingleStat.vue", () => {
     };
     const wrapper = mount(SingleStat, {
       props,
+      global: {
+        stubs: {
+          "stat-desc": {
+            template: "<span />",
+          },
+        },
+      },
     });
 
     expect(wrapper.html()).toContain("Submitted");
     expect(wrapper.html()).toContain("15");
+  });
+
+  it("renders single stat with stat desc", () => {
+    const props = {
+      title: "Submitted",
+      value: 15,
+      statDesc: true,
+    };
+
+    const singleStatComponent = {
+      props: ["title", "value", "statDesc"],
+      template: `  <div class="stat place-items-center">
+      <div class="stat-title">{{ title }}</div>
+      <div class="stat-value">{{ value }}</div>
+      <div class="opacity-100 stat-desc">
+        <slot/>
+    </div>
+    </div>`,
+    };
+
+    const wrapper = mount(singleStatComponent, {
+      props,
+      slots: {
+        default: `<span>This is a stat desc</span>`
+      }
+    });
+
+    expect(wrapper.html()).toContain("Submitted");
+    expect(wrapper.html()).toContain("15");
+    expect(wrapper.html()).toContain("This is a stat desc");
   });
 });

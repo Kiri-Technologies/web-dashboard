@@ -5,8 +5,7 @@
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/' }"
-            heading="Akun" :subHeading="menuName">
+          <menu-title :path="{ path: '/' }" heading="Akun" :subHeading="menuName">
           </menu-title>
         </p>
         <div class="flex flex-row justify-end">
@@ -105,6 +104,7 @@ export default {
     },
   },
   async created() {
+    document.title = "List Akun Admin";
     this.isLoading = true;
     try {
       await this.loadAllAccount();

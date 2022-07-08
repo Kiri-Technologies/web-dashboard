@@ -101,6 +101,7 @@ export default {
     },
   },
   async created() {
+    document.title = "Approve Angkot";
     this.isLoading = true;
     try {
       await this.getAllAngkot();

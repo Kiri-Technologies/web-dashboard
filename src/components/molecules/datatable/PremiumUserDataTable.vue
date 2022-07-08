@@ -23,6 +23,7 @@
                         <th>Payment Date</th>
                         <th>From</th>
                         <th>To</th>
+                        <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -39,6 +40,12 @@
                         <td>{{ premiumUser.payment_date }}</td>
                         <td>{{ premiumUser.from }}</td>
                         <td>{{ premiumUser.to }}</td>
+                        <td>
+                            <div class="badge badge-lg" :class="{
+                                'badge-success': premiumUser.to > todayDate,
+                                'badge-warning': premiumUser.to < todayDate,
+                            }">{{ premiumUser.to > todayDate ? 'Active' : 'Expired' }}</div>
+                        </td>
                         <td>
                             <router-link :to="{
                                 name: 'update premium user',
@@ -90,6 +97,8 @@
 
 <script>
 import { $array } from 'alga-js';
+import moment from 'moment';
+
 export default {
     emits: ['deleteButtonClicked'],
     props: {
@@ -107,6 +116,7 @@ export default {
             positionOfEllipsis: 1,
             searchInput: '',
             searchEntries: [],
+            todayDate: moment().format("yyyy-MM-D")
         }
     },
     computed: {

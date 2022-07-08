@@ -99,6 +99,7 @@ export default {
     },
   },
   async created() {
+    document.title = "List Trayek";
     this.isLoading = true;
     try {
       await this.loadAllTrayek();
