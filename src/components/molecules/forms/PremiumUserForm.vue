@@ -87,7 +87,7 @@ export default {
         let message = "Pastikan form terisi dengan benar";
 
         if (this.from > this.to) {
-          message = "Tanggal To tidak boleh melebihi From";
+          message = "Tanggal From tidak boleh melebihi To";
         }
 
         this.turnOnAlert("error", message);
@@ -135,7 +135,7 @@ export default {
         let message = "Pastikan form terisi dengan benar";
 
         if (this.from > this.to) {
-          message = "Tanggal To tidak boleh melebihi From";
+          message = "Tanggal From tidak boleh melebihi To";
         }
 
         this.turnOnAlert("error", message);

@@ -108,9 +108,12 @@ export default {
             }
         },
         validateNumber() {
-            if (this.formInput == 0 || /^\s*$/.test(this.formInput)) {
+            if (this.formInput == 0 || /^\s*$/.test(this.formInput) || this.formInput > 0) {
                 this.formMessage = "";
                 this.formValidity = "valid";
+            } else if (this.formInput < 0) {
+                this.formValidity = "invalid";
+                this.formMessage = "Please enter a positive number";
             }
         },
         validateLatitude() {
@@ -132,7 +135,7 @@ export default {
             }
         },
         setFormInput(event) {
-            let textValue = event.target.value.replace(/^\s+|\s+$/gm,'');
+            let textValue = event.target.value.replace(/^\s+|\s+$/gm, '');
             this.formInput = textValue;
             this.validateForm();
             this.$emit("formChange", textValue);

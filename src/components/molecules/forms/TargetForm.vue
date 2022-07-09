@@ -4,13 +4,13 @@
             <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
             <form-input @formChange="setName" @formIsValid="setNameValidity" type="text" label="Name" :isReadonly="true"
-                formName="name" placeholder="Name" :isRequired="true" :defaultValue="name"  idCode="name"></form-input>
+                formName="name" placeholder="Name" :isRequired="true" :defaultValue="name" idCode="name"></form-input>
             <form-input @formChange="setInput" @formIsValid="setInputValidity" type="number" label="Input"
-                :isReadonly="false" formName="input" placeholder="Input" :isRequired="true"
-                :defaultValue="input" idCode="input"></form-input>
+                :isReadonly="false" formName="input" placeholder="Input" :isRequired="true" :defaultValue="input"
+                idCode="input"></form-input>
             <form-input @formChange="setTarget" @formIsValid="setTargetValidity" type="number" label="Target"
-                :isReadonly="false" formName="target" placeholder="Target" :isRequired="true"
-                :defaultValue="target" idCode="target"></form-input>
+                :isReadonly="false" formName="target" placeholder="Target" :isRequired="true" :defaultValue="target"
+                idCode="target"></form-input>
 
 
             <div class="flex justify-end mt-7">
@@ -78,13 +78,14 @@ export default {
                 const target = this.$store.getters["target/getTarget"];
                 this.id = target.id;
                 this.name = target.name;
-                this.input = target.input;
+                this.input = target.input == null ? 0 : target.input;
                 this.target = target.target;
             } catch (error) {
                 this.turnOnAlert("error", error.message);
             }
         },
         async updateTarget() {
+            console.log('update', this.input);
             this.isLoading = true;
             if (!this.nameIsValid || !this.inputIsValid || !this.targetIsValid) {
                 this.isLoading = false;
@@ -96,6 +97,7 @@ export default {
                         input: this.input,
                         target: this.target,
                     });
+
 
                     this.$store.commit("alert/setAlert", {
                         operation: "update",
@@ -130,6 +132,7 @@ export default {
         },
         setInput(input) {
             this.input = input;
+            console.log('emit', this.input);
         },
         setTarget(target) {
             this.target = target;

@@ -51,7 +51,7 @@ export default {
     context.commit("setTarget", {
       id: response.data.data.id,
       name: response.data.data.name,
-      input: response.data.data.input,
+      input: response.data.data.input == null ? 0 : response.data.data.input,
       target: response.data.data.target,
     });
   },

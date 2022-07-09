@@ -31,7 +31,7 @@
                     </tr>
                     <tr v-else v-for="target in filteredEntries" :key="target.id">
                         <td>{{ target.name }}</td>
-                        <td>{{ target.input }}</td>
+                        <td>{{ target.input == null ? 0 : target.input }}</td>
                         <td>{{ target.target }}</td>
                         <td>
                             <router-link :to="{

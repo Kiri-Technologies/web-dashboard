@@ -58,6 +58,35 @@ describe("FormInput.vue", () => {
     );
   });
 
+  // check validasi number
+  it("renders error message number is below zero", async () => {
+    const props = {
+      label: "Number",
+      placeholder: "number",
+      formName: "number",
+      isReadonly: false,
+      isRequired: true,
+      type: "number",
+      idCode: "number",
+    };
+
+    const wrapper = mount(FormInput, {
+      props,
+    });
+
+    const input = wrapper.find("input");
+
+    await input.setValue("-10");
+
+    await input.trigger('blur')
+
+    expect(input.element.classList.contains("input-error")).toBe(true);
+    expect(input.element.value).toBe("-10");
+    expect(wrapper.html()).toContain(
+      `Please enter a positive number`
+    );
+  });
+
   // check validasi email
   it("renders error message when email is incorrect", async () => {
     const props = {
