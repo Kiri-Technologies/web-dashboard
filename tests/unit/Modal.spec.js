@@ -43,8 +43,6 @@ describe("DeleteModal.vue", () => {
     const button = wrapper.find(`a[href*="delete-modal-${props.id}"]`);
     const modal = wrapper.find(`#delete-modal-${props.id}`);
 
-    // expect(modal.isVisible()).toBe(false);
-
     await button.trigger("click");
 
     expect(modal.isVisible()).toBe(true);
@@ -124,7 +122,7 @@ describe("SaveModal.vue", () => {
   });
 
   // Check emit
-  it("check does the component emits after click the delete button", async () => {
+  it("check does the component emits after click the save button", async () => {
     const props = {
       id: 1,
     };

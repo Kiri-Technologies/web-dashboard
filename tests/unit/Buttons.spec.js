@@ -57,7 +57,7 @@ describe("ButtonDanger.vue", () => {
 });
 
 describe("ButtonSuccess.vue", () => {
-  it("renders button danger", () => {
+  it("renders button success", () => {
     const props = {
       link: false,
       size: "sm",
@@ -83,7 +83,7 @@ describe("ButtonSuccess.vue", () => {
 });
 
 describe("ButtonWarning.vue", () => {
-  it("renders button danger", () => {
+  it("renders button warning", () => {
     const props = {
       link: false,
       size: "sm",

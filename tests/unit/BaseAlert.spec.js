@@ -18,7 +18,7 @@ describe("BaseAlert.vue", () => {
 
   it("renders alert error with props.message when passed", () => {
     const props = {
-      message: "Berhasil mengubah data",
+      message: "Gagal mengubah data",
       mode: "error",
     };
     const wrapper = mount(BaseAlert, {

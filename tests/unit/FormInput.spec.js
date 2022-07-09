@@ -118,7 +118,7 @@ describe("FormInput.vue", () => {
   });
 
   // check validasi longitude
-  it("renders error message when latitude is incorrect", async () => {
+  it("renders error message when longitude is incorrect", async () => {
     const props = {
       label: "Longitude",
       placeholder: "Longitude",

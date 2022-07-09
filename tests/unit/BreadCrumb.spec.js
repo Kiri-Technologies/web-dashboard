@@ -1,5 +1,4 @@
 import { mount } from "@vue/test-utils";
-import BaseBreadCrumb from "@/components/atoms/breadcrumb/BaseBreadCrumb.vue";
 
 describe("BreadCrumb.vue", () => {
   it("renders breadcrumb based on array given", () => {
@@ -19,18 +18,30 @@ describe("BreadCrumb.vue", () => {
         },
       ],
     };
-    const wrapper = mount(BaseBreadCrumb, {
-      props,
-      global: {
-        stubs: {
-          "router-link": {
-            template: "<a />",
-          },
+
+    const breadCrumb = {
+      props: ["crumbs"],
+      template: ` <div class="text-sm breadcrumbs">
+      <ul>
+        <li v-for="(crumb, ci) in crumbs" :key="ci">
+          <a :class="{ 'text-black': isLast(ci), 'text-gray-500': !isLast(ci) }" :href="crumb.link.path">{{ crumb.title }}</a>
+        </li>
+      </ul>
+    </div>`,
+      methods: {
+        isLast(index) {
+          return index === this.crumbs.length - 1;
         },
       },
+    };
+
+    const wrapper = mount(breadCrumb, {
+      props,
     });
 
-    expect(wrapper.find('a').exists()).toBe(true);
-    expect(wrapper.find('li').exists()).toBe(true);
+    expect(wrapper.find("a").exists()).toBe(true);
+    expect(wrapper.find("li").exists()).toBe(true);
+    expect(wrapper.html()).toContain('Akun');
+    expect(wrapper.html()).toContain('Tambah Akun');
   });
 });
