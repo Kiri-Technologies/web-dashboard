@@ -59,7 +59,17 @@ export default {
             type: Boolean,
             required: false,
             default: true
-        }
+        },
+        isValid: {
+            required: false,
+            type: Boolean,
+            default: true
+        },
+        customErrorMessage: {
+            required: false,
+            type: String,
+            default: ""
+        },
     },
     data() {
         return {
@@ -148,6 +158,11 @@ export default {
             this.validateForm();
         }
         this.readonly = this.isReadonly;
+
+        if (!this.isValid) {
+            this.formValidity = "invalid";
+            this.formMessage = this.customErrorMessage;
+        }
     },
     updated() {
         if (this.defaultValue !== undefined && this.defaultValue !== "" && this.mode !== 'createNewAccount') {
@@ -155,6 +170,11 @@ export default {
             this.validateForm();
         }
         this.readonly = this.isReadonly;
+
+        if (!this.isValid) {
+            this.formValidity = "invalid";
+            this.formMessage = this.customErrorMessage;
+        }
     }
 };
 </script>

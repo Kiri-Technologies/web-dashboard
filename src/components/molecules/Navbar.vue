@@ -1,6 +1,7 @@
 <template>
   <div class="navbar shadow-lg text-neutral-content">
     <div class="flex-none px-2 mx-2">
+      <img src="../../assets/angkot.png" alt="" class="w-10 h-10">
       <span class="text-lg font-bold"> Kiri Dashboard </span>
     </div>
     <div class="flex-1 px-2 mx-2"></div>

@@ -9,16 +9,16 @@
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
       <form-input @formIsValid="setEmailValidity" @formChange="setEmail" type="email" label="Email"
-        :isReadonly="isReadonly" formName="email" placeholder="Email" :isRequired="true" :defaultValue="email"
+        :isReadonly="isReadonly" formName="email" placeholder="Contoh: akun@email.com" :isRequired="true" :defaultValue="email"
         :mode="mode" idCode="email">
       </form-input>
 
       <form-input @formIsValid="setNameValidity" @formChange="setName" type="name" label="Nama Lengkap"
-        :isReadonly="isReadonly" formName="name" placeholder="Nama Lengkap" :isRequired="true" :defaultValue="name"
+        :isReadonly="isReadonly" formName="name" placeholder="Contoh: Aditya" :isRequired="true" :defaultValue="name"
         :mode="mode" idCode="name"></form-input>
 
       <form-input @formIsValid="setPhoneNumberValidity" @formChange="setPhoneNumber" type="number" label="Nomor Hp"
-        :isReadonly="isReadonly" formName="phone number" placeholder="Nomor Hp" :isRequired="true"
+        :isReadonly="isReadonly" formName="phone number" placeholder="Contoh: 082218123752" :isRequired="true"
         :defaultValue="phone_number" :mode="mode" idCode="phoneNumber"></form-input>
 
       <form-input @formIsValid="setBirthdateValidity" @formChange="setBirthdate" type="date" label="Tanggal Lahir"

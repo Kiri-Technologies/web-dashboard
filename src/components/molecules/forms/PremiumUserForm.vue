@@ -4,7 +4,7 @@
       <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
       <form-input @formChange="setUserId" @formIsValid="setUserIdValidity" type="text" label="User ID"
-        :isReadonly="false" formName="user id" placeholder="User ID" :isRequired="true" :defaultValue="user_id"
+        :isReadonly="false" formName="user id" placeholder="Contoh: akun-123456" :isRequired="true" :defaultValue="user_id"
         idCode="userId"></form-input>
 
       <form-input @formChange="setPaymentDate" @formIsValid="setPaymentDateValidity" type="date" label="Payment Date"
@@ -17,7 +17,7 @@
       </form-input>
 
       <form-input @formChange="setToDate" @formIsValid="setToValidity" type="date" label="To Date" :isReadonly="false"
-        formName="to date" placeholder="To Date" :isRequired="true" :defaultValue="to" idCode="to"></form-input>
+        formName="to date" placeholder="To Date" :isRequired="true" :defaultValue="to" idCode="to" :isValid="dateIsValid" customErrorMessage="Tanggal From tidak boleh melebihi To"></form-input>
 
 
       <div class="flex justify-end mt-7">
@@ -72,6 +72,12 @@ export default {
         };
       }
     },
+    dateIsValid(){
+      if (this.from > this.to && this.from != "" && this.to != "") {
+        return false
+      }
+      return true
+    }
   },
   methods: {
     submitMethod() {

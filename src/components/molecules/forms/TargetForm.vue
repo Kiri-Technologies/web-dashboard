@@ -6,10 +6,10 @@
             <form-input @formChange="setName" @formIsValid="setNameValidity" type="text" label="Name" :isReadonly="true"
                 formName="name" placeholder="Name" :isRequired="true" :defaultValue="name" idCode="name"></form-input>
             <form-input @formChange="setInput" @formIsValid="setInputValidity" type="number" label="Input"
-                :isReadonly="false" formName="input" placeholder="Input" :isRequired="true" :defaultValue="input"
+                :isReadonly="false" formName="input" placeholder="Contoh: 20" :isRequired="true" :defaultValue="input"
                 idCode="input"></form-input>
             <form-input @formChange="setTarget" @formIsValid="setTargetValidity" type="number" label="Target"
-                :isReadonly="false" formName="target" placeholder="Target" :isRequired="true" :defaultValue="target"
+                :isReadonly="false" formName="target" placeholder="Contoh: 500" :isRequired="true" :defaultValue="target"
                 idCode="target"></form-input>
 
 

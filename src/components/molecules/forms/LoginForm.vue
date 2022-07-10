@@ -1,7 +1,7 @@
 <template>
   <form @submit.prevent="login">
     <div class="form">
-      <form-input @formChange="setEmail" type="email" label="Email" :isReadonly="false" formName="email" placeholder="Email" :isRequired="true"  idCode="email"></form-input>
+      <form-input @formChange="setEmail" type="email" label="Email" :isReadonly="false" formName="email" placeholder="Contoh: akun@email.com" :isRequired="true"  idCode="email"></form-input>
       <form-input @formChange="setPassword" type="password" label="Password" :isReadonly="false" formName="password" placeholder="Password" :isRequired="true"  idCode="password"></form-input>
       <checkbox-input @checkboxChange="setRememberMe" label="Remember me" idCode="rememberMe"></checkbox-input>
       <button-primary class="w-full" :class="loadingState" type="submit">

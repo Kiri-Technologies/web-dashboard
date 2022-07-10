@@ -7,7 +7,7 @@
         :isRequired="true" :defaultValue="trayek.kode_trayek" idCode="trayek"></form-input>
 
       <form-input @formChange="setHalteVirtualName" @formIsValid="setHalteVirtualNameValidity" type="text"
-        label="Nama Halte Virtual" :isReadonly="false" formName="halte virtual name" placeholder="Nama Halte Virtual"
+        label="Nama Halte Virtual" :isReadonly="false" formName="halte virtual name" placeholder="Contoh: Transmart Buah Batu"
         :isRequired="true" :defaultValue="nama_lokasi" idCode="halteVirtualName">
       </form-input>
 
@@ -16,11 +16,11 @@
       </select-input>
 
       <form-input @formChange="setLat" @formIsValid="setLatitudeValidity" type="text" label="Titik Latitude"
-        :isReadonly="false" formName="latitude" placeholder="Titik Latitude" :isRequired="true" :defaultValue="lat"
+        :isReadonly="false" formName="latitude" placeholder="Contoh: -6.96670545019899" :isRequired="true" :defaultValue="lat"
         mode="lat" idCode="latitude"></form-input>
 
       <form-input @formChange="setLong" @formIsValid="setLongitudeValidity" type="text" label="Titik Longitude"
-        :isReadonly="false" formName="longitude" placeholder="Titik Longitude" :isRequired="true" :defaultValue="lng"
+        :isReadonly="false" formName="longitude" placeholder="Contoh: 107.6377486264246" :isRequired="true" :defaultValue="lng"
         mode="long" idCode="longitude"></form-input>
 
       <div class="flex justify-end mt-7">

@@ -4,7 +4,7 @@
     <div class="drawer-side sticky">
       <label for="my-drawer-2" class="drawer-overlay"></label>
       <ul class="menu p-4 pb-20 overflow-y-auto w-70">
-        <li>
+        <!-- <li>
           <div class="card w-11/12 admin-profile-card text-white rounded-md">
             <div class="card-body px-4 py-2">
               <div class="grid grid-cols-3">
@@ -22,7 +22,7 @@
               </div>
             </div>
           </div>
-        </li>
+        </li> -->
         <li class="mt-2">
           <router-link :to="{ name: 'dashboard' }">Dashboard</router-link>
         </li>
@@ -96,10 +96,18 @@
           </transition>
         </li>
       </ul>
+      <div class="text-center flex flex-col justify-end py-20 text-gray-500">
+        <p class="text-xs">Copyright © Kiri 2022</p>
+        <p class="text-xs">All right reserved</p>
+      </div>
     </div>
-    <div class="flex flex-col drawer-content overflow-scroll pb-24" id="content">
+    <div class="flex flex-col drawer-content overflow-scroll" id="content">
       <label for="my-drawer-2" class="mb-4 btn btn-primary drawer-button lg:hidden">open menu</label>
       <slot />
+
+
+
+
     </div>
   </div>
 </template>
@@ -194,5 +202,9 @@ a.active {
     opacity: 1;
     transform: translateY(0px);
   }
+}
+
+.footer-green {
+  background-color: #D5E8CA;
 }
 </style>
