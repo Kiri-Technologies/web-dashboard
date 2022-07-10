@@ -55,7 +55,8 @@ export default {
     async getAllAngkot() {
       try {
         await this.$store.dispatch("angkot/getAllAngkot");
-        this.allAngkot = this.$store.getters["angkot/getAllAngkot"];
+        const angkot = this.$store.getters["angkot/getAllAngkot"];
+        this.allAngkot = angkot.filter((angkot) => angkot.status === "approved");
       } catch (error) {
         // call turnonalert function to turn on alert
         this.turnOnAlert(error.message, true);
