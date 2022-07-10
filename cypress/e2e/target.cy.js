@@ -56,7 +56,7 @@ describe("Change target test", () => {
 
     cy.get("#input")
       .clear()
-      .type("-100");
+      .type(-100);
     cy.get("#target")
       .clear()
       .type("500000");

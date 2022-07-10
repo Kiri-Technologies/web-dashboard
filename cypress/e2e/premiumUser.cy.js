@@ -67,7 +67,7 @@ describe("Premium user test", () => {
     cy.get("#to").clear().type("2022-06-01");
 
     cy.get("button.btn-primary").click();
-    cy.get("span").should("to.contain", "Tanggal To tidak boleh melebihi From");
+    cy.get("span").should("to.contain", "Tanggal From tidak boleh melebihi To");
   });
 
   it("Successfully update a premium user", () => {

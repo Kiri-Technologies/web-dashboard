@@ -1,18 +1,18 @@
 describe("trayek test", () => {
-    it("Successfully access the trayek page", () => {
-      // Login
-      cy.visit("/login");
-      cy.url().should("to.equal", "http://localhost:8080/login");
-      cy.get("#email").type("admin@kiri.id");
-      cy.get("#password").type("password");
-      cy.get("button").click();
-      cy.url().should("to.equal", "http://localhost:8080/");
+  it("Successfully access the trayek page", () => {
+    // Login
+    cy.visit("/login");
+    cy.url().should("to.equal", "http://localhost:8080/login");
+    cy.get("#email").type("admin@kiri.id");
+    cy.get("#password").type("password");
+    cy.get("button").click();
+    cy.url().should("to.equal", "http://localhost:8080/");
 
-      cy.visit("/trayekangkot");
-      cy.url().should("to.equal", "http://localhost:8080/trayekangkot");
-      cy.get('span').should("to.contain", "Trayek");
-      cy.get('span').should("to.contain", "List Trayek yang Tersedia");
-    });
+    cy.visit("/trayekangkot");
+    cy.url().should("to.equal", "http://localhost:8080/trayekangkot");
+    cy.get("span").should("to.contain", "Trayek");
+    cy.get("span").should("to.contain", "List Trayek yang Tersedia");
+  });
 
   it("Successfully create new trayek", () => {
     // Login
@@ -86,10 +86,12 @@ describe("trayek test", () => {
 
     cy.url().should("to.contain", "/update");
 
-    cy.get("#kodeTrayek").clear().type("AD-01");
+    cy.get("#kodeTrayek")
+      .clear()
+      .type("AD-01");
 
     cy.get("button.btn-primary").click();
-    cy.get('span').should("to.contain", "Berhasil mengubah trayek");
+    cy.get("span").should("to.contain", "Berhasil mengubah trayek");
   });
 
   it("Successfully access the detail trayek page", () => {
@@ -109,8 +111,8 @@ describe("trayek test", () => {
       .click();
 
     cy.url().should("to.contain", "/detail");
-    cy.get('span').should("to.contain", "Detail Trayek");
-    cy.get('span').should("to.contain", "Melihat Detail Trayek Terpilih");
+    cy.get("span").should("to.contain", "Detail Trayek");
+    cy.get("span").should("to.contain", "Melihat Detail Trayek Terpilih");
   });
 
   it("Successfully delete a trayek", () => {
@@ -131,6 +133,6 @@ describe("trayek test", () => {
     cy.get("a[href='#'][id*=delete].btn-delete")
       .last()
       .click();
-    cy.get('span').should("to.contain", "Berhasil menghapus trayek");
+    cy.get("span").should("to.contain", "Berhasil menghapus trayek");
   });
 });

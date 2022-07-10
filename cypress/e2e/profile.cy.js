@@ -54,7 +54,7 @@ describe("Profile test", () => {
 
     cy.get("#email")
       .clear()
-      .type("adul@gmail.com");
+      .type("dummy@gmail.com");
 
     cy.get("button.btn-primary").click();
     cy.get('span').should("to.contain", "Email sudah terdaftar");
@@ -91,7 +91,7 @@ describe("Profile test", () => {
     cy.visit("/login");
     cy.url().should("to.equal", "http://localhost:8080/login");
     cy.get("#email").type("admin@kiri.id");
-    cy.get("#password").type("password");
+    cy.get("#password").type("password1");
     cy.get("button").click();
     cy.url().should("to.equal", "http://localhost:8080/");
 
