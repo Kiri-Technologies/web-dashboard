@@ -13,7 +13,8 @@
       </div>
     </div>
     <div class="overflow-x-auto mt-4">
-      <ulasan-penumpang-data-table :entries="allPerjalanan"></ulasan-penumpang-data-table>
+      <loading v-if="isLoading"></loading>
+      <ulasan-penumpang-data-table :entries="allPerjalanan" v-else></ulasan-penumpang-data-table>
     </div>
   </section>
 </template>
@@ -59,6 +60,7 @@ export default {
         );
         this.allPerjalanan =
           this.$store.getters["perjalanan/getAllPerjalanan"];
+          console.log(this.allPerjalanan);
       } catch (error) {
         console.log(error.message);
       }

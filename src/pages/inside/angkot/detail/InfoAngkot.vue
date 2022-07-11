@@ -1,12 +1,18 @@
 <template>
-  <section class="mt-4">
+  <loading v-if="isLoading"></loading>
+  <section class="mt-4" v-else>
     <div class="grid grid-cols-5 gap-1">
       <div class="col-span-2">
-        <information-section label="Kode Trayek" :data="angkot.route == null ? 'D-101' : angkot.route.kode_trayek"></information-section>
+        <information-section label="Kode Trayek" :data="angkot.route == null ? 'D-101' : angkot.route.kode_trayek">
+        </information-section>
         <information-section label="Plat Nomor" :data="angkot.plat_nomor"></information-section>
-        <information-section label="Trayek Angkot" :data="angkot.route == null ? 'Kebayoran - Ciputat' : `${angkot.route.titik_awal} - ${angkot.route.titik_akhir}`"></information-section>
+        <information-section label="Trayek Angkot"
+          :data="angkot.route == null ? 'Kebayoran - Ciputat' : `${angkot.route.titik_awal} - ${angkot.route.titik_akhir}`">
+        </information-section>
         <information-section label="Pemilik Angkot" :data="angkot.user_owner.name"></information-section>
-        <information-section label="Status Angkot" :data="angkot.is_beroperasi == null || angkot.is_beroperasi == false ? 'Tidak beroperasi' : 'sedang beroperasi'"></information-section>
+        <information-section label="Status Angkot"
+          :data="angkot.is_beroperasi == null || angkot.is_beroperasi == false ? 'Tidak beroperasi' : 'sedang beroperasi'">
+        </information-section>
       </div>
       <div class="col-span-2">
         <information-section label="Pajak STNK" :data="changeDateFormat(angkot.pajak_stnk)"></information-section>
@@ -160,7 +166,6 @@ export default {
       }
     },
     async getTotalPendapatanHarian() {
-      this.isLoading = true;
       try {
         await this.$store.dispatch("chart/getTotalPendapatanHarianByIdAngkot", {
           idAngkot: this.$route.params.id,
@@ -180,7 +185,6 @@ export default {
         this.errorMessage = error.message;
         this.turnOnAlert("error", false);
       }
-      this.isLoading = false;
     },
     changeDateFormat(date) {
       return moment(date, "YYYY-MM-DD").format("dddd, DD MMMM YYYY");
@@ -202,11 +206,17 @@ export default {
       }
     },
   },
-  created() {
-    this.getAngkot();
-    this.getListSupir();
-    this.getAllRiwayatSupirNarik();
-    this.getTotalPendapatanHarian();
+  async created() {
+    this.isLoading = true;
+    try {
+      await this.getAngkot();
+      await this.getListSupir();
+      await this.getAllRiwayatSupirNarik();
+      await this.getTotalPendapatanHarian();
+    } catch (error) {
+      console.log(error.message);
+    }
+    this.isLoading = false;
   },
 };
 </script>

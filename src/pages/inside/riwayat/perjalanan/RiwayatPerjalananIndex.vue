@@ -2,8 +2,8 @@
   <loading v-if="isLoading"></loading>
   <section class="mt-4" v-else>
     <section class="flex justify-center">
-      <side-to-side-stat :title1="'Total Perjalanan Bulan Ini'" :title2="'Total Perjalanan Bulan Lalu'"
-        :data1="totalPerjalananBulanIni" :data2="totalPerjalananBulanLalu"></side-to-side-stat>
+      <side-to-side-stat :title1="'Total Perjalanan Bulan Kemarin'" :title2="'Total Perjalanan Bulan Ini'"
+        :data1="totalPerjalananBulanLalu" :data2="totalPerjalananBulanIni"></side-to-side-stat>
     </section>
     <section class="flex justify-center mt-4">
       <card class="shadow-lg w-11/12">
