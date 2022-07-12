@@ -1,5 +1,5 @@
 <template>
-  <div class="stat place-items-center">
+  <div class="stat place-items-center bg-white">
     <div class="stat-title">{{ title }}</div>
     <div class="stat-value" :class="color">{{ value }}</div>
     <stat-desc v-if="statDesc">

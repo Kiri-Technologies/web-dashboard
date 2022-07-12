@@ -3,17 +3,17 @@
         <div class="grid grid-flow-col auto-cols-auto">
             <div>
                 <label for="showEntries" class="mr-3">Show</label>
-                <select class="select select-bordered" v-model="showedEntries" @change="paginateEntries(1)" ref="show">
+                <select class="select select-bordered bg-white" v-model="showedEntries" @change="paginateEntries(1)" ref="show">
                     <option v-for="sh in showEntries" :key="sh" :value="sh">{{ sh }}</option>
                 </select>
             </div>
             <div class="flex justify-end">
-                <input type="search" placeholder="Search" class="input input-bordered w-full max-w-xs"
+                <input type="search" placeholder="Search" class="input input-bordered w-full max-w-xs bg-white"
                     v-model="searchInput" @keyup="searchEvent" />
             </div>
         </div>
         <div>
-            <table class="table w-full" id="myTable">
+            <table class="table w-full bg-white" id="myTable">
                 <!-- head -->
                 <thead>
                     <tr>
@@ -49,7 +49,7 @@
         </div>
         <div class="grid grid-flow-col auto-cols-auto">
             <div>
-                <p>Show {{ showInfo.from }} to {{ showInfo.to }} of {{ showInfo.of }}</p>
+                <p class="text-black">Show {{ showInfo.from }} to {{ showInfo.to }} of {{ showInfo.of }}</p>
             </div>
             <div class="flex justify-end btn-group">
                 <button

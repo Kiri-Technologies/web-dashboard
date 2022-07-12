@@ -71,7 +71,7 @@
         <!-- pendapatan supir -->
         <card class="col-span-2">
           <card-body class="p-3">
-            <div class="text-lg font-medium text-center">Total User Dalam 6 Bulan Terakhir</div>
+            <div class="text-lg font-medium text-center text-black">Total User Dalam 6 Bulan Terakhir</div>
             <bar-chart class="h-48" :dataProps="penumpangChart.totalPenumpang" :labelsProps="penumpangChart.labels"
               :title="penumpangChart.title"></bar-chart>
             <bar-chart class="h-48" :dataProps="ownerChart.totalOwner" :labelsProps="ownerChart.labels"
@@ -86,7 +86,7 @@
           <div class="grid grid-cols-2 gap-4">
             <card>
               <card-body class="flex justify-around">
-                <div class="text-center text-lg font-medium">Total pengguna berlangganan bulan ini</div>
+                <div class="text-center text-lg font-medium text-black">Total pengguna berlangganan bulan ini</div>
                 <div class="text-4xl my-2 font-semibold text-center">{{ totalPremiumUserThisMonth }}</div>
                 <div class="text-sm text-center text-red-500"
                   v-if="premiumUserTarget.target - totalPremiumUserThisMonth > 0">{{ premiumUserTarget.target -
@@ -96,7 +96,7 @@
             </card>
             <card>
               <card-body class="flex justify-around">
-                <div class="text-center text-lg font-medium">Total pengeluaran bulan ini</div>
+                <div class="text-center text-lg font-medium text-black">Total pengeluaran bulan ini</div>
                 <div class="text-4xl my-2 font-semibold text-center" :class="{
                   'text-green-500': pengeluaranTarget.target > pengeluaranTarget.input,
                   'text-red-500': pengeluaranTarget.target < pengeluaranTarget.input,
@@ -111,7 +111,7 @@
           </div>
           <card class="mt-5">
             <card-body class="p-3">
-              <div class="text-lg font-medium text-center">Pengguna Berlangganan Dalam 6 Bulan Terakhir</div>
+              <div class="text-lg font-medium text-center text-black">Pengguna Berlangganan Dalam 6 Bulan Terakhir</div>
               <bar-chart :dataProps="premiumUserChart.totalPremiumUser" :labelsProps="premiumUserChart.labels"
                 :title="premiumUserChart.title"></bar-chart>
             </card-body>
