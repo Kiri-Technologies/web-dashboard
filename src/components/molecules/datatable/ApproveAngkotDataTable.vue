@@ -13,33 +13,33 @@
             </div>
         </div>
         <div>
-            <table class="table w-full">
+            <table class="table-fixed w-full">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <td>Nama Pemilik</td>
-                        <td>Plat Nomor</td>
-                        <td>Nomor HP Owner</td>
-                        <td>Trayek Angkot</td>
-                        <td>Email</td>
-                        <td v-if="currentTab == 'pending'">Action</td>
+                        <td class="p-4 rounded-l-lg">Nama Pemilik</td>
+                        <td class="p-4">Plat Nomor</td>
+                        <td class="p-4">Nomor HP Owner</td>
+                        <td class="p-4">Trayek Angkot</td>
+                        <td class="p-4">Email</td>
+                        <td lass="p-4 rounded-r-lg" v-if="currentTab == 'pending'">Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td colspan="6" class="text-center text-gray-500">
                             Angkot {{ currentTab }} tidak ditemukan
                         </td>
                     </tr>
                     <tr v-else v-for="angkot in filteredEntries" :key="angkot.id">
-                        <td>{{ angkot.user_owner.name }}</td>
-                        <td>{{ angkot.plat_nomor }}</td>
-                        <td>{{ angkot.user_owner.phone_number }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ angkot.user_owner.name }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ angkot.plat_nomor }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ angkot.user_owner.phone_number }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             {{ angkot.route.titik_awal }} - {{ angkot.route.titik_akhir }}
                         </td>
-                        <td>{{ angkot.user_owner.email }}</td>
-                        <td v-if="currentTab == 'pending'">
+                        <td class="p-4 border-b border-gray-50">{{ angkot.user_owner.email }}</td>
+                        <td class="p-4 border-b border-gray-50" v-if="currentTab == 'pending'">
                             <!-- <button @click="updateStatusAngkot(angkot.id, 'approved')" :id="`approve`">
                                 <font-awesome-icon icon="check-square" class="text-lg text-green-600" />
                             </button> -->
@@ -167,10 +167,10 @@ export default {
         searchEvent() {
             this.paginateEntries(1);
         },
-        updateStatusAngkotToApproved(id){
+        updateStatusAngkotToApproved(id) {
             this.updateStatusAngkot(id, 'approved');
         },
-        updateStatusAngkotToDeclined(id){
+        updateStatusAngkotToDeclined(id) {
             this.updateStatusAngkot(id, 'declined');
         },
         async updateStatusAngkot(id, status) {

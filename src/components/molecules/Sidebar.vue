@@ -95,13 +95,13 @@
             </ul>
           </transition>
         </li>
+        <div class="h-full text-center flex flex-col justify-end pt-5">
+          <p class="text-xs">Copyright © Kiri 2022</p>
+          <p class="text-xs">All right reserved</p>
+        </div>
       </ul>
-      <div class="text-center flex flex-col justify-end py-20 text-gray-500">
-        <p class="text-xs">Copyright © Kiri 2022</p>
-        <p class="text-xs">All right reserved</p>
-      </div>
     </div>
-    <div class="flex flex-col drawer-content overflow-scroll" id="content">
+    <div class="flex flex-col drawer-content overflow-scroll xl:pb-20 " id="content">
       <label for="my-drawer-2" class="mb-4 btn btn-primary drawer-button lg:hidden">open menu</label>
       <slot />
     </div>

@@ -8,7 +8,7 @@
         <card>
           <card-body class="grid grid-flow-row auto-rows-auto p-3">
             <div>
-              <h1 class="text-lg font-medium text-center">Total Users This Month</h1>
+              <h1 class="2xl:text-lg xl:text-sm font-medium text-center">Total Users This Month</h1>
             </div>
 
             <stats-container>
@@ -48,7 +48,7 @@
         <card>
           <card-body class="grid grid-flow-row auto-rows-auto p-3">
             <div>
-              <h1 class="text-lg font-medium text-center">
+              <h1 class="2xl:text-lg xl:text-sm font-medium text-center">
                 Feedback user yang masuk pada bulan ini
               </h1>
             </div>
@@ -70,39 +70,42 @@
       <div class="grid grid-cols-4 gap-4">
         <!-- pendapatan supir -->
         <card class="col-span-2">
-          <card-body class="p-3">
-            <div class="text-lg font-medium text-center text-black">Total User Dalam 6 Bulan Terakhir</div>
-            <bar-chart class="h-48" :dataProps="penumpangChart.totalPenumpang" :labelsProps="penumpangChart.labels"
+          <card-body class="p-2">
+            <div class="2xl:text-lg xl:text-sm font-medium text-center text-black">Total User Dalam 6 Bulan Terakhir</div>
+            <bar-chart class="2xl:h-48 xl:h-28" :dataProps="penumpangChart.totalPenumpang" :labelsProps="penumpangChart.labels"
               :title="penumpangChart.title"></bar-chart>
-            <bar-chart class="h-48" :dataProps="ownerChart.totalOwner" :labelsProps="ownerChart.labels"
+            <bar-chart class="2xl:h-48 xl:h-28" :dataProps="ownerChart.totalOwner" :labelsProps="ownerChart.labels"
               :title="ownerChart.title"></bar-chart>
-            <bar-chart class="h-48" :dataProps="supirChart.totalSupir" :labelsProps="supirChart.labels"
+            <bar-chart class="2xl:h-48 xl:h-28" :dataProps="supirChart.totalSupir" :labelsProps="supirChart.labels"
               :title="supirChart.title"></bar-chart>
-
           </card-body>
         </card>
 
         <div class="col-span-2">
           <div class="grid grid-cols-2 gap-4">
             <card>
-              <card-body class="flex justify-around">
-                <div class="text-center text-lg font-medium text-black">Total pengguna berlangganan bulan ini</div>
-                <div class="text-4xl my-2 font-semibold text-center">{{ totalPremiumUserThisMonth }}</div>
-                <div class="text-sm text-center text-red-500"
+              <card-body class="flex justify-around xl:py-1 2xl:p-8">
+                <div class="text-center 2xl:text-lg xl:text-sm font-medium text-black">Pengguna berlangganan bulan ini</div>
+                <div class="2xl:text-4xl xl:text-2xl 2xl:my-2 font-semibold text-center" :class="{
+                  'text-green-500': premiumUserTarget.target - totalPremiumUserThisMonth < 0,
+                  'text-red-500': premiumUserTarget.target - totalPremiumUserThisMonth > 0,
+                  'text-black': premiumUserTarget.target - totalPremiumUserThisMonth == 0,
+                }">{{ totalPremiumUserThisMonth }}</div>
+                <div class="2xl:text-sm xl:text-xs text-center text-red-500"
                   v-if="premiumUserTarget.target - totalPremiumUserThisMonth > 0">{{ premiumUserTarget.target -
                       totalPremiumUserThisMonth
-                  }} premium user remaining</div>
+                  }} pengguna tersisa</div>
               </card-body>
             </card>
             <card>
-              <card-body class="flex justify-around">
-                <div class="text-center text-lg font-medium text-black">Total pengeluaran bulan ini</div>
-                <div class="text-4xl my-2 font-semibold text-center" :class="{
+              <card-body class="flex justify-around xl:py-1 2xl:p-8">
+                <div class="text-center 2xl:text-lg xl:text-sm font-medium text-black">Total pengeluaran bulan ini</div>
+                <div class="2xl:text-4xl xl:text-2xl 2xl:my-2 font-semibold text-center" :class="{
                   'text-green-500': pengeluaranTarget.target > pengeluaranTarget.input,
                   'text-red-500': pengeluaranTarget.target < pengeluaranTarget.input,
                   'text-black': pengeluaranTarget.target == pengeluaranTarget.input,
                 }">{{ rupiahFormat(pengeluaranTarget.input) }}</div>
-                <div class="text-sm text-center text-red-500" v-if="pengeluaranTarget.target < pengeluaranTarget.input">
+                <div class="2xl:text-sm xl:text-xs text-center text-red-500" v-if="pengeluaranTarget.target < pengeluaranTarget.input">
                   Melebihi budget sebanyak {{ rupiahFormat(pengeluaranTarget.input -
                       pengeluaranTarget.target)
                   }}</div>
@@ -111,8 +114,8 @@
           </div>
           <card class="mt-5">
             <card-body class="p-3">
-              <div class="text-lg font-medium text-center text-black">Pengguna Berlangganan Dalam 6 Bulan Terakhir</div>
-              <bar-chart :dataProps="premiumUserChart.totalPremiumUser" :labelsProps="premiumUserChart.labels"
+              <div class="2xl:text-lg xl:text-sm font-medium text-center text-black">Pengguna Berlangganan Dalam 6 Bulan Terakhir</div>
+              <bar-chart class="2xl:h-96 xl:h-48" :dataProps="premiumUserChart.totalPremiumUser" :labelsProps="premiumUserChart.labels"
                 :title="premiumUserChart.title"></bar-chart>
             </card-body>
           </card>

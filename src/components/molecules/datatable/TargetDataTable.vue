@@ -13,27 +13,27 @@
             </div>
         </div>
         <div>
-            <table class="table w-full" id="myTable">
+            <table class="table-fixed w-full" id="myTable">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <th>Nama</th>
-                        <th>Input</th>
-                        <th>Target</th>
-                        <th>Action</th>
+                        <td class="p-4 rounded-l-lg">Nama</td>
+                        <td class="p-4">Input</td>
+                        <td class="p-4">Target</td>
+                        <td class="p-4 rounded-r-lg">Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td colspan="4" class="text-center text-gray-500">
                             Tidak ada trayek yang tersedia
                         </td>
                     </tr>
                     <tr v-else v-for="target in filteredEntries" :key="target.id">
-                        <td>{{ target.name }}</td>
-                        <td>{{ target.input == null ? 0 : target.input }}</td>
-                        <td>{{ target.target }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ target.name }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ target.input == null ? 0 : target.input }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ target.target }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             <router-link :to="{
                                 name: 'update target',
                                 params: {

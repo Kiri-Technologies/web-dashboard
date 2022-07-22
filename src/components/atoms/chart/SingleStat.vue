@@ -1,7 +1,7 @@
 <template>
-  <div class="stat place-items-center bg-white">
-    <div class="stat-title">{{ title }}</div>
-    <div class="stat-value" :class="color">{{ value }}</div>
+  <div class="stat place-items-center bg-white 2xl:py-4 2xl:px-6 xl:p-0">
+    <div class="stat-title xl:text-sm 2xl:text-lg">{{ title }}</div>
+    <div class="stat-value 2xl:text-4xl xl:text-2xl" :class="color">{{ value }}</div>
     <stat-desc v-if="statDesc">
       <slot />
     </stat-desc>

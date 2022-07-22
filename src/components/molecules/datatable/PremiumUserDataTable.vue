@@ -13,40 +13,40 @@
             </div>
         </div>
         <div>
-            <table class="table w-full" id="myTable">
+            <table class="table-fixed w-full" id="myTable">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <th>User ID</th>
-                        <th>Nama</th>
-                        <th>No HP</th>
-                        <th>Payment Date</th>
-                        <th>From</th>
-                        <th>To</th>
-                        <th>Status</th>
-                        <th>Action</th>
+                        <td class="p-4 rounded-l-lg">User ID</td>
+                        <td class="p-4">Nama</td>
+                        <td class="p-4">No HP</td>
+                        <td class="p-4">Payment Date</td>
+                        <td class="p-4">From</td>
+                        <td class="p-4">To</td>
+                        <td class="p-4">Status</td>
+                        <td class="p-4 rounded-r-lg">Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td colspan="8" class="text-center text-gray-500 p-4">
                             Tidak ada premium user yang terdaftar
                         </td>
                     </tr>
                     <tr v-else v-for="premiumUser in filteredEntries" :key="premiumUser.id">
-                        <td>{{ premiumUser.user_id }}</td>
-                        <td>{{ premiumUser.user.name }}</td>
-                        <td>{{ premiumUser.user.phone_number }}</td>
-                        <td>{{ premiumUser.payment_date }}</td>
-                        <td>{{ premiumUser.from }}</td>
-                        <td>{{ premiumUser.to }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ premiumUser.user_id }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ premiumUser.user.name }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ premiumUser.user.phone_number }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ premiumUser.payment_date }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ premiumUser.from }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ premiumUser.to }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             <div class="badge badge-lg" :class="{
                                 'badge-success': premiumUser.to > todayDate,
                                 'badge-warning': premiumUser.to < todayDate,
                             }">{{ premiumUser.to > todayDate ? 'Active' : 'Expired' }}</div>
                         </td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">
                             <router-link :to="{
                                 name: 'update premium user',
                                 params: {

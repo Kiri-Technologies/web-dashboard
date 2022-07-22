@@ -13,38 +13,36 @@
             </div>
         </div>
         <div>
-            <table class="table w-full">
+            <table class="table-fixed w-full">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <td>Nama</td>
-                        <td>Review</td>
-                        <td>Tanggapan</td>
-                        <td v-if="currentTab == 'All Feedback' || currentTab == 'Pending'">
+                        <td class="p-4 rounded-l-lg">Nama</td>
+                        <td class="p-4">Review</td>
+                        <td class="p-4">Tanggapan</td>
+                        <td class="p-4 rounded-r-lg" v-if="currentTab == 'All Feedback' || currentTab == 'Pending'">
                             Change Status
                         </td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td :colspan="currentTab == 'All Feedback' || currentTab == 'Pending' ? 4 : 3" class="text-center text-gray-500 p-4">
                             Feedback Kosong
                         </td>
                     </tr>
                     <tr v-for="fa in filteredEntries" :key="fa.id">
-                        <td>{{ fa.user_id }}</td>
-                        <td :class="{
+                        <td class="p-4 border-b border-gray-50">{{ fa.user_id }}</td>
+                        <td class="p-4 border-b border-gray-50" :class="{
                             'text-red-600': fa.review == 'awful' || fa.review == 'sad',
                             'font-bold': fa.review == 'awful' || fa.review == 'excellent',
                             'text-green-600': fa.review == 'excellent' || fa.review == 'happy',
                             'text-black': fa.review == 'neutral',
                         }">{{ fa.review }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">
                             {{ fa.tanggapan }}
                         </td>
-                        <td v-if="
-                            currentTab !== 'Cancelled' || currentTab !== 'Processed'
-                        ">
+                        <td class="p-4 border-b border-gray-50" v-if="currentTab == 'All Feedback' || currentTab == 'Pending'">
                             <save-modal :id="fa.id + 'pending'" @saveButtonClicked="changeStatusToPending"
                                 v-if="currentTab == 'All Feedback'">
                                 <template v-slot:default>

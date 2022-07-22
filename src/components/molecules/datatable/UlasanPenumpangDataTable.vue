@@ -13,32 +13,32 @@
             </div>
         </div>
         <div>
-            <table class="table w-full">
+            <table class="table-fixed w-full">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <th>Tanggal</th>
-                        <th>Nama</th>
-                        <th>Rating</th>
-                        <th>Review</th>
-                        <th>Komentar</th>
+                        <td class="p-4 rounded-l-lg">Tanggal</td>
+                        <td class="p-4">Nama</td>
+                        <td class="p-4">Rating</td>
+                        <td class="p-4">Review</td>
+                        <td class="p-4 rounded-r-lg">Komentar</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td colspan="5" class="text-center text-gray-500">
                             Ulasan penumpang kosong
                         </td>
                     </tr>
                     <tr v-for="p in filteredEntries" :key="p.id">
-                        <td>{{ changeDateFormat(p.feedback.created_at) }}</td>
-                        <td>{{ p.user_penumpang.name }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ changeDateFormat(p.feedback.created_at) }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ p.user_penumpang.name }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             <font-awesome-icon icon="star" class="text-lg text-yellow-400"
                                 v-for="i in Number(p.feedback.rating)" :key="i" />
                         </td>
-                        <td>{{ p.feedback.review }}</td>
-                        <td>{{ p.feedback.komentar }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ p.feedback.review }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ p.feedback.komentar }}</td>
                     </tr>
                 </tbody>
             </table>

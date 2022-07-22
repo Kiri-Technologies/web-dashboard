@@ -13,22 +13,25 @@
             </div>
         </div>
         <div>
-            <table class="table w-full" id="myTable">
+            <table class="table-fixed w-full">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <th v-for="th in tableHeader" :key="th">{{ th.text }}</th>
+                        <td class="p-4" v-for="(th, index) in tableHeader" :key="th" :class="{
+                            'rounded-l-lg': index == 0,
+                            'rounded-r-lg': index == tableHeader.length - 1,
+                        }">{{ th.text }}</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <!-- body -->
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td :colspan="filteredEntries.length + 1" class="text-center text-gray-500">
                             No data found
                         </td>
                     </tr>
                     <tr v-for="entry in filteredEntries" :key="entry.id">
-                        <td v-for="th in tableHeader" :key="th.name">{{ entry[th.name] }}</td>
+                        <td class="p-4 border-b border-gray-50" v-for="th in tableHeader" :key="th.name">{{ entry[th.name] }}</td>
                     </tr>
                 </tbody>
             </table>

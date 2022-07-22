@@ -13,27 +13,27 @@
             </div>
         </div>
         <div>
-            <table class="table w-full">
+            <table class="table-fixed w-full">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <th>Nama</th>
-                        <th>Email</th>
-                        <th>Tanggal Lahir</th>
-                        <th>Action</th>
+                        <td class="p-4 rounded-l-lg">Nama</td>
+                        <td class="p-4">Email</td>
+                        <td class="p-4">Tanggal Lahir</td>
+                        <td class="p-4 rounded-r-lg">Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td colspan="4" class="text-center text-gray-500 p-4">
                             Tidak ada akun yang tersedia
                         </td>
                     </tr>
                     <tr v-else v-for="account in filteredEntries" :key="account.id">
-                        <td>{{ account.name }}</td>
-                        <td>{{ account.email }}</td>
-                        <td>{{ changeDateFormat(account.birthdate) }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ account.name }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ account.email }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ changeDateFormat(account.birthdate) }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             <router-link :to="{
                                 name: 'update admin account',
                                 params: {

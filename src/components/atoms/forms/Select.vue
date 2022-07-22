@@ -3,7 +3,7 @@
         <label class="label">
             <span class="label-text">{{ label }}</span>
         </label>
-        <select class="select select-bordered" :class="{ 'input-error': formValidity == 'invalid' }" :value="formInput"
+        <select class="select select-bordered bg-white" :class="{ 'input-error': formValidity == 'invalid' }" :value="formInput"
             @blur="validateForm" :required="isRequired" @change="setFormInput" :id="idCode">
             <option disabled>{{ disabledOption }}</option>
             <option v-for="(item, index) in options" :key="index" :value="item.value">{{ item.name }}</option>

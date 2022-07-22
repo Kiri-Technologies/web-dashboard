@@ -3,7 +3,7 @@
         <label class="label">
             <span class="label-text">{{ label }}</span>
         </label>
-        <input :type="type" :placeholder="placeholder" class="input input-bordered"
+        <input :type="type" :placeholder="placeholder" class="input input-bordered bg-white"
             :class="{ 'input-error': formValidity == 'invalid' }" @blur="validateForm" :readonly="readonly"
             :required="isRequired" @input="setFormInput" :value="formInput" :id="idCode" />
         <label class="label" v-if="formValidity == 'invalid'">

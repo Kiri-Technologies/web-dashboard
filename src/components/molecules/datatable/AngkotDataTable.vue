@@ -13,32 +13,32 @@
             </div>
         </div>
         <div>
-            <table class="table w-full bg-white" id="myTable">
+            <table class="table-fixed w-full">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <th>Kode Trayek</th>
-                        <th>Plat Nomor</th>
-                        <th>Trayek Angkot</th>
-                        <th>Pemilik Angkot</th>
-                        <th>Action</th>
+                        <td class="p-4 rounded-l-lg">Kode Trayek</td>
+                        <td class="p-4">Plat Nomor</td>
+                        <td class="p-4">Trayek Angkot</td>
+                        <td class="p-4">Pemilik Angkot</td>
+                        <td class="p-4 rounded-r-lg">Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td colspan="5" class="text-center text-gray-500">
                             Data angkot kosong
                         </td>
                     </tr>
                     <tr v-for="angkot in filteredEntries" :key="angkot.id">
-                        <td>{{ angkot.route == null ? 'D-101' : angkot.route.kode_trayek }}</td>
-                        <td>{{ angkot.plat_nomor }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ angkot.route == null ? 'D-101' : angkot.route.kode_trayek }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ angkot.plat_nomor }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             {{ angkot.route == null ? 'Kebayoran' : angkot.route.titik_awal }} -
                             {{ angkot.route == null ? 'Ciputat' : angkot.route.titik_akhir }}
                         </td>
-                        <td>{{ angkot.user_owner.name }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ angkot.user_owner.name }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             <router-link :to="{ name: 'detail angkot', params: { id: angkot.id } }">
                                 <font-awesome-icon icon="info-circle" class="text-lg text-yellow-500" />
                             </router-link>

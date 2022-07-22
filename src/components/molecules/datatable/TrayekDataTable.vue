@@ -13,27 +13,27 @@
             </div>
         </div>
         <div>
-            <table class="table w-full" id="myTable">
+            <table class="table-fixed w-full" id="myTable">
                 <!-- head -->
-                <thead>
+                <thead class="bg-gray-100 font-bold text-xs leading-4 uppercase align-middle">
                     <tr>
-                        <th>Kode Trayek</th>
-                        <th>Titik Awal</th>
-                        <th>Titik Akhir</th>
-                        <th>Action</th>
+                        <td class="p-4 rounded-l-lg">Kode Trayek</td>
+                        <td class="p-4">Titik Awal</td>
+                        <td class="p-4">Titik Akhir</td>
+                        <td class="p-4 rounded-r-lg">Action</td>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="100%" class="text-center text-gray-500">
+                        <td colspan="4" class="text-center text-gray-500">
                             Tidak ada trayek yang tersedia
                         </td>
                     </tr>
                     <tr v-else v-for="trayek in filteredEntries" :key="trayek.id">
-                        <td>{{ trayek.kode_trayek }}</td>
-                        <td>{{ trayek.titik_awal }}</td>
-                        <td>{{ trayek.titik_akhir }}</td>
-                        <td>
+                        <td class="p-4 border-b border-gray-50">{{ trayek.kode_trayek }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ trayek.titik_awal }}</td>
+                        <td class="p-4 border-b border-gray-50">{{ trayek.titik_akhir }}</td>
+                        <td class="p-4 border-b border-gray-50">
                             <router-link :to="{
                                 name: 'detail trayek',
                                 params: {
