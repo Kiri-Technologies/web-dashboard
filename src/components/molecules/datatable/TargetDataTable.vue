@@ -25,7 +25,7 @@
                 </thead>
                 <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="4" class="text-center text-gray-500">
+                        <td colspan="4" class="text-center text-gray-500 p-4">
                             Tidak ada trayek yang tersedia
                         </td>
                     </tr>
