@@ -59,7 +59,7 @@
               <single-stat title="Processed" :value="totalFeedbackApp.processed" :color="{ 'text-green-500': true }"
                 :statDesc="true">
                 <span class="text-red-500" v-if="feedbackUserTarget.target - totalFeedbackApp.processed > 0">{{
-                    feedbackUserTarget.target - totalFeedbackApp.processed
+                feedbackUserTarget.target - totalFeedbackApp.processed
                 }} feedbacks tersisa</span>
               </single-stat>
             </stats-container>
@@ -71,13 +71,14 @@
         <!-- pendapatan supir -->
         <card class="col-span-2">
           <card-body class="p-2">
-            <div class="2xl:text-lg xl:text-sm font-medium text-center text-black">Total User Dalam 6 Bulan Terakhir</div>
-            <bar-chart class="2xl:h-48 xl:h-28" :dataProps="penumpangChart.totalPenumpang" :labelsProps="penumpangChart.labels"
-              :title="penumpangChart.title"></bar-chart>
-            <bar-chart class="2xl:h-48 xl:h-28" :dataProps="ownerChart.totalOwner" :labelsProps="ownerChart.labels"
-              :title="ownerChart.title"></bar-chart>
+            <div class="2xl:text-lg xl:text-sm font-medium text-center text-black">Total User Dalam 6 Bulan Terakhir
+            </div>
+            <bar-chart class="2xl:h-48 xl:h-28" :dataProps="penumpangChart.totalPenumpang"
+              :labelsProps="penumpangChart.labels" :title="penumpangChart.title"></bar-chart>
             <bar-chart class="2xl:h-48 xl:h-28" :dataProps="supirChart.totalSupir" :labelsProps="supirChart.labels"
               :title="supirChart.title"></bar-chart>
+            <bar-chart class="2xl:h-48 xl:h-28" :dataProps="ownerChart.totalOwner" :labelsProps="ownerChart.labels"
+              :title="ownerChart.title"></bar-chart>
           </card-body>
         </card>
 
@@ -85,7 +86,8 @@
           <div class="grid grid-cols-2 gap-4">
             <card>
               <card-body class="flex justify-around xl:py-1 2xl:p-8">
-                <div class="text-center 2xl:text-lg xl:text-sm font-medium text-black">Pengguna berlangganan bulan ini</div>
+                <div class="text-center 2xl:text-lg xl:text-sm font-medium text-black">Pengguna berlangganan bulan ini
+                </div>
                 <div class="2xl:text-4xl xl:text-2xl 2xl:my-2 font-semibold text-center" :class="{
                   'text-green-500': premiumUserTarget.target - totalPremiumUserThisMonth < 0,
                   'text-red-500': premiumUserTarget.target - totalPremiumUserThisMonth > 0,
@@ -93,7 +95,7 @@
                 }">{{ totalPremiumUserThisMonth }}</div>
                 <div class="2xl:text-sm xl:text-xs text-center text-red-500"
                   v-if="premiumUserTarget.target - totalPremiumUserThisMonth > 0">{{ premiumUserTarget.target -
-                      totalPremiumUserThisMonth
+                  totalPremiumUserThisMonth
                   }} pengguna tersisa</div>
               </card-body>
             </card>
@@ -105,18 +107,20 @@
                   'text-red-500': pengeluaranTarget.target < pengeluaranTarget.input,
                   'text-black': pengeluaranTarget.target == pengeluaranTarget.input,
                 }">{{ rupiahFormat(pengeluaranTarget.input) }}</div>
-                <div class="2xl:text-sm xl:text-xs text-center text-red-500" v-if="pengeluaranTarget.target < pengeluaranTarget.input">
+                <div class="2xl:text-sm xl:text-xs text-center text-red-500"
+                  v-if="pengeluaranTarget.target < pengeluaranTarget.input">
                   Melebihi budget sebanyak {{ rupiahFormat(pengeluaranTarget.input -
-                      pengeluaranTarget.target)
+                  pengeluaranTarget.target)
                   }}</div>
               </card-body>
             </card>
           </div>
           <card class="mt-5">
             <card-body class="p-3">
-              <div class="2xl:text-lg xl:text-sm font-medium text-center text-black">Pengguna Berlangganan Dalam 6 Bulan Terakhir</div>
-              <bar-chart class="2xl:h-96 xl:h-48" :dataProps="premiumUserChart.totalPremiumUser" :labelsProps="premiumUserChart.labels"
-                :title="premiumUserChart.title"></bar-chart>
+              <div class="2xl:text-lg xl:text-sm font-medium text-center text-black">Pengguna Berlangganan Dalam 6 Bulan
+                Terakhir</div>
+              <bar-chart class="2xl:h-96 xl:h-48" :dataProps="premiumUserChart.totalPremiumUser"
+                :labelsProps="premiumUserChart.labels" :title="premiumUserChart.title"></bar-chart>
             </card-body>
           </card>
         </div>
@@ -352,7 +356,7 @@ export default {
       if (lastMonth == 0) {
         return 100;
       }
-      return ((thisMonth - lastMonth) / lastMonth) * 100;
+      return (((thisMonth - lastMonth) / lastMonth) * 100).toFixed(2);
     },
     rupiahFormat(number) {
       return new Intl.NumberFormat("id-ID", {
