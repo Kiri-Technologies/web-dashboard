@@ -27,7 +27,7 @@
                 </thead>
                 <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="6" class="text-center text-gray-500 p-4">
+                        <td :colspan="currentTab == 'pending' ? 6 : 5" class="text-center text-gray-500 p-4">
                             Angkot {{ currentTab }} tidak ditemukan
                         </td>
                     </tr>

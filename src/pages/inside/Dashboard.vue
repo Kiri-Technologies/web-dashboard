@@ -8,7 +8,7 @@
         <card>
           <card-body class="grid grid-flow-row auto-rows-auto p-3">
             <div>
-              <h1 class="2xl:text-lg xl:text-sm font-medium text-center">Total Users This Month</h1>
+              <h1 class="2xl:text-lg xl:text-sm font-medium text-center">Total Pengguna Bulan Ini</h1>
             </div>
 
             <stats-container>
@@ -20,7 +20,7 @@
                 }">{{ usersPercentage.penumpang }}% <span v-if="usersPercentage.penumpang > 0">↗︎</span><span
                     v-if="usersPercentage.penumpang < 0">↘︎</span><span
                     v-if="usersPercentage.penumpang == 0">~</span></span>
-                than last month
+                dari bulan lalu
               </single-stat>
               <single-stat title="Supir" :value="totalUsers.supir.this_month" :statDesc="true">
                 <span class="font-bold" :class="{
@@ -29,7 +29,7 @@
                   'text-black': usersPercentage.supir == userTarget.target,
                 }">{{ usersPercentage.supir }}% <span v-if="usersPercentage.supir > 0">↗︎</span><span
                     v-if="usersPercentage.supir < 0">↘︎</span><span v-if="usersPercentage.supir == 0">~</span></span>
-                than last month
+                dari bulan lalu
               </single-stat>
               <single-stat title="Owner" :value="totalUsers.owner.this_month" :statDesc="true">
                 <span class="font-bold" :class="{
@@ -38,7 +38,7 @@
                   'text-black': usersPercentage.owner == userTarget.target,
                 }">{{ usersPercentage.owner }}% <span v-if="usersPercentage.owner > 0">↗︎</span><span
                     v-if="usersPercentage.owner < 0">↘︎</span><span v-if="usersPercentage.owner == 0">~</span></span>
-                than last month
+                dari bulan lalu
               </single-stat>
             </stats-container>
           </card-body>
@@ -60,7 +60,7 @@
                 :statDesc="true">
                 <span class="text-red-500" v-if="feedbackUserTarget.target - totalFeedbackApp.processed > 0">{{
                     feedbackUserTarget.target - totalFeedbackApp.processed
-                }} feedbacks remaining</span>
+                }} feedbacks tersisa</span>
               </single-stat>
             </stats-container>
           </card-body>
