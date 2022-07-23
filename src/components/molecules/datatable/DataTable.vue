@@ -26,7 +26,7 @@
                 <tbody class="align-top">
                     <!-- body -->
                     <tr v-if="filteredEntries.length < 1">
-                        <td :colspan="filteredEntries.length + 1" class="text-center text-gray-500">
+                        <td :colspan="filteredEntries.length + 1" class="text-center text-gray-500 p-4">
                             No data found
                         </td>
                     </tr>

@@ -26,7 +26,7 @@
                 </thead>
                 <tbody class="align-top">
                     <tr v-if="filteredEntries.length < 1">
-                        <td colspan="5" class="text-center text-gray-500">
+                        <td colspan="5" class="text-center text-gray-500 p-4">
                             Data angkot kosong
                         </td>
                     </tr>
