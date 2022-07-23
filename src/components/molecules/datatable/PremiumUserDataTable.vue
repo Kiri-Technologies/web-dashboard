@@ -44,7 +44,7 @@
                             <div class="badge badge-lg" :class="{
                                 'badge-success': premiumUser.to > todayDate,
                                 'badge-warning': premiumUser.to < todayDate,
-                            }">{{ premiumUser.to > todayDate ? 'Active' : 'Expired' }}</div>
+                            }">{{ premiumUser.status }}</div>
                         </td>
                         <td class="p-4 border-b border-gray-50">
                             <router-link :to="{

@@ -26,6 +26,7 @@
 
 <script>
 import PremiumUserDataTable from '../../../components/molecules/datatable/PremiumUserDataTable.vue';
+import moment from 'moment';
 
 export default {
   components: {
@@ -55,7 +56,15 @@ export default {
       try {
         await this.$store.dispatch("premiumUser/getAllPremiumUser");
         const premiumUser = this.$store.getters["premiumUser/getAllPremiumUser"];
-        this.allPremiumUser = premiumUser;
+        this.allPremiumUser = premiumUser.map(pu => {
+          const todayDate = moment().format("yyyy-MM-D")
+          if (pu.to > todayDate) {
+            pu.status = "Active";
+          }else {
+            pu.status = "Expired"
+          }
+          return pu;
+        });
       } catch (error) {
         this.turnOnAlert("error", error.message);
       }
