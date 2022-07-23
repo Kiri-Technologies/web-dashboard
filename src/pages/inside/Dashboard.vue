@@ -93,7 +93,7 @@
                   'text-red-500': premiumUserTarget.target - totalPremiumUserThisMonth > 0,
                   'text-black': premiumUserTarget.target - totalPremiumUserThisMonth == 0,
                 }">{{ totalPremiumUserThisMonth }}</div>
-                <div class="2xl:text-sm xl:text-xs text-center text-red-500"
+                <div class="2xl:text-base xl:text-xs text-center text-red-500"
                   v-if="premiumUserTarget.target - totalPremiumUserThisMonth > 0">{{ premiumUserTarget.target -
                   totalPremiumUserThisMonth
                   }} pengguna tersisa</div>
@@ -107,7 +107,7 @@
                   'text-red-500': pengeluaranTarget.target < pengeluaranTarget.input,
                   'text-black': pengeluaranTarget.target == pengeluaranTarget.input,
                 }">{{ rupiahFormat(pengeluaranTarget.input) }}</div>
-                <div class="2xl:text-sm xl:text-xs text-center text-red-500"
+                <div class="2xl:text-base xl:text-xs text-center text-red-500"
                   v-if="pengeluaranTarget.target < pengeluaranTarget.input">
                   Melebihi budget sebanyak {{ rupiahFormat(pengeluaranTarget.input -
                   pengeluaranTarget.target)
