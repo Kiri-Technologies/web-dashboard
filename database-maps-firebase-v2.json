@@ -3,20 +3,40 @@
     "route_1": {
       "angkot_1": {
         "angkot_id": 1,
-        "lat": -6.958266465026101,
-        "long": 107.63954295477431,
+        "lat": -6.954556177723862, 
+        "long": 107.63917999466018,
         "arah": "Bojongsoang",
-        "is_beroperasi": true,
+        "is_beroperasi": false,
         "is_waiting_passengers": false,
         "is_full": false,
         "owner_id": "owner-123456"
       },
       "angkot_3": {
         "angkot_id": 3,
-        "lat": -6.96808665994272,
-        "long": 107.63740774727555,
+        "lat": -6.958624102263984, 
+        "long": 107.63948862336221,
         "arah": "Bojongsoang",
-        "is_beroperasi": true,
+        "is_beroperasi": false,
+        "is_waiting_passengers": false,
+        "is_full": false,
+        "owner_id": "owner-123456"
+      },
+      "angkot_4": {
+        "angkot_id": 4,
+        "lat": -6.971206234420681, 
+        "long": 107.63652620225923,
+        "arah": "Buah Batu",
+        "is_beroperasi": false,
+        "is_waiting_passengers": false,
+        "is_full": false,
+        "owner_id": "owner-123456"
+      },
+      "angkot_5": {
+        "angkot_id": 5,
+        "lat": -6.964664341203195, 
+        "long": 107.63800986136543,
+        "arah": "Buah Batu",
+        "is_beroperasi": false,
         "is_waiting_passengers": false,
         "is_full": false,
         "owner_id": "owner-123456"
@@ -38,48 +58,132 @@
   "jarak_antar_angkot": {
     "angkot_1": {
       "angkot_id": 1,
-      "angkot_id_didepan": 3,
-      "jarak_antar_angkot_waktu": "4 min",
-      "jarak_antar_angkot_km": "1.5 km"
+      "angkot_id_didepan": 0,
+      "jarak_antar_angkot_waktu": 0,
+      "jarak_antar_angkot_km": 0
+    },
+    "angkot_2": {
+      "angkot_id": 2,
+      "angkot_id_didepan": 0,
+      "jarak_antar_angkot_waktu": 0,
+      "jarak_antar_angkot_km": 0
+    },
+    "angkot_3": {
+      "angkot_id": 3,
+      "angkot_id_didepan": 0,
+      "jarak_antar_angkot_waktu": 0,
+      "jarak_antar_angkot_km": 0
+    },
+    "angkot_4": {
+      "angkot_id": 4,
+      "angkot_id_didepan": 0,
+      "jarak_antar_angkot_waktu": 0,
+      "jarak_antar_angkot_km": 0
+    },
+    "angkot_5": {
+      "angkot_id": 5,
+      "angkot_id_didepan": 0,
+      "jarak_antar_angkot_waktu": 0,
+      "jarak_antar_angkot_km": 0
     }
   },
   "setpoints": {
     "setpoint_1": {
       "setpoint_id": 1,
+      "nama_lokasi": "Pasar Kordon",
+      "route_id": 1,
+      "lat": -6.9540719715419685,
+      "long": 107.63900446755639,
+      "arah": "Bojongsoang"
+    },
+    "setpoint_2": {
+      "setpoint_id": 2,
       "nama_lokasi": "Transmart Buah Batu",
       "route_id": 1,
       "lat": -6.96670545019899,
       "long": 107.6377486264246,
-      "arah": "Bojongsoang",
-      "prioritas": {
-        "angkot_2": {
-          "angkot_id": 2,
-          "lat": -6.96808665994272,
-          "long": 107.63740774727555,
-          "arah": "Bojongsoang",
-          "is_beroperasi": true,
-          "is_waiting_passengers": false,
-          "is_full": false,
-          "owner_id": "owner-123456",
-          "timestamp": "2022-05-31 12:00:00"
-        }
-      }
+      "arah": "Bojongsoang"
+    },
+    "setpoint_3": {
+      "setpoint_id": 3,
+      "nama_lokasi": "Depan PBB",
+      "route_id": 1,
+      "lat": -6.972641789494429,
+      "long": 107.63626339256105,
+      "arah": "Bojongsoang"
+    },
+    "setpoint_4": {
+      "setpoint_id": 4,
+      "nama_lokasi": "Gerbang Telkom",
+      "route_id": 1,
+      "lat": -6.972843840405349,
+      "long": 107.63615082182956,
+      "arah": "Buah Batu"
+    },
+    "setpoint_5": {
+      "setpoint_id": 5,
+      "nama_lokasi": "Yogya",
+      "route_id": 1,
+      "lat": -6.9681786969320045,
+      "long": 107.63731582584998,
+      "arah": "Buah Batu"
+    },
+    "setpoint_6": {
+      "setpoint_id": 6,
+      "nama_lokasi": "Sebrang Pasar Kordon",
+      "route_id": 1,
+      "lat": -6.95439945219693,
+      "long": 107.63894266494613,
+      "arah": "Buah Batu"
+    },
+    "setpoint_7": {
+      "setpoint_id": 7,
+      "nama_lokasi": "Dinas Kehutanan Provinsi Jawa Barat",
+      "route_id": 2,
+      "lat": -6.938332980849803,
+      "long": 107.6718896066064,
+      "arah": "Cibiru"
+    },
+    "setpoint_8": {
+      "setpoint_id": 8,
+      "nama_lokasi": "Pasar Gedebage",
+      "route_id": 2,
+      "lat": -6.936497537272609,
+      "long": 107.69722202914215,
+      "arah": "Cibiru"
+    },
+    "setpoint_9": {
+      "setpoint_id": 9,
+      "nama_lokasi": "Tanaman Hias Cibiru",
+      "route_id": 2,
+      "lat": -6.9356281869066985,
+      "long": 107.70964009265232,
+      "arah": "Cibiru"
+    },
+    "setpoint_10": {
+      "setpoint_id": 10,
+      "nama_lokasi": "Universitas Bhakti Kencana Bandung",
+      "route_id": 2,
+      "lat": -6.935947591151588,
+      "long": 107.71002182771478,
+      "arah": "Kiaracondong"
+    },
+    "setpoint_11": {
+      "setpoint_id": 11,
+      "nama_lokasi": "Sebrang Pasar Gedebage",
+      "route_id": 2,
+      "lat": -6.936822991357309,
+      "long": 107.69716280914523,
+      "arah": "Kiaracondong"
+    },
+    "setpoint_12": {
+      "setpoint_id": 12,
+      "nama_lokasi": "Metro Indah Mall",
+      "route_id": 2,
+      "lat": -6.940383025095341,
+      "long": 107.65817458072696,
+      "arah": "Kiaracondong"
     }
   },
-  "penumpang_naik_turun": {
-    "angkot_1": {
-      "naik": {},
-      "turun": {
-        "perjalanan_3": {
-          "angkot_id": 3,
-          "id_perjalanan": 3,
-          "id_user": "user-123456",
-          "id_titik_naik": 1,
-          "id_titik_turun": 3,
-          "titik_naik": "Pasar Kordon",
-          "titik_turun": "Depan PBB"
-        }
-      }
-    }
-  }
+  "penumpang_naik_turun": {}
 }

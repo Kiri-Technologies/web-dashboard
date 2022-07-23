@@ -7,7 +7,7 @@
         :isReadonly="false" formName="kode trayek" placeholder="Contoh: S-101" :isRequired="true"
         :defaultValue="kode_trayek" idCode="kodeTrayek"></form-input>
 
-      <div class="grid grid-flow-row auto-rows-auto gap-4">
+      <!-- <div class="grid grid-flow-row auto-rows-auto gap-4"> -->
         <div class="grid grid-flow-col auto-cols-auto gap-4">
           <form-input @formChange="setTitikAwal" @formIsValid="setTitikAwalValidity" type="text" label="Titik Awal"
             :isReadonly="false" formName="titik awal" placeholder="Contoh: Buah Batu" :isRequired="true"
@@ -39,7 +39,7 @@
             idCode="longTitikAkhir"></form-input>
         </div>
 
-      </div>
+      <!-- </div> -->
 
       <div class="flex justify-end mt-7">
         <button-danger :link="true" :to="{ name: 'trayek angkot' }" size="sm">

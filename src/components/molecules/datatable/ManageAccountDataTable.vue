@@ -139,7 +139,9 @@ export default {
             }
         },
         changePage(page) {
-            this.paginateEntries(page);
+            if (typeof page === 'number') {
+                this.paginateEntries(page);
+            }
         },
         searchEvent() {
             this.paginateEntries(1);
