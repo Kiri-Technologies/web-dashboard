@@ -1,12 +1,10 @@
 <template>
-  <loading v-if="isLoading"></loading>
-  <section class="flex justify-center mt-4" v-else>
+  <section class="flex justify-center mt-4">
     <card class="shadow-lg w-11/12">
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
         <p>
-          <menu-title :path="{ path: '/' }"
-            heading="User Premium" subHeading="List User Premium yang Terdaftar">
+          <menu-title :path="{ path: '/' }" heading="User Premium" subHeading="List User Premium yang Terdaftar">
           </menu-title>
         </p>
         <div class="flex flex-row justify-end">
@@ -17,7 +15,10 @@
         <base-alert v-if="alert.turn" :mode="alert.mode" :message="alert.message"></base-alert>
 
         <div class="overflow-x-auto mt-2">
-          <premium-user-data-table :entries="allPremiumUser" @deleteButtonClicked="deleteButtonClicked"></premium-user-data-table>
+          <loading v-if="isLoading"></loading>
+
+          <premium-user-data-table :entries="allPremiumUser" @deleteButtonClicked="deleteButtonClicked" v-else>
+          </premium-user-data-table>
         </div>
       </card-body>
     </card>
@@ -60,7 +61,7 @@ export default {
           const todayDate = moment().format("yyyy-MM-D")
           if (pu.to > todayDate) {
             pu.status = "Active";
-          }else {
+          } else {
             pu.status = "Expired"
           }
           return pu;
@@ -70,6 +71,11 @@ export default {
       }
     },
     async deleteButtonClicked(mode, isSucceed) {
+      if (isSucceed) {
+        this.isLoading = true;
+        await this.loadAllPremiumUser();
+        this.isLoading = false;
+      }
       this.turnOnAlert(mode, isSucceed);
     },
     turnOnAlert(operation, isSucceed) {
