@@ -1,7 +1,7 @@
 import axios from "axios";
 export default {
     async createHalteVirtual(context, { trayekid, nama_lokasi, lat, lng, arah }) {
-        const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/create`;
+        const url = `https://maps.kiri.mfaiztriputra.id/api/admin/haltevirtual/create`;
 
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');
@@ -103,7 +103,7 @@ export default {
         });
     },
     async updateHalteVirtual(context, { id, route_id, nama_lokasi, lat, lng, arah }) {
-        const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/update`;
+        const url = `https://maps.kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/update`;
 
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');
@@ -136,7 +136,7 @@ export default {
         }
     },
     async deleteHalteVirtual(context, { id }){
-        const url = `https://kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/delete`;
+        const url = `https://maps.kiri.mfaiztriputra.id/api/admin/haltevirtual/${id}/delete`;
 
         const access_token = localStorage.getItem('access_token');
         const token_type = localStorage.getItem('token_type');

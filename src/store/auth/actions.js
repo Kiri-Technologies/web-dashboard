@@ -36,7 +36,7 @@ export default {
         const tokenExpirationDate = Date.now() + expiresIn;
 
         localStorage.setItem('access_token', access_token);
-        localStorage.setItem('token_type', token_type);
+        localStorage.setItem('token_type', 'Bearer');
         localStorage.setItem('email', email);
         localStorage.setItem('tokenExpirationDate', tokenExpirationDate);
 
