@@ -94,8 +94,7 @@
             </div>
           </div>
           <div class="col-span-2">
-            <loading v-if="isMapLoading"></loading>
-            <google-map :allHalteVirtual="filteredHalteVirtual" :center="centerHalteVirtual" v-else></google-map>
+            <google-map :allHalteVirtual="filteredHalteVirtual" :center="centerHalteVirtual"></google-map>
           </div>
         </div>
       </card-body>
@@ -199,6 +198,8 @@ export default {
         await this.$store.dispatch("halteVirtual/deleteHalteVirtual", {
           id: halteVirtualId,
         });
+        this.selectHalteVirtual = "";
+        this.allHalteVirtual = [];
         await this.loadHalteVirtual();
         this.turnOnAlert("delete", true);
       } catch (error) {
