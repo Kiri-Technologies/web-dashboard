@@ -34,13 +34,13 @@
                         </td>
                     </tr>
                     <tr v-else v-for="premiumUser in filteredEntries" :key="premiumUser.id">
-                        <td class="p-4 border-b border-gray-50">{{ premiumUser.user_id }}</td>
-                        <td class="p-4 border-b border-gray-50">{{ premiumUser.user.name }}</td>
-                        <td class="p-4 border-b border-gray-50">{{ premiumUser.user.phone_number }}</td>
-                        <td class="p-4 border-b border-gray-50">{{ premiumUser.payment_date }}</td>
-                        <td class="p-4 border-b border-gray-50">{{ premiumUser.from }}</td>
-                        <td class="p-4 border-b border-gray-50">{{ premiumUser.to }}</td>
-                        <td class="p-4 border-b border-gray-50">
+                        <td class="p-4 border-b border-gray-50 2xl:text-base xl:text-sm">{{ premiumUser.user_id }}</td>
+                        <td class="p-4 border-b border-gray-50 2xl:text-base xl:text-sm">{{ premiumUser.user.name }}</td>
+                        <td class="p-4 border-b border-gray-50 2xl:text-base xl:text-sm">{{ premiumUser.user.phone_number }}</td>
+                        <td class="p-4 border-b border-gray-50 2xl:text-base xl:text-sm">{{ premiumUser.payment_date }}</td>
+                        <td class="p-4 border-b border-gray-50 2xl:text-base xl:text-sm">{{ premiumUser.from }}</td>
+                        <td class="p-4 border-b border-gray-50 2xl:text-base xl:text-sm">{{ premiumUser.to }}</td>
+                        <td class="p-4 border-b border-gray-50 2xl:text-base xl:text-sm">
                             <div class="badge badge-lg" :class="{
                                 'badge-success': premiumUser.to > todayDate,
                                 'badge-warning': premiumUser.to < todayDate,
