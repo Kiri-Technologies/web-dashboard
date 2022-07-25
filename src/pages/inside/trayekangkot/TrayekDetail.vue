@@ -1,5 +1,6 @@
 <template>
-  <section class="flex justify-center mt-4">
+  <loading v-if="isLoading"></loading>
+  <section class="flex justify-center mt-4" v-else>
     <card class="shadow-lg w-11/12">
       <card-body>
         <base-bread-crumb :crumbs="crumbs"></base-bread-crumb>
@@ -56,40 +57,45 @@
                 </div>
               </div>
 
-              <div class="text-center text-gray-500 my-5" v-if="filteredHalteVirtual.length < 1">
-                Data is empty
-              </div>
-
-              <div class="grid grid-cols-3 p-2 cursor-pointer" v-else v-for="halteVirtual in filteredHalteVirtual"
-                :key="halteVirtual.id" :class="{
-                  'bg-gray-200': selectedHalteVirtual == halteVirtual.id,
-                }" @click="selectHalteVirtual(halteVirtual.id)">
-                <div class="col-span-2">{{ halteVirtual.nama_lokasi }}</div>
-                <div class="flex justify-end">
-                  <router-link :to="{
-                    name: 'update halte virtual',
-                    params: {
-                      trayekid: id,
-                      id: halteVirtual.id,
-                    },
-                  }">
-                    <font-awesome-icon icon="pen-square" class="text-lg text-blue-600 ml-2" />
-                  </router-link>
-                  <delete-modal :id="halteVirtual.id" @deleteButtonClicked="deleteButtonClicked">
-                    <template v-slot:default>
-                      <font-awesome-icon icon="trash" class="text-lg text-red-600 ml-2" />
-                    </template>
-                    <template v-slot:title> Hapus Halte Virtual? </template>
-                    <template v-slot:body>
-                      Anda yakin untuk menghapus Halte Virtual yang dipilih?
-                    </template>
-                  </delete-modal>
+              <loading v-if="isMapLoading"></loading>
+              <section v-else>
+                <div class="text-center text-gray-500 my-5" v-if="filteredHalteVirtual.length < 1">
+                  Data is empty
                 </div>
-              </div>
+
+                <div class="grid grid-cols-3 p-2 cursor-pointer" v-else v-for="halteVirtual in filteredHalteVirtual"
+                  :key="halteVirtual.id" :class="{
+                    'bg-gray-200': selectedHalteVirtual == halteVirtual.id,
+                  }" @click="selectHalteVirtual(halteVirtual.id)">
+                  <div class="col-span-2">{{ halteVirtual.nama_lokasi }}</div>
+                  <div class="flex justify-end">
+                    <router-link :to="{
+                      name: 'update halte virtual',
+                      params: {
+                        trayekid: id,
+                        id: halteVirtual.id,
+                      },
+                    }">
+                      <font-awesome-icon icon="pen-square" class="text-lg text-blue-600 ml-2" />
+                    </router-link>
+                    <delete-modal :id="halteVirtual.id" @deleteButtonClicked="deleteButtonClicked">
+                      <template v-slot:default>
+                        <font-awesome-icon icon="trash" class="text-lg text-red-600 ml-2" />
+                      </template>
+                      <template v-slot:title> Hapus Halte Virtual? </template>
+                      <template v-slot:body>
+                        Anda yakin untuk menghapus Halte Virtual yang dipilih?
+                      </template>
+                    </delete-modal>
+                  </div>
+                </div>
+              </section>
+
             </div>
           </div>
           <div class="col-span-2">
-            <google-map :allHalteVirtual="filteredHalteVirtual" :center="centerHalteVirtual"></google-map>
+            <loading v-if="isMapLoading"></loading>
+            <google-map :allHalteVirtual="filteredHalteVirtual" :center="centerHalteVirtual" v-else></google-map>
           </div>
         </div>
       </card-body>
@@ -109,6 +115,8 @@ export default {
       currentTab: "",
       allHalteVirtual: [],
       selectedHalteVirtual: "",
+      isMapLoading: false,
+      isLoading: false,
       alert: {
         turn: false,
         mode: "success",
@@ -186,15 +194,17 @@ export default {
       }
     },
     async deleteButtonClicked(halteVirtualId) {
+      this.isMapLoading = true;
       try {
         await this.$store.dispatch("halteVirtual/deleteHalteVirtual", {
           id: halteVirtualId,
         });
-        this.loadHalteVirtual();
+        await this.loadHalteVirtual();
         this.turnOnAlert("delete", true);
       } catch (error) {
         this.turnOnAlert("delete", false);
       }
+      this.isMapLoading = false;
     },
     setAlert() {
       const alert = this.$store.getters["alert/getAlert"];
@@ -238,11 +248,17 @@ export default {
       }
     },
   },
-  created() {
+  async created() {
     document.title = "Detail Trayek";
     if (this.$route.params.id) {
-      this.loadTrayekById(this.$route.params.id);
-      this.loadHalteVirtual();
+      this.isLoading = true;
+      try {
+        await this.loadTrayekById(this.$route.params.id);
+        await this.loadHalteVirtual();
+      } catch (error) {
+        console.log(error);
+      }
+      this.isLoading = false;
     }
     this.setAlert();
   },
